@@ -1,0 +1,14 @@
+\select@language {czech}
+\contentsline {chapter}{\numberline {1}\bfseries \IeC {\'U}vod}{2}{chapter.1}
+\contentsline {chapter}{\numberline {2}\bfseries Anal\IeC {\'y}za}{3}{chapter.2}
+\contentsline {section}{\numberline {2.1}\slshape Popis projektu BBMRI\_CZ}{3}{section.2.1}
+\contentsline {subsection}{\numberline {2.1.1}\rmfamily Workflow}{3}{subsection.2.1.1}
+\contentsline {section}{\numberline {2.2}\slshape Po\IeC {\v z}adavky na IT infrastrukturu}{3}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}\rmfamily Zabezpe\IeC {\v c}en\IeC {\'\i } a anonymita pacient\IeC {\r u}}{3}{subsection.2.2.1}
+\contentsline {section}{\numberline {2.3}\slshape Zapojen\IeC {\'e} instituce a jejich specifika}{3}{section.2.3}
+\contentsline {chapter}{\numberline {3}\bfseries N\IeC {\'a}vrh}{4}{chapter.3}
+\contentsline {chapter}{\numberline {4}\bfseries Implementace}{5}{chapter.4}
+\contentsline {chapter}{\numberline {5}\bfseries Z\IeC {\'a}v\IeC {\v e}r}{6}{chapter.5}
+\global \c@tocdepth -1\relax 
+\contentsline {chapter}{\numberline {}\bfseries Zdroje}{9}{chapter.6}
+\global \c@tocdepth 2\relax 

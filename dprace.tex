@@ -1,0 +1,176 @@
+﻿%% Load document class fithesis2
+%% {10pt, 11pt, 12pt}
+%% {draft, final}
+%% {oneside, twoside}
+%% {onecolumn, twocolumn}
+\documentclass[11pt,draft,oneside]{fithesis2}
+
+%% Basic packages
+\usepackage[czech]{babel}
+\usepackage{cmap}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+
+%% Additional packages for colors, advanced
+%% formatting options, etc.
+\usepackage{color}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{cslatexquotes}
+\usepackage{fancyvrb}
+\usepackage[small,bf]{caption}
+\usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
+\usepackage[all]{hypcap}
+
+%% Fix long URLs in DVIs
+\usepackage{ifpdf}
+
+\ifpdf
+\else
+  \usepackage{breakurl}
+\fi
+
+%% Packages used to generate various lists
+\usepackage{makeidx}
+\makeindex
+
+\usepackage[xindy]{glossaries}
+\makeglossary
+
+%% Use STAR and CIRCLE signs for nested
+%% itemized lists
+\renewcommand{\labelitemii}{$\star$}
+\renewcommand{\labelitemiii}{$\circ$}
+
+%% Title page information
+\thesistitle{Návrh a implementace centrálního indexu BBMRI\_CZ}
+\thesissubtitle{Diplomová práce}
+\thesisstudent{Bc. Ondřej Vojtíšek}
+\thesiswoman{false} %% Important when using Slovak or Czech lang
+\thesisfaculty{fi}  %% {fi, eco, law, sci, fsps, phil, ped, med, fss}
+\thesislang{cs}     %% {en, sk, cs}
+\thesisyear{Jaro 2014}
+\thesisadvisor{RNDr. Petr Holub, Ph.D.}
+
+%% Beginning of the document
+\begin{document}
+
+%% Front page with a logo and basic thesis information
+\FrontMatter
+\ThesisTitlePage
+
+%% Thesis declaration (required)
+\begin{ThesisDeclaration}
+  \DeclarationText
+  \AdvisorName
+\end{ThesisDeclaration}
+
+%% Thanks (optional)
+\begin{ThesisThanks}
+TODO: řešit později
+\end{ThesisThanks}
+
+%% Shrnutí
+\begin{ThesisAbstract}
+TODO: řešit později
+\end{ThesisAbstract}
+
+
+%% Abstract
+\begin{ThesisAbstracten}
+TODO: Zjistit jak zapsat abstract v angličtině
+\end{ThesisAbstracten}
+
+
+
+%% Keywords (required)
+\begin{ThesisKeyWords}
+BBMRI, BBMRI\_CZ, Java EE, Stripes, Spring, JPA
+\end{ThesisKeyWords}
+
+%% Beginning of the thesis itself
+\MainMatter
+
+%% TOC (required)
+\tableofcontents
+
+% ------------------------------------------------------------------------      
+% Uvod
+\chapter{Úvod}
+TODO nakonec
+
+% ------------------------------------------------------------------------      
+% Analyza
+\chapter{Analýza}
+
+% ------------------------   
+% Section 
+\section{Popis projektu BBMRI\_CZ}
+Popis projektu, účel a cíle. Záštita, zapojení institucí ERIC, RECAMO, CERIT-SC
+
+% ------------------------   
+% SubSection 
+\subsection{Workflow}
+Jaké bylo zamýšlené workflow systému. Projektová žádost, formální schválení projektu, žádost o vzorky, schválení sady vzorků,...diagram
+definování hranic systému
+
+% ------------------------   
+% Section 
+\section{Požadavky na IT infrastrukturu}
+
+% ------------------------   
+% SubSection 
+\subsection{Zabezpečení a anonymita pacientů}
+
+Anonymita - klinická vs. věděcká data
+Uvažované varianty, možné problémy ke kterým by mohlo dojít - migrace pacientů, duplicita rodných čísel
+
+% ------------------------   
+% Section
+\section{Zapojené instituce a jejich specifika}
+Číselníky, identifikátory, apod
+
+
+
+% ------------------------------------------------------------------------      
+% Návrh
+\chapter{Návrh}
+datový model, class diagram, vysvětlení jednotlivých tříd
+
+% ------------------------------------------------------------------------      
+% Implementace
+\chapter{Implementace}
+použité technologie, diskuze nad použitými technologiemi
+
+% ------------------------------------------------------------------------      
+% Závěr
+\chapter{Závěr}
+
+%% Lists of tables and figures, glossary, etc.
+\printindex
+\printglossary
+\listoffigures
+\listoftables
+
+%% Bibliography from references.bib
+\begingroup
+\def\tmpchapter{0}
+\renewcommand{\chaptername}{}
+\renewcommand{\thechapter}{}
+\addtocontents{toc}{\setcounter{tocdepth}{-1}}
+\chapter{Zdroje}
+\renewcommand{\chapter}[2]{}% for other classes
+
+\bibliographystyle{plain}
+\bibliography{references}
+
+\addtocontents{toc}{\setcounter{tocdepth}{2}}
+\endgroup
+
+%% Additional materials
+\appendix
+
+%% End of the whole document
+\end{document}
