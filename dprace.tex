@@ -3,7 +3,19 @@
 %% {draft, final}
 %% {oneside, twoside}
 %% {onecolumn, twocolumn}
-\documentclass[11pt,draft,oneside]{fithesis2}
+
+%% \begin{description}
+%% \item[Tkáňový modul (dlouhodobý)] 
+%% \end{description}
+
+\documentclass[11pt,final,oneside]{fithesis2}
+
+%% Useful stuff:
+%% ... \ldots 
+%% uvozovky \uv{neco}
+%% italika \textit{neco}
+%% bold \bf 
+%% \url{http://www.root-servers.org}
 
 %% Basic packages
 \usepackage[czech]{babel}
@@ -12,6 +24,39 @@
 \usepackage{lmodern}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
+%% Package used in architecture document
+\usepackage{tikz}
+\usetikzlibrary{%
+  arrows,%
+  fit,%
+  patterns,%
+  shapes.geometric,%
+  shapes.misc,%
+  shapes.symbols,%
+  shapes.arrows,%
+  shapes.callouts,%
+  shapes.multipart,%
+  shapes.gates.logic.US,%
+  shapes.gates.logic.IEC,%
+  er,%
+  backgrounds,%
+  chains,%
+  trees,%
+  matrix,%
+  calendar,%
+  folding,%
+  fadings,%
+  through,%
+  positioning,%
+  scopes,%
+  decorations.fractals,%
+  decorations.shapes,%
+  decorations.text,%
+  decorations.pathmorphing,%
+  decorations.pathreplacing,%
+  decorations.footprints,%
+  decorations.markings,%
+  shadows}  
 
 %% Additional packages for colors, advanced
 %% formatting options, etc.
@@ -21,8 +66,56 @@
 \usepackage{cslatexquotes}
 \usepackage{fancyvrb}
 \usepackage[small,bf]{caption}
-\usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
-\usepackage[all]{hypcap}
+\usepackage[numbers]{natbib} 
+%%\usepackage[plainpages=false,pdfpagelabels,unicode]{hyperref}
+\usepackage{amssymb} % required by correction notes
+\usepackage{hyperref}
+%\usepackage[all]{hypcap} - problem s nutnosti mit caption u figure
+\usepackage{xspace}
+\usepackage[paper=a4paper,top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm,foot=1cm]{geometry} % Nastavení rozměrů stránky
+
+\usepackage{listings} % Code examples
+%% Nove caption u listingu kódu
+\renewcommand\lstlistingname{Ukázka kódu} 
+%% XML Listing - http://tex.stackexchange.com/questions/10255/xml-syntax-highlighting
+\usepackage{color}
+\usepackage{textcomp}
+\definecolor{gray}{rgb}{0.4,0.4,0.4}
+\definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{cyan}{rgb}{0.0,0.6,0.6}
+\definecolor{palatinatepurple}{rgb}{0.41, 0.16, 0.38}
+
+\lstset{
+	captionpos=b, % Caption je pod ukazkou kodu
+  basicstyle=\ttfamily,
+  columns=fullflexible,
+  showstringspaces=false,
+  commentstyle=\color{gray}\upshape
+	captionpos=b
+}
+
+\lstdefinelanguage{XML}
+{
+%% XML
+%%	comment=[l]{##}
+	stringstyle=\color{cyan},
+  morestring=[b]",
+  morestring=[s]{>}{<},
+  morecomment=[s]{<?}{?>},
+  stringstyle=\color{palatinatepurple},
+  identifierstyle=\color{darkblue},
+  keywordstyle=\color{cyan},
+  morekeywords={xmlns, version, type, element, attribute, default namespace}% list your attributes here
+}
+
+
+
+\widowpenalty 10000
+\clubpenalty 10000
+
+% Komentáře pomocí \ovnote{text}
+\newcounter{ovNoteCounter}
+\newcommand{\ovnote}[1]{{\scriptsize\color{red} $\divideontimes$ \refstepcounter{ovNoteCounter}\textsf{[OV]$_{\arabic{ovNoteCounter}}$:{#1}}}}
 
 %% Fix long URLs in DVIs
 \usepackage{ifpdf}
@@ -43,11 +136,12 @@
 %% itemized lists
 \renewcommand{\labelitemii}{$\star$}
 \renewcommand{\labelitemiii}{$\circ$}
+\newcommand{\ProjectName}{BBMRI\_CZ\xspace}
 
 %% Title page information
-\thesistitle{Návrh a implementace centrálního indexu BBMRI\_CZ}
+\thesistitle{Návrh a~implementace centrálního indexu \ProjectName}
 \thesissubtitle{Diplomová práce}
-\thesisstudent{Bc. Ondřej Vojtíšek}
+\thesisstudent{Ondřej Vojtíšek}
 \thesiswoman{false} %% Important when using Slovak or Czech lang
 \thesisfaculty{fi}  %% {fi, eco, law, sci, fsps, phil, ped, med, fss}
 \thesislang{cs}     %% {en, sk, cs}
@@ -69,25 +163,18 @@
 
 %% Thanks (optional)
 \begin{ThesisThanks}
-TODO: řešit později
+\ovnote{Petr Holub, Jan Sochor, Valik, Knoflickova, Greplova, Fuchs... }
+
 \end{ThesisThanks}
 
 %% Shrnutí
 \begin{ThesisAbstract}
-TODO: řešit později
 \end{ThesisAbstract}
-
-
-%% Abstract
-\begin{ThesisAbstracten}
-TODO: Zjistit jak zapsat abstract v angličtině
-\end{ThesisAbstracten}
-
-
 
 %% Keywords (required)
 \begin{ThesisKeyWords}
-BBMRI, BBMRI\_CZ, Java EE, Stripes, Spring, JPA
+BBMRI, \ProjectName, BBMRI-ERIC, Java EE, Stripes, Spring, JPA, biobanking
+
 \end{ThesisKeyWords}
 
 %% Beginning of the thesis itself
@@ -99,75 +186,561 @@ BBMRI, BBMRI\_CZ, Java EE, Stripes, Spring, JPA
 % ------------------------------------------------------------------------      
 % Uvod
 \chapter{Úvod}
-TODO nakonec
 
 % ------------------------------------------------------------------------      
 % Analyza
 \chapter{Analýza}
 
+\section{Popis projektu \ProjectName}
+BBMRI (Biobanking and Biomolecular Resources Research Infrastructure) je celoevropský projekt s~cílem vytvořit jednotnou infrastrukturu nad fakultními nemocnicemi, biobankami a~dalšími výzkumnými pracovišti umožňující výměnu dat (fyzických vzorků i~informací) mezi institucemi pro potřeby výzkumu. Součástí projektu je vyřešení legislativních otázek ošetřujících nakládání s~biologickým materiálem, standardizace uchovávání vzorků, sjednocení se na strukturovaných datech a~další body nutné pro umožnění výzkumu a~usnadnění spolupráce napříč pracovišti a~zapojenými státy. Project výzkumné infrastruktury BBMRI je implementován v~rámci konsorcia ERIC (proto je od roku 2013 označován jako BBMRI-ERIC).
+
+\ProjectName je česká lokální část projektu BBMRI s~cílem vytvořit českou síť biobank přidružených k~lékařským fakultám, které budou dlouhodobě uchovávat biologický materiál onkologických pacientů. Cílem projektu je umožnit výměnu uchovávaných vzorků a~souvisejících informací mezi institucemi a~tím zlepšit prostředí pro výzkum nádorových onemocnění. V~dlouhodobém horizontu je cílem zapojit vznikající infrastrukturu \ProjectName do celoevropské infrastruktury BBMRI-ERIC.
+Koordinátorem projektu je Masarykův onkologický ústav v~Brně (dále jen MOU). Partnerem MOU na tomto projektu je centrum CERIT-SC, které má na starosti vybudování a~spravu informatické infrastruktury – tzv. indexu \ProjectName. Návrhu a~implementaci indexu \ProjectName se věnuje tato práce.
+
+Biobankou je myšleno pracoviště uchovávající biologický materiál, pocházející od léčených pacientů. To jakým způsobem jsou data kategorizována popisuje část o~\uv{indexové službě}. Popis nepacientských dat, organizačního a~fyzikálního charakteru popisuje část \uv{monitorovací služba}.
+
+\section{Indexová služba}
+Pacientská data jsou uložena v~nemocničním informačním systému (dále jen NIS). To zahrnuje veškerá klinická data o~pacientovi, jako vyšetření, operace, výsledky analýz z~laboratoře, atd., potřebné pro jeho léčbu. Indexová služba \ProjectName představuje centrální bod infrastruktury, do kterého je nahrána část pacientských dat, ze všech zapojených institucí, dostačující pro specifikování vzorků potřebných pro určitý výzkumný záměr. Index je pouze informatickým prvkem a~nejedná se o~faktické úložiště vzorků (jakousi společnou biobanku).
+
+Biobanka se z~hlediska indexu člení na část pro dlouhodobé uložení vzorků (dále LTS - Long Term Storage) a~pro krátkodobé uložení vzorků (dále STS - Short Term Storage). 
+
+Vzorky v~STS si lze představit jako pravidelně odebíraný materiál při každé kontrole pacienta (např. krev, moč), na kterém se nechá pozorovat určitý vývoj choroby nebo léčby. Jelikož je jedná o~veliké množství vzorků (pro každého pacienta řádově desítky, celkově desítky tisíc), tak jsou tyto vzorky z~ekonomických důvodů často uchovávány jen po omezenou dobu. Praxe na MOU je např. uchovávat vzorky v~STS po dobu jednoho roku.
+
+Vzorky v~LTS si lze představit jako jednorázově získaný materiál, získaný např. při operaci pacienta (např. uchovávaná tkáň). Tyto vzorky jsou v~biobance uloženy, tak dlouho jak je třeba. 
+
+\begin{figure}[htp]
+\begin{center}
+\begin{tikzpicture}[
+%transform canvas = {scale=0.5},
+node distance = 7mm,
+linka/.style = {semithick},
+sipka/.style = {-stealth',semithick},
+hranice/.style = {dotted},
+nadpis/.style = {text width=100mm,text centered},
+polozkadb/.style = {draw,semithick,text width=30mm,text badly centered},
+pacient/.style = {polozkadb,fill=blue!20},
+STS/.style = {polozkadb,fill=red!20},
+STSitem/.style = {STS,fill=red!10,anchor=west},
+LTS/.style = {polozkadb,fill=green!20},
+LTSitem/.style = {LTS,fill=green!10,anchor=west},
+lecba/.style = {text width=30mm,text badly centered},
+]
+
+\draw node[pacient] (PacientID) {Pacient (rodné~číslo)};
+\draw node[STS, below right = 10mm and 20mm of PacientID.center] (STS) {Krátkodobé úložiště (STS)};
+\draw node[STSitem, below right = 10mm and 5mm of STS.center, anchor=north west] (STSserum) {sérum (rezerva)};
+\draw node[STSitem, below = 4mm of STSserum.south west, anchor=north west] (STSplasma) {plasma};
+\draw node[STSitem, below = 4mm of STSplasma.south west, anchor=north west] (STSurine) {moč};
+\draw node[LTS, right = 40mm of STS.center] (LTS) {Dlouhodobé úložiště (LTS)};
+\draw node[LTSitem, below right = 10mm and 5mm of LTS.center, anchor=north west, text width=35mm] (LTStkan) {tkáň + diagnostická klasifikace};
+\draw node[LTSitem, below = 4mm of LTStkan.south west, anchor=north west] (LTSdna) {genomová DNA, plná krev};
+\draw node[LTSitem, below = 4mm of LTSdna.south west, anchor=north west] (LTSrna) {RNA};
+\draw node[LTSitem, below = 4mm of LTSrna.south west, anchor=north west] (LTSserum) {sérum};
+\draw node[LTSitem, below = 4mm of LTSserum.south west, anchor=north west] (LTSplasma) {plasma};
+\draw node[LTSitem, below = 4mm of LTSplasma.south west, anchor=north west] (LTSurine) {moč};
+
+\bgroup\shorthandoff{-}
+\draw[linka] (PacientID) -| (STS);
+\draw[linka] (PacientID) -| (LTS);
+\draw[linka] (STS) |- (STSserum);
+\draw[linka] (STS) |- (STSplasma);
+\draw[linka] (STS) |- (STSurine);
+\draw[linka] (LTS) |- (LTStkan);
+\draw[linka] (LTS) |- (LTSdna);
+\draw[linka] (LTS) |- (LTSrna);
+\draw[linka] (LTS) |- (LTSserum);
+\draw[linka] (LTS) |- (LTSplasma);
+\draw[linka] (LTS) |- (LTSurine);
+\egroup
+\end{tikzpicture}
+\caption{Struktura biobanky.~\cite{ARCH_2014_1_25}}
+\label{fig:index:bb-struktura}
+\end{center}
+\end{figure}
+
+\section{Monitorovací služba}
+Vzorky jsou v~biobance uloženy především pro výzkum, tj. pro jejich další využití v~laboratoři. Z~toho důvodu je vysoce žádoucí, aby byly zajištěny konstantní podmínky skladování a~aby bylo případně detekovatelné porušení standardních podmínek. 
+
+Vzorky v~biobankách jsou uchovávány v~chladu, klíčovým parametrem pro posouzení dobrého skladování je tedy sledování teploty a~jejich výkyvů. Pro část vzorků (obvykle STS) je dostačující uložení řádově v~teplotách okolo $-20^{\circ}C$ až $-40^{\circ}C$. K~tomu slouží mrazáky přibližně podobné běžným lednicím.
+Vzorky v~LTS je potřeba uchovávat při nižších teplotách, k~čemuž se používají tzv. dewarovy nádoby\footnote{Dewarova nádoba je zařízení konstručně podobné termosce (tj. vakuem izolovaná nádoba), jen s~tím rozdílem, že nemá pevně uzavřené víko (resp. má záměrně netěsnící víko). Dovnitř se nalije zkapalněný plyn (např. dusík), který se postupně vypařuje. Nad hladinou tekutiny, v~parách, je uskladněn materiál.}. V~těch je možné regulací hladiny tekutého dusíku udržovat konstantní teplotu řádově okolo $-100^{\circ}C$.
+\ovnote{Ověřit si teplotu v~dewarkách na MOU}. Pro regulaci procesu uskladnění je nutné sledovat aktuální teplotu a~výšku hladiny kapalného dusíku. Při poklesu hladiny pod určitou mez (vlivem vypaření) je nutno dusík doplnit. 
+
+Projekt \ProjectName klade na zapojené instituce požadavek na zajištění kvality uskladněného materiálu. Proto je požadované, aby byl součástí informačního systému i~monitoring teploty ve skladovací infrastruktuře.
+
+V~situaci, kdy monitoring teploty indikujuje nedostatečné hodnoty, je nutné ještě v~systému rozpoznat které vzorky byly touto událostí ovlivněny. Z~toho důvodu je nutné do systému importovat i~informace o~tom, kde přesně se který vzorek nachází v~rámci uskladnění. Obsažení této informace současně umožňuje vystavit pro žádanou sadu vzorků i~informaci o~tom, kde je má laborant nalézt a~odpadá tím nutnost vzorky ještě dohledávat v~lokálním NISu.
+
+
 % ------------------------   
 % Section 
-\section{Popis projektu BBMRI\_CZ}
-Popis projektu, účel a cíle. Záštita, zapojení institucí ERIC, RECAMO, CERIT-SC
+\section{Příklady užití systému a~popis souvisejícího workflow}
+Primární použití systému spočívá v~tom, že výzkumný pracovník (dále označován jako uživatel), který pracuje na projektu v~oblasti výzkumu nádorových onemocnění by rád pro svůj výzkum využil biologický materiál jiné instituce. Jednotlivým částem tohoto scénáře se věnují následující části této podkapitoly.
+
+Detailně se příkladům užití (tzv. use cases) věnuje část návrh, která zároveň zohledňuje jednotlivé role v~systému a~jejich oprávnění. 
+
+\begin{figure}[htp]
+\begin{center}
+\begin{tikzpicture}[
+node distance = 15mm,
+sipka/.style = {-stealth',semithick},
+faze/.style = {draw,fill=black!10,semithick},
+kontejner/.style = {draw, densely dashed, anchor = north east, inner sep = 3mm},
+popiskontejneru/.style = {anchor = west, font = \em, text badly ragged},
+]
+\draw node[faze] (NIS) {NIS (+ další zdroje)};
+\draw node[faze, below of = NIS] (anon) {Anonymizace dat};
+\draw node[popiskontejneru, above = 3mm of NIS.north west, xshift = 8mm] (kMajitel) {Nemocnice};
+\draw node[kontejner, fit = (NIS) (anon) (kMajitel)] {};
+
+\draw node[faze, below = 30.5mm of anon, text width = 8cm, text badly centered] (storage) {Navázání informací o~vzorku na uložení v~kontejneru (není-li součástí NIS)};
+\draw node[faze, below of = storage] (export) {Převod dat do exportního formátu};
+\draw node[popiskontejneru, above = 3mm of storage.north west, xshift = 20mm, text width = 4cm] (kExporter) {Nemocnice nebo partnerská biobanka hostující vzorky};
+\draw node[kontejner, fit = (storage) (export) (kExporter)] {};
+
+
+\draw node[faze, below = 25mm of export] (bbidx) {Uložení dat v~indexu \ProjectName};
+\draw node[popiskontejneru, above = 3mm of bbidx.north west, xshift = 20mm, text width = 4cm] (kCentral) {Centrální infrastruktura \ProjectName};
+\draw node[kontejner, fit = (bbidx) (kCentral)] {};
+
+
+\draw[sipka] (NIS) -- (anon);
+\draw[sipka] (anon) -- (storage);
+\draw[sipka] (storage) -- (export);
+\draw[sipka] (export) -- (bbidx);
+\draw[sipka,dotted] (bbidx.west) .. controls +(left:4cm) and +(left:4cm)  .. node[faze,rotate=90] {Seznam žádaných vzorků} (NIS.west);
+\end{tikzpicture}
+\end{center}
+\caption{Schéma předávání dat o~vzorcích do indexové služby \ProjectName.~\cite{ARCH_2014_1_25}}
+\label{fig:bbidx:data-acquisition}
+\end{figure}
+
 
 % ------------------------   
 % SubSection 
-\subsection{Workflow}
-Jaké bylo zamýšlené workflow systému. Projektová žádost, formální schválení projektu, žádost o vzorky, schválení sady vzorků,...diagram
-definování hranic systému
+\subsection{Založení projektu}
+Autorizováni pro přístup k~datům (resp. k~operacím umožňující žádat o~materiál) jsou uživatelé s~existujícím projektem. Index zde slouží pouze jako evidence projektů, aby bylo jasné s~jakým mandátem uživatel o~vzorky žádá. Index nesupluje grantové nadace ani jiné role v~řetězci života projektu. Od projektu je očekáváno, že má vyřešené financování, je zastřešen nějakou institucí a~byl schválen etickou komisí\footnote{Komise posuzující etické hledisko projektů biomedicínského výzkumu, zřízená pod záštitou instituce, pod jejíž záštitou byl projekt vypsán.}. Jediný dokument, který je po uživateli explicitně žádán, je tzv. Material Transfer Agreement (MTA), kterým uživatel deklaruje způsob zacházení s~biologickým materiálem. Uživatel nahraje tato data do systému, kde je formálně zkontroluje správce systému. Pokud jsou všechny formální náležitosti splněny, tak je projekt schválen a~může být v~rámci jeho realizace žádáno o~vzorky.
+
+% ------------------------   
+% SubSection 
+\subsection{Žádost o~vzorky}
+Uživatel formou nestrukturovaného textu formuluje o~jaké vzorky má zájem a~tuto žádanku přiřadí ke konkrétní biobance. Správce této biobanky na základě slovního popisu vybere příslušnou sadu vzorků. Seznam žádaných vzorků (včetně jejich počtu a~místa, kde se nachází) se vygeneruje laboratorním pracovníkům, kteří připraví sadu fyzických vzorků k~předání. V~NISu nemocnice, vydávající vzorky, budou následně upraveny počty vzorků a~tato upravená data budou nahrána do centrálního indexu (viz. obr.~\ref{fig:bbidx:data-acquisition}). 
+V~původní verzi projektu~\cite{ARCH_2011_12_29} se počítalo s~tím, že bude žádost rozeslána všem biobankám a~bude očekáváno, že odpoví první, kdo je schopen požadavek žadatele naplnit. Současně také v~prvotních požadavcích bylo, že autorizovaný uživatel může nad daty plnohodnotně vyhledávat. I~tento požadavek byl na základě požadavků upraven do stávající, popsané podoby.
+
+
+\begin{figure}[hbtp]
+\begin{center}
+\begin{tikzpicture}[
+node distance = 15mm,
+sipka/.style = {-stealth',semithick},
+faze/.style = {draw,fill=black!10,semithick},
+]
+\draw node[faze] (bbidx) {Autorizovaný uživatel \ProjectName};
+
+\draw node[faze, below left = 15mm and 10mm of bbidx.center] (projectA) {Projekt A};
+\draw node[faze, below right = 15mm and 10mm of bbidx.center] (projectB) {Projekt B};
+
+\draw node[faze, below = 30mm of bbidx, text width=4cm,text badly centered] (projectBreq1) {Žádost 1 v kontextu\\projektu B};
+\draw node[faze, left = 1cm of projectBreq1, text width=4cm,text badly centered] (projectAreq1) {Žádost v kontextu\\projektu A};
+\draw node[faze, right = 1cm of projectBreq1, text width=4cm,text badly centered] (projectBreq2) {Žádost 2 v kontextu\\projektu B};
+
+\draw node[faze, below = 15mm of projectBreq1] (biobank2) {Biobanka 2};
+\draw node[faze, left = 25mm of biobank2] (biobank1) {Biobanka 1};
+\draw node[faze, right = 25mm of biobank2] (biobank3) {Biobanka 3};
+
+\draw node[faze, below of = biobank1,text width=4cm,text badly centered] (ack1) {Přiřazení vzorků\\Schválení biobankou 1};
+\draw node[faze, below of = biobank2,text width=4cm,text badly centered] (ack2) {Přiřazení vzorků\\Schválení biobankou 2};
+\draw node[faze, below of = biobank3,text width=4cm,text badly centered] (ack3) {Zamítnutí};
+
+\draw node[faze, below left = 15mm and 5mm of ack2.center] (recv) {Získání vzorků z~biobank 1 a 2};
+\draw node[faze, below right = 15mm and 5mm of ack2.center] (archiv) {Archivace žádostí a rozhodnutí};
+
+\draw[sipka] (bbidx) -- (projectA);
+\draw[sipka] (bbidx) -- (projectB);
+
+\draw[sipka] (projectA) -- (projectAreq1);
+\draw[sipka] (projectB) -- (projectBreq1);
+\draw[sipka] (projectB) -- (projectBreq2);
+
+\draw[sipka] (projectAreq1) -- (biobank1);
+\draw[sipka] (projectBreq1) -- (biobank2);
+\draw[sipka] (projectBreq2) -- (biobank3);
+
+\draw[sipka] (biobank1) -- (ack1);
+\draw[sipka] (biobank2) -- (ack2);
+\draw[sipka] (biobank3) -- (ack3);
+
+\draw[sipka] (ack1) -- (recv);
+\draw[sipka] (ack2) -- (recv);
+
+\draw[sipka] (ack1) -- (archiv);
+\draw[sipka] (ack2) -- (archiv);
+\draw[sipka] (ack3) -- (archiv);
+
+
+\end{tikzpicture}
+\end{center}
+\caption{Schéma práce z~daty z~pohledu uživatele \ProjectName.}
+\label{fig:bbidx:user-interaction}
+\end{figure}
+
+% ------------------------   
+% SubSection 
+\subsection{Rezervace}
+Možnost rezervace reflektuje situaci, kdy žadatel má vymyšlený projektový záměr, ale projekt zatím ještě neprošel všemi formálními kroky. Uživateli je na základě předběžného grantového záměru dovoleno si zamluvit určité vzorky pro svůj budoucí projekt. Výběr vzorků probíhá formou nestrukturovaného textu stejně jako u~žádosti o~vzorky. Jediným rozdílem je, že rezervace má omezenou platnost.
+
+% ------------------------   
+% SubSection 
+\section{Zabezpečení a~anonymita pacientů}
+Zásadní rozdíl mezi NISy a~systémy jako je např. index \ProjectName popisovaný touto prací z~hlediska anonymity je v~tom, že nemocniční systémy pracuji s~klinickými daty s~cílem léčit konkrétního pacienta, zatímco \ProjectName (a~množství dalších projektů) má čistě výzkumný cíl. Ke klinickým datům pacienta má přístup lékař (nebo skupina), vázaný povinností mlčenlivosti a~NIS mu (nebo jim) poskytuje veškeré známe informace pro co nejsprávnější rozhodnutí o~další léčbě. Výzkumná data, ale neslouží pro léčbu konkrétního pacienta, neplatí na ně povinnost mlčenlivosti a~nakládání s~mimi je podřízeno pacientskému souhlasu (Patient Consent).
+Data určená pro výzkum by měla být omezená výhradně na potřeby konkrétního výzkumu a~nesmí být možno na základě těchto dat jednoznačně identifikovat jednotlivého pacienta.
+
+\ovnote{načíst článek - http://psychickeobtezovani.webnode.cz/news/zneuziti-cloveka-v-medicinskem-vyzkumu/}
+
+\subsection{Identifikace pacientů a~možné komplikace}
+Pacient musí být při exportu identifikován jednoznačně, aby nemohlo dojít k~záměně pacientů. Současně ale není možné exportovat rodné číslo\footnote{To, že ani rodné číslo není v~prostředí České republiky jednoduchý a~unikátní identifikátor popisuje Tomáš Holeček v~textu \uv{Rodná čísla: Klasický pojem v~české informatice} - viz. www.fi.muni.cz/usr/qkaluzik/P028/rc1.doc} z~důvodů popsaných v~předchozích odstavcích. 
+Za dobu realizace projektu bylo diskutováno několik řešení~\cite{ARCH_2014_1_25} jako např. externí třetí strana poskytující anonymizační službu (drahé) nebo použití jednosměrné hashovací funkci na kombinaci rodného čísla, jména, příjmení a~soli (nedostačující pro ÚOOZ a~s~dalšími riziky). Finální požadavek systému počítá s~tím, že pacient bude identifikován interním identifikátorem instituce, na které byl léčen s~unikátním prefixem, tak aby se zamezilo duplicitám mezi exporty napříč institucemi.
+
+Hrozbou plynoucí ze zvoleného přístupu je, že identita může být snadno zjištěna libovolným zaměstnancem nemocnice, kde byl pacient léčen vyhledáním pacienta v~databázi NISu. Druhou negativní situací, kterou řešení není schopno pokrýt, je pokud se pacient léčil postupně ve dvou nemocnicích. Systém v~takovém případě bude chápat tyto záznamy jako dva rozdílné pacienty namísto toho, aby je správně spojil dohromady. Obě tyto potenciální situace byly partnery projektu vyhodnoceny jako \uv{menší zlo}.
+
+\subsection{Autentizace a~autorizace}
+Autentizace uživatelů bude implementována pomocí federalizované autentizační infrastruktury eduId\footnote{http://www.eduid.cz/ - Česká akademická federace indentit, kterou spravuje sdružení CESNET.} Pro uživatele, kteří nespadají pod žádného poskytovatele identit (IdP - Identity Provider), je zde možnost využít tzv. Hostel\footnote{http://www.http://hostel.eduid.cz/ - Služba poskytovaná sdružením CESNET v~rámci eduID, pro uživatele institucí, nezapojených do federace}. 
+Autorizováni k~přístupu do systému jsou osoby, které mají zaměstnanecký poměr\footnote{Formu pracovně-studijního \uv{vztahu} uživatele k~instituci popisuje atribut \textit{affiliation} a~konkrétně hodnota \textit{@employee} definuje, že uživatel je zaměstnancem.} v~instituci, s~jejímž loginem se autentizují.
+Autorizace pro jednotlivé operace je popsána v~kapitole návrh v~části věnující se rolím v~systému.
+
+% ------------------------   
+% Section
+\section{Zapojené instituce a~jejich specifika}
+Pro navržení centrálního indexu bylo prvně nutné zjistit, jak vypadají informační systémy partnerů zapojených v~projektu, s~jakými daty pracují, jaké používají číselníky, kdo spravuje informační systém a~jak je možno se k~nim napojit. Rozdílům se věnuje následující kapitola.
+
+V~některých NISech partnerů není integrováno sledování teploty. V~Brně, Olomouci a~Plzni používají monitorovací systém FALCON\footnote{Provozu společnost KESA s.r.o. - www.kesa.cz}.
+\ovnote{Zjistit jak je řešeno na 1.LF a~v~HK}
+% ------------------------   
+% SubSection 
+\subsection{Masarykův onkologický ústav}
+MOU figuruje v~projektu jako koordinátor, proto právě na základě požadavků doktorů brněnské onkologie vznikla velká část struktury metadat vzorků. Na MOU využívají vlastní NIS GreyFox\footnote{NIS GreyFox vytvořil RNDr. Alexandr Fuchs. Od roku 2008 je systém provozovaný společností STAPRO s.r.o. viz. http://www.stapro.cz/informace-o-spoluprci-stapro-sro-a-medicon-as.htm}. Systém je strukturován do modulů podle typu materiálu (tkáňový, sérový, genomový, bioptický, laboratorní). 
+
+\begin{table}[ht] 
+\centering
+\begin{tabular}{l l l l l l}
+\hline 
+Klíč & Název 	& Prim. mat. & Banka & \ProjectName \\ [0.5ex]  
+%heading 
+\hline \hline
+1		&	Nádor maligní							&	T,TDC		&		BBM	&	tissue/01 \\
+2		&	Metastáza									&	T,TDC		&		BBM	&	tissue/02 \\
+3		&	Nádor benigní							&	T,TDC		&		BBM	&	tissue/03 \\
+4		&	Zdravá tkáň								&	T,TDC		&		BBM	&	tissue/04 \\
+5		&	Premaligní tkáň						&	T,TDC		&		BBM	&	tissue/04 \\
+53	&	Maligní-p53 (RNA-LATER)		&	RNA			&		BBM	&	tissue/01 \\
+54	&	Zdravá-p53 (RNA LATER)		&	RNA			&		BBM	&	tissue/04 \\
+55	&	Metastáza-p53(RNA LATER)	&	RNA			&		BBM	&	tissue/02 \\
+56	&	Benigní-p53 (RNA-LATER)		&	RNA			&		BBM	&	tissue/03 \\
+6		&	Inflamatorní tkáň					&	T,TDC		&		BBM	&	tissue/04 \\
+A1	&	Maligní t.-výzkum Cha			&	v-Ch		&		BBM	&	tissue/01 \\
+A4	&	Zdravá t.-výzkum Cha			&	v-Ch		&		BBM	&	tissue/04 \\
+B1	&	Maligní t.-výzkum Gastro	&	v-G			&		BBM	&	tissue/01 \\
+B4	&	Zdravá t.-výzkum Gastro		&	v-G			&		BBM	&	tissue/04 \\
+gD	&	genomová DNA							&	gDNA		&		BBMd&	genome/gD \\
+N		&	Nemaligní punktát					&	PSD			&		BBMs& 					\\	
+NE	&	Maligní tkáň-NEO ALTTO		&	T,TDC		&		BBM	&	tissue/01 \\
+P		&	Maligní punktát						&	PSD			&		BBMs&	 					\\
+PD	&	Plasma dusík							&	PSD,PSDC&		BBMs&	 					\\
+PK	&	plná krev									&	PK			&		BBMd&	genome/PK \\
+Pl	&	Plasma										&	PS			&		BBMs& 	 				\\
+S~	&	Sérum											&	PS			&		BBMs&	blood/SD 	\\
+SD	&	Sérum dusík								&	PSD,PSDC&		BBMs&	blood/SD 	\\
+SE	&	Maligní tkáň-SELDI				&	T,TDC		&		BBM	&	tissue/01 \\
+U1	&	Maligní tkáň UK						&	UK			&		BBM	&	tissue/01 \\
+U2	&	Metastáza UK							&	UK			&		BBM	&	tissue/02 \\
+U4	&	Zdravá tkáň UK						&	UK			&		BBM	&	tissue/04 \\
+
+\hline %inserts single line 
+\end{tabular} 
+\label{tab:ciselnik-muni} % is used to refer this table in the text 
+\end{table} 
+
+
+% ------------------------   
+% SubSection 
+\subsection{1. Lékařská fakulta Univerzity Karlovy v~Praze}
+Používají aplikaci BBM\footnote{Zdroj: http://siret.ms.mff.cuni.cz/MFiLF/files/cooperation/polak.pptx} pro centrální správu biologického materiálu. Systém definuje odběr tří typů vzorků: krev (plná krev, DNA, plasma), tkáň (tkáň, tkáň v~RNA lateru) a~moč. Aplikace využívá MSSQL databázi. Umožňuje přidávat vzorky z~jednotlivých klinik pomocí formuláře. Data jsou přístupná přes webovou aplikaci.
+Systém je napojen na NIS Medea využívaný na 1.LF. 
+Aplikace obsahuje následující moduly:  bioptický, tkáňový, sérový, plasmový, DNA, modul plné krve a~modul moči.
+Typ materiálu je definován pomocí čtyř znaků (2 znaky typ + případně 2 znaková přípona \textit{-L} pro materiál uložený v lateru\footnote{\ovnote{Vysvětlit}}).
+\begin{table}[ht] 
+\centering
+\begin{tabular}{l l}
+\hline 
+Typ materiálu & Kód \\
+\hline \hline
+nádor maligní 							& Tm 	\\
+metastáza 									& Te 	\\
+nádor benigní 							& Tb 	\\
+zdravá tkáň 								& Th 	\\
+patol. tk. 									& Tp 	\\
+nádor nejisté biol. povahy 	& Tn 	\\
+carcinoma in situ 					& Ti 	\\
+suffix pro later 						& -L 	\\
+sérum 											& S~	\\
+plazma 											& P 	\\
+genomová DNA 								& G 	\\
+plná krev 									& B 	\\
+moč 												& U~	\\
+
+\hline %inserts single line 
+\end{tabular} 
+\caption{Číselník materiálů využívaný biobankou 1.~LF~UK.}
+\label{tab:ciselnik-mat-Ilfuk} % is used to refer this table in the text 
+\end{table} 
+
+
+% ------------------------   
+% SubSection 
+\subsection{FN Hradec Králové}
+
+% ------------------------   
+% SubSection 
+\subsection{FN Olomouc}
+
+% ------------------------   
+% SubSection 
+\subsection{FN Plzeň}
+
+\ovnote{Diagram shrnující celou infrastrukturu}
+
+
+% ------------------------   
+% Section
+\section{Popis exportu pacientských dat}
+Struktura exportů pacientských dat představuje minimální množinu dat, která má dle názoru patologů, podílejících se na projektu, význam pro výzkum. Všeobecnou snahou udělat exportní model mírně defenzivně s~možností volby u~některých atributů (např. \uv{unknown} apod.) z~důvodu neexistence jednotného datového modelu v~NISech partnerů projektu. Nechá se očekávat, že model se bude i~do budoucna vyvíjet a~až při praktické práci s~indexem se příjde na to jak by předávaná data mohla být ještě rozšířena. Z~praktického pohledu je vysoce žádané aby byly změny dávkové s~ohledem na rozpočet institucí (a~práci za práci programáorů).
+
+Data budou předávána ve formátu XML, exportní modely jsou ve formátu RelaxNG Compact.
+
+% ------------------------   
+% SubSection
+\subsection{Pacient}
+Kořenovým elementem exportů k~pacientským datům je pacient. Jeden soubor odpovídá veškerým datům souvisejícím s~jedinou léčenou osobou. Součástí pacientských dat je výše zmíněný interní identifikátor, pacientský souhlas, pohlaví, příslušnost k~biobance a~data o~vzorcích uložených v~biobance. Datum narození je uloženo bez dne narození, tak aby byla zachována přibližná informace o~věku pacienta a~přitom pacient nebyl na základě tohoto údaje identifikovatelný.
+
+\begin{figure}[htp]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element pacienta v~exportním schéma.}]
+element patient {		
+	attribute id { xsd:string { maxLength = "10" } },		
+	attribute consent { xsd:boolean },   
+	attribute year { xsd:gYear },	  
+	attribute month { xsd:gMonth },   
+	attribute sex { "male" | "female" },	  
+	biobankId,		
+	element LTS {
+		( tissue | serum | genome | diagnosisMaterial )*
+	},		
+	element STS {
+		( diagnosisMaterial )*
+	}
+}
+\end{lstlisting}
+\end{center}
+\label{fig:export:data:patient}
+\end{figure}
+
+% ------------------------   
+% SubSection
+\subsection{Klasifikace biologického materiálu}
+Každá partnerských biobank ukládá trochu jinou množinu druhů biologického materiálu. Z~laboratorního hlediska je mezi nimi veliký rozdíl, ale z~informatického hlediska byly pro potřeby exportů kategorie zobecněny na níže uvedené typy. Atributy, které se opakují jsou popsány jen u~prvního typu, ve kterém jsou obsaženy.
+
+% ------------------------   
+% SubSubSection
+\subsubsection{Tkáň (Tissue)}
+Tkáň je základní stavební prvek živočišného těla, kterou biologie dělí na svalovou, nervovou, pojivovou, atd\ldots. V~rámci zkoumání nádorových onemocnění je důležitější spíš kategorizace zdravá, zhoubná, \ldots, viz. \ovnote{Materil type jednotlivých biobank}.
+V~kontextu této práce není potřeba zacházet do větších biologických detailů.
+
+\ovnote{popsat}
+
+\begin{figure}[hbtp]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující tkáň v~exportním schéma.}]
+element tissue {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } }
+	element TNM { xsd:string { maxLength = "7" pattern = "[a-zA-Z0-9]+" } },
+	element pTNM { xsd:string { maxLength = "7" pattern = "[a-zA-Z0-9]+" } },
+	( element morphology { xsd:string { length = "7" pattern = "[0-9]{4}/[0-9]{2}"} } 
+	| element grading { xsd:int { minInclusive = "1" maxInclusive = "9" } } ),
+	element cutTime { xsd:dateTime },
+	element freezeTime { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\label{fig:export:data:tissue}
+\end{figure}
+
+% ------------------------   
+% SubSubSection
+\subsubsection{Sérum (Serum)}
+\ovnote{popsat}
+\begin{figure}[hbtp]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující sérum v~exportním schéma.}]
+element serum {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } }
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\label{fig:export:data:serum}
+\end{figure}
+% ------------------------   
+% SubSubSection
+\subsubsection{Genomová krev (Genom)}
+\ovnote{popsat, vymyslet argument proč jsem zachoval genom i~sérum}
+\begin{figure}[hbtp]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující sérum v~exportním schéma.}]
+element genome {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } }
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\label{fig:export:data:genome}
+\end{figure}
+% ------------------------   
+% SubSubSection
+\subsubsection{Materiál se stanovenou diagnózou}
+\ovnote{popsat}
+\begin{figure}[hbtp]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující materiál se stanovenou diagnózou v~exportním schéma.}]
+element diagnosisMaterial {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element materialType { xsd:string { maxLength = "4" } }
+	element diagnosis { xsd:string { pattern = "[a-zA-Z0-9]+" 
+			minLength = "3" 
+			maxLength = "5" } },
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\label{fig:export:data:diagnosisMaterial}
+\end{figure}
+
 
 % ------------------------   
 % Section 
 \section{Požadavky na IT infrastrukturu}
-
-% ------------------------   
-% SubSection 
-\subsection{Zabezpečení a anonymita pacientů}
-
-Anonymita - klinická vs. věděcká data
-Uvažované varianty, možné problémy ke kterým by mohlo dojít - migrace pacientů, duplicita rodných čísel
-
-% ------------------------   
-% Section
-\section{Zapojené instituce a jejich specifika}
-Číselníky, identifikátory, apod
-
-
+Zabezpečení - VPN atd.
+Kritérium na použití frameworku Stripes
 
 % ------------------------------------------------------------------------      
 % Návrh
 \chapter{Návrh}
+
+\section{Architektura systému}
+
 datový model, class diagram, vysvětlení jednotlivých tříd
+
+\subsection{Popis jednotlivých komponent}
+
+\subsection{Číselník typů materiálu používaný v~systému}
+
+\section{Autorizace uživatelů}
+
+\ovnote{USER, ADMIN atd.. popis rolí}
+\ovnote{tabulka kdo co může dělat}
+
+\subsection{Systémové role}
+\subsubsection{Uživatelské role}
+
+\section{Workflow a~životní cykly objektů}
+
+\subsection{Projekt}
+
+\subsection{Projekt}
+
+
 
 % ------------------------------------------------------------------------      
 % Implementace
 \chapter{Implementace}
 použité technologie, diskuze nad použitými technologiemi
 
+Stripes, JPA, Hibernate, bootstrap, postgres, apache, tomcat, shibboleth, 
+git, jquery, použité jquery knihovny, xpath, Spring, ... 
+
+\section{Logování}
+
+\section{Server a~jeho nastavení}
+Služba je provozována na serverech Metacentra\footnote{http://www.metacentrum.cz/}
+\ovnote{Popis serveru}
+
+
+\ovnote{IP, kde je server hostován, kdo spracuje doménu, jaká je doména, certifikáty}
+\ovnote{Jaké aplikace jsou využívány}
+
+\subsection{Firewall}
+\subsection{Synchronizace času}
+\subsection{Shibboleth}
+\subsection{Apache, Tomcat}
+
+\section{Práva k~využívání převzatých částí kódu}
+
+\section{Testování}
+\ovnote{in memory db, mock objekty, lokální účty}
+
+
+% ------------------------------------------------------------------------      
+% Závěr
+\chapter{Návod}
+
 % ------------------------------------------------------------------------      
 % Závěr
 \chapter{Závěr}
 
 %% Lists of tables and figures, glossary, etc.
-\printindex
-\printglossary
-\listoffigures
-\listoftables
+%\printindex
+%\printglossary
+%\listoffigures
+%\listoftables
 
 %% Bibliography from references.bib
-\begingroup
-\def\tmpchapter{0}
-\renewcommand{\chaptername}{}
-\renewcommand{\thechapter}{}
-\addtocontents{toc}{\setcounter{tocdepth}{-1}}
-\chapter{Zdroje}
-\renewcommand{\chapter}[2]{}% for other classes
+%\begingroup
+%\def\tmpchapter{0}
+%\renewcommand{\chaptername}{}
+%\renewcommand{\thechapter}{}
+%\addtocontents{toc}{\setcounter{tocdepth}{-1}}
+%\chapter{Zdroje}
+%\renewcommand{\chapter}[2]{}% for other classes
 
-\bibliographystyle{plain}
+% Následují další kapitoly a podkapitoly, popřípadě závěr, dodatky, 
+% seznam literatury či použitých obrázků nebo tabulek.
+
+% LaTeX magic :) Při kopírování některé znaky chybí !!!!!
+\renewcommand{\UrlBreaks}{\do\/\do\a\do\b\do\c\do\e\do\f\do\i\do\j\do\k\do\l\do\m\do\n\do\o\do\q\do\r\do\s\do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X\do\Y\do\Z\do\?\do\=\do\-\do\0\do\1\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\p\do\d\do\h}
+\mathchardef\UrlBreakPenalty=50\relax
+\bibliographystyle{plainnat} %./splncs}
 \bibliography{references}
 
-\addtocontents{toc}{\setcounter{tocdepth}{2}}
-\endgroup
+%\addtocontents{toc}{\setcounter{tocdepth}{2}}
+%\endgroup
 
 %% Additional materials
 \appendix

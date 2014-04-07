@@ -1,14 +1,48 @@
 \select@language {czech}
 \contentsline {chapter}{\numberline {1}\bfseries \IeC {\'U}vod}{2}{chapter.1}
 \contentsline {chapter}{\numberline {2}\bfseries Anal\IeC {\'y}za}{3}{chapter.2}
-\contentsline {section}{\numberline {2.1}\slshape Popis projektu BBMRI\_CZ}{3}{section.2.1}
-\contentsline {subsection}{\numberline {2.1.1}\rmfamily Workflow}{3}{subsection.2.1.1}
-\contentsline {section}{\numberline {2.2}\slshape Po\IeC {\v z}adavky na IT infrastrukturu}{3}{section.2.2}
-\contentsline {subsection}{\numberline {2.2.1}\rmfamily Zabezpe\IeC {\v c}en\IeC {\'\i } a anonymita pacient\IeC {\r u}}{3}{subsection.2.2.1}
-\contentsline {section}{\numberline {2.3}\slshape Zapojen\IeC {\'e} instituce a jejich specifika}{3}{section.2.3}
-\contentsline {chapter}{\numberline {3}\bfseries N\IeC {\'a}vrh}{4}{chapter.3}
-\contentsline {chapter}{\numberline {4}\bfseries Implementace}{5}{chapter.4}
-\contentsline {chapter}{\numberline {5}\bfseries Z\IeC {\'a}v\IeC {\v e}r}{6}{chapter.5}
-\global \c@tocdepth -1\relax 
-\contentsline {chapter}{\numberline {}\bfseries Zdroje}{9}{chapter.6}
-\global \c@tocdepth 2\relax 
+\contentsline {section}{\numberline {2.1}\slshape Popis projektu BBMRI\_CZ\xspace }{3}{section.2.1}
+\contentsline {section}{\numberline {2.2}\slshape Indexov\IeC {\'a} slu\IeC {\v z}ba}{3}{section.2.2}
+\contentsline {section}{\numberline {2.3}\slshape Monitorovac\IeC {\'\i } slu\IeC {\v z}ba}{3}{section.2.3}
+\contentsline {section}{\numberline {2.4}\slshape P\IeC {\v r}\IeC {\'\i }klady u\IeC {\v z}it\IeC {\'\i } syst\IeC {\'e}mu a~popis souvisej\IeC {\'\i }c\IeC {\'\i }ho workflow}{4}{section.2.4}
+\contentsline {subsection}{\numberline {2.4.1}\rmfamily Zalo\IeC {\v z}en\IeC {\'\i } projektu}{6}{subsection.2.4.1}
+\contentsline {subsection}{\numberline {2.4.2}\rmfamily \IeC {\v Z}\IeC {\'a}dost o~vzorky}{6}{subsection.2.4.2}
+\contentsline {subsection}{\numberline {2.4.3}\rmfamily Rezervace}{7}{subsection.2.4.3}
+\contentsline {section}{\numberline {2.5}\slshape Zabezpe\IeC {\v c}en\IeC {\'\i } a~anonymita pacient\IeC {\r u}}{7}{section.2.5}
+\contentsline {subsection}{\numberline {2.5.1}\rmfamily Identifikace pacient\IeC {\r u} a~mo\IeC {\v z}n\IeC {\'e} komplikace}{7}{subsection.2.5.1}
+\contentsline {subsection}{\numberline {2.5.2}\rmfamily Autentizace a~autorizace}{7}{subsection.2.5.2}
+\contentsline {section}{\numberline {2.6}\slshape Zapojen\IeC {\'e} instituce a~jejich specifika}{8}{section.2.6}
+\contentsline {subsection}{\numberline {2.6.1}\rmfamily Masaryk\IeC {\r u}v onkologick\IeC {\'y} \IeC {\'u}stav}{8}{subsection.2.6.1}
+\contentsline {subsection}{\numberline {2.6.2}\rmfamily 1. L\IeC {\'e}ka\IeC {\v r}sk\IeC {\'a} fakulta Univerzity Karlovy v~Praze}{9}{subsection.2.6.2}
+\contentsline {subsection}{\numberline {2.6.3}\rmfamily FN Hradec Kr\IeC {\'a}lov\IeC {\'e}}{9}{subsection.2.6.3}
+\contentsline {subsection}{\numberline {2.6.4}\rmfamily FN Olomouc}{9}{subsection.2.6.4}
+\contentsline {subsection}{\numberline {2.6.5}\rmfamily FN Plze\IeC {\v n}}{9}{subsection.2.6.5}
+\contentsline {section}{\numberline {2.7}\slshape Popis exportu pacientsk\IeC {\'y}ch dat}{9}{section.2.7}
+\contentsline {subsection}{\numberline {2.7.1}\rmfamily Pacient}{9}{subsection.2.7.1}
+\contentsline {subsection}{\numberline {2.7.2}\rmfamily Klasifikace biologick\IeC {\'e}ho materi\IeC {\'a}lu}{10}{subsection.2.7.2}
+\contentsline {subsubsection}{ Tk\IeC {\'a}\IeC {\v n} (Tissue)}{10}{section*.12}
+\contentsline {subsubsection}{ S\IeC {\'e}rum (Serum)}{10}{section*.14}
+\contentsline {subsubsection}{ Genomov\IeC {\'a} krev (Genom)}{10}{section*.16}
+\contentsline {subsubsection}{ Materi\IeC {\'a}l se stanovenou diagn\IeC {\'o}zou}{10}{section*.18}
+\contentsline {section}{\numberline {2.8}\slshape Po\IeC {\v z}adavky na IT infrastrukturu}{10}{section.2.8}
+\contentsline {chapter}{\numberline {3}\bfseries N\IeC {\'a}vrh}{13}{chapter.3}
+\contentsline {section}{\numberline {3.1}\slshape Architektura syst\IeC {\'e}mu}{13}{section.3.1}
+\contentsline {subsection}{\numberline {3.1.1}\rmfamily Popis jednotliv\IeC {\'y}ch komponent}{13}{subsection.3.1.1}
+\contentsline {subsection}{\numberline {3.1.2}\rmfamily \IeC {\v C}\IeC {\'\i }seln\IeC {\'\i }k typ\IeC {\r u} materi\IeC {\'a}lu pou\IeC {\v z}\IeC {\'\i }van\IeC {\'y} v~syst\IeC {\'e}mu}{13}{subsection.3.1.2}
+\contentsline {section}{\numberline {3.2}\slshape Autorizace u\IeC {\v z}ivatel\IeC {\r u}}{13}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}\rmfamily Syst\IeC {\'e}mov\IeC {\'e} role}{13}{subsection.3.2.1}
+\contentsline {subsubsection}{ U\IeC {\v z}ivatelsk\IeC {\'e} role}{13}{section*.20}
+\contentsline {section}{\numberline {3.3}\slshape Workflow a~\IeC {\v z}ivotn\IeC {\'\i } cykly objekt\IeC {\r u}}{13}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}\rmfamily Projekt}{13}{subsection.3.3.1}
+\contentsline {subsection}{\numberline {3.3.2}\rmfamily Projekt}{13}{subsection.3.3.2}
+\contentsline {chapter}{\numberline {4}\bfseries Implementace}{14}{chapter.4}
+\contentsline {section}{\numberline {4.1}\slshape Logov\IeC {\'a}n\IeC {\'\i }}{14}{section.4.1}
+\contentsline {section}{\numberline {4.2}\slshape Server a~jeho nastaven\IeC {\'\i }}{14}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}\rmfamily Firewall}{14}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}\rmfamily Synchronizace \IeC {\v c}asu}{14}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}\rmfamily Shibboleth}{14}{subsection.4.2.3}
+\contentsline {subsection}{\numberline {4.2.4}\rmfamily Apache, Tomcat}{14}{subsection.4.2.4}
+\contentsline {section}{\numberline {4.3}\slshape Pr\IeC {\'a}va k~vyu\IeC {\v z}\IeC {\'\i }v\IeC {\'a}n\IeC {\'\i } p\IeC {\v r}evzat\IeC {\'y}ch \IeC {\v c}\IeC {\'a}st\IeC {\'\i } k\IeC {\'o}du}{14}{section.4.3}
+\contentsline {section}{\numberline {4.4}\slshape Testov\IeC {\'a}n\IeC {\'\i }}{14}{section.4.4}
+\contentsline {chapter}{\numberline {5}\bfseries N\IeC {\'a}vod}{15}{chapter.5}
+\contentsline {chapter}{\numberline {6}\bfseries Z\IeC {\'a}v\IeC {\v e}r}{16}{chapter.6}
