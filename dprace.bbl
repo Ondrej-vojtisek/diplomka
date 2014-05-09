@@ -1,21 +1,75 @@
 \providecommand{\noopsort}[1]{}
-\begin{thebibliography}{2}
+\begin{thebibliography}{9}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
 
-\bibitem[Holub et~al.(2011)Holub, Vojtíšek, Valík, Greplová,
-  Knoflíčková, a Nenutil]{ARCH_2011_12_29}
-Petr Holub, Ondřej Vojtíšek, Dalibor Valík, Kristína Greplová, Dana
-  Knoflíčková, Rudolf Nenutil.
+\bibitem[Holeček(2000)]{RodnaCisla}
+Tomáš Holeček.
+\newblock R{O}{D}{N}{Á} Č{Í}{S}{L}{A}: Klasický pojem v české informatice
+  [online], 2000.
+\newblock [cit.~2014-04-29]. Dostupné z:
+  \url{www.fi.muni.cz/usr/qkaluzik/P028/rc1.doc}.
+
+\bibitem[Holub et~al.(2011)Holub, Valík, Greplová, Knoflíčková, a
+  Nenutil]{ARCH_2011_12_29}
+Petr Holub, Dalibor Valík, Kristína Greplová, Dana Knoflíčková, Rudolf
+  Nenutil.
 \newblock {B}{B}{M}{R}{I}\_{C}{Z} {I}ndex {S}ervice, 2011.
-\newblock Dostupné~z: \url{https://index.bbmri.cz/auth}.
 
 \bibitem[Holub et~al.(2014)Holub, Vojtíšek, Valík, Greplová,
   Knoflíčková, a Nenutil]{ARCH_2014_1_25}
 Petr Holub, Ondřej Vojtíšek, Dalibor Valík, Kristína Greplová, Dana
   Knoflíčková, Rudolf Nenutil.
 \newblock {B}{B}{M}{R}{I}\_{C}{Z} {I}ndex {S}ervice, 2014.
-\newblock Dostupné~z: \url{https://index.bbmri.cz/auth}.
+
+\bibitem[Percy et~al.(2004)Percy, Fritz, Jack, Shanmugarathan, Sobin, Parkin, a
+  Whelan]{MKN-O}
+Constance Percy, April. Fritz, Andrew Jack, Kanagaratnam Shanmugarathan,
+  Leslie~H. Sobin, D.~Max Parkin, Sharon Whelan.
+\newblock {\em Mezinárodní klasifikace nemocí pro onkologii}.
+\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 3. vyd.
+  vyd., 2004.
+\newblock ISBN 80-728-0373-5.
+\newblock Dostupné~z: \url{http://www.uzis.cz/en/system/files/mkn_o_3_cv.pdf}.
+
+\bibitem[Polák(2013)]{1LF_BBM}
+Tomáš Polák.
+\newblock Prezentace: B{B}{M} banka biologického materiálu 1. lékařská
+  fakulta univerzity karlovy [online], 2013.
+\newblock [cit. 2014-04-29]. Dostupné z:
+  \url{http://siret.ms.mff.cuni.cz/MFiLF/files/cooperation/polak.pptx}.
+
+\bibitem[Sobin et~al.(2004)Sobin, Gospodarowicz, a Wittekind]{TNM}
+Leslie~H. Sobin, Mary~K. Gospodarowicz, Christian Wittekind, editoři.
+\newblock {\em T{N}{M} klasifikace zhoubných novotvarů}.
+\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 7. vyd.
+  vyd., 2004.
+\newblock ISBN 978-809-0425-965.
+\newblock Dostupné~z: \url{http://www.uzis.cz/en/system/files/tnm-7.pdf}.
+
+\bibitem[Sobin et~al.(2008)Sobin, Gospodarowicz, a Wittekind]{MKN-10}
+Leslie~H. Sobin, Mary~K. Gospodarowicz, Christian Wittekind, editoři.
+\newblock {\em Mezinárodní statistická klasifikace nemocí a přidružených
+  zdravotních problémů : MKN-10 : desátá revize : aktualizovaná verze k
+  1. 1. 2009}.
+\newblock Bomton Agency, Praha, 2., aktualiz. vyd. vyd., 2008.
+\newblock ISBN 978-809-0425-903.
+\newblock Dostupné~z:
+  \url{http://www.uzis.cz/system/files/mkn-tabelarni-cast_1-4-2014.pdf}.
+
+\bibitem[s.r.o.(2008{\natexlab{a}})]{M355CE}
+LINEQ s.r.o.
+\newblock Datalogger měření teploty + hladinoměr s alarmem {M}355{C}{E}:
+  Instrukční manuál [online], 2008{\natexlab{a}}.
+\newblock [cit. 2014-04-29]. Dostupné z:
+  \url{http://www.lineq.cz/images/PDF/Manual_M355CE.pdf}.
+
+\bibitem[s.r.o.(2008{\natexlab{b}})]{GreyFox}
+STAPRO s.r.o.
+\newblock Informace o spolupráci {S}{T}{A}{P}{R}{O} s.r.o. a
+  {M}{E}{D}{I}{C}{O}{N} a.s. [online], 2008{\natexlab{b}}.
+\newblock [cit. 2014-04-29]. Dostupné z:
+  \url{http://www.stapro.cz/informace-o-spoluprci-stapro-sro-a-medicon-as.htm}.
 
 \end{thebibliography}

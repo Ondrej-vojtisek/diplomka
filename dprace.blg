@@ -3,44 +3,53 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: dprace.aux
 The style file: plainnat.bst
 Database file #1: references.bib
-You've used 2 entries,
+Warning--entry type for "RodnaCisla" isn't style-file defined
+--line 104 of file references.bib
+Warning--entry type for "GreyFox" isn't style-file defined
+--line 113 of file references.bib
+Warning--entry type for "M355CE" isn't style-file defined
+--line 121 of file references.bib
+Warning--entry type for "1LF_BBM" isn't style-file defined
+--line 129 of file references.bib
+You've used 9 entries,
             2629 wiz_defined-function locations,
-            584 strings with 4985 characters,
-and the built_in function-call counts, 1139 in all, are:
-= -- 86
-> -- 104
-< -- 0
-+ -- 38
-- -- 36
-* -- 100
-:= -- 204
-add.period$ -- 6
-call.type$ -- 2
-change.case$ -- 20
-chr.to.int$ -- 2
-cite$ -- 2
-duplicate$ -- 32
-empty$ -- 67
-format.name$ -- 38
-if$ -- 217
-int.to.chr$ -- 1
+            633 strings with 6712 characters,
+and the built_in function-call counts, 3907 in all, are:
+= -- 332
+> -- 254
+< -- 4
++ -- 94
+- -- 84
+* -- 283
+:= -- 674
+add.period$ -- 31
+call.type$ -- 9
+change.case$ -- 64
+chr.to.int$ -- 8
+cite$ -- 9
+duplicate$ -- 160
+empty$ -- 302
+format.name$ -- 93
+if$ -- 791
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 0
-newline$ -- 17
-num.names$ -- 8
-pop$ -- 36
+missing$ -- 4
+newline$ -- 56
+num.names$ -- 38
+pop$ -- 127
 preamble$ -- 2
-purify$ -- 18
+purify$ -- 55
 quote$ -- 0
-skip$ -- 30
+skip$ -- 126
 stack$ -- 0
-substring$ -- 12
-swap$ -- 2
+substring$ -- 54
+swap$ -- 11
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 22
+type$ -- 84
 warning$ -- 0
-while$ -- 6
+while$ -- 27
 width$ -- 0
-write$ -- 30
+write$ -- 128
+(There were 4 warnings)

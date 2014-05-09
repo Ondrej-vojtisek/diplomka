@@ -250,7 +250,7 @@ FUNCTION {format.editors}
     { "" }
     { editor format.names
       editor num.names$ #1 >
-        { ", editors" * }
+        { ", editoři" * }
         { ", editor" * }
       if$
     }
