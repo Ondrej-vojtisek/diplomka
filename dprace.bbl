@@ -1,8 +1,56 @@
 \providecommand{\noopsort}[1]{}
-\begin{thebibliography}{9}
+\begin{thebibliography}{15}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \expandafter\ifx\csname url\endcsname\relax
   \def\url#1{{\tt #1}}\fi
+
+\bibitem[MKN(2004)]{MKN-O}
+{\em Mezinárodní klasifikace nemocí pro onkologii}.
+\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 3. vyd.
+  vyd., 2004.
+\newblock ISBN 80-728-0373-5.
+\newblock Dostupné~z:
+  \url{http://www.uzis.cz/katalog/klasifikace/mkn-mezinarodni-klasifikace-nemoci-pro-onkologii}.
+
+\bibitem[TNM(2004)]{TNM}
+{\em T{N}{M} klasifikace zhoubných novotvarů}.
+\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 7. vyd.
+  vyd., 2004.
+\newblock ISBN 978-809-0425-965.
+\newblock Dostupné~z:
+  \url{http://www.uzis.cz/katalog/klasifikace/tnm-klasifikace-zhoubnych-novotvaru}.
+
+\bibitem[MKN(2008)]{MKN-10}
+{\em Mezinárodní statistická klasifikace nemocí a přidružených
+  zdravotních problémů : MKN-10 : desátá revize : aktualizovaná verze k
+  1. 1. 2009}.
+\newblock Bomton Agency, Praha, 2., aktualiz. vyd. vyd., 2008.
+\newblock ISBN 978-809-0425-903.
+\newblock Dostupné~z:
+  \url{http://www.uzis.cz/katalog/klasifikace/mkn-mezinarodni-statisticka-klasifikace-nemoci-pridruzenych-zdravotnich-problemu}.
+
+\bibitem[dew(2009)]{dewar}
+Rozdíl mezi dewarovou nádobou a termoskou [online], 2009.
+\newblock [citováno 14. 5. 2014]. Dostupné z:
+  \url{http://fyzmatik.pise.cz/95-rozdil-mezi-dewarovou-nadobou-a-termoskou.html}.
+
+\bibitem[met(c2013)]{metastaza}
+Wikipedie: Otevřená encyklopedie: Metastáza [online], c2013.
+\newblock [citováno 14. 5. 2014]. Dostupné z:
+  \url{http://cs.wikipedia.org/w/index.php?title=Metast%C3%A1za&oldid=10288298/}.
+
+\bibitem[Daoud and Fennell(c2008)Daoud a Fennell]{Stripes}
+Frederic Daoud, Tim Fennell.
+\newblock {\em Stripes -- and Java web development is fun again}.
+\newblock Pragmatic Bookshelf, Raleigh, N.C., pragmatic programmers vyd.,
+  c2008.
+\newblock ISBN 19-343-5621-2.
+
+\bibitem[Elišková and Naňka(2006)Elišková a Naňka]{anatomie}
+Miloslava Elišková, Ondřej Naňka.
+\newblock {\em Přehled anatomie}.
+\newblock Karolinum, Praha, vyd. 1. vyd., 2006.
+\newblock ISBN 978-802-4612-164.
 
 \bibitem[Holeček(2000)]{RodnaCisla}
 Tomáš Holeček.
@@ -23,15 +71,11 @@ Petr Holub, Ondřej Vojtíšek, Dalibor Valík, Kristína Greplová, Dana
   Knoflíčková, Rudolf Nenutil.
 \newblock {B}{B}{M}{R}{I}\_{C}{Z} {I}ndex {S}ervice, 2014.
 
-\bibitem[Percy et~al.(2004)Percy, Fritz, Jack, Shanmugarathan, Sobin, Parkin, a
-  Whelan]{MKN-O}
-Constance Percy, April. Fritz, Andrew Jack, Kanagaratnam Shanmugarathan,
-  Leslie~H. Sobin, D.~Max Parkin, Sharon Whelan.
-\newblock {\em Mezinárodní klasifikace nemocí pro onkologii}.
-\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 3. vyd.
-  vyd., 2004.
-\newblock ISBN 80-728-0373-5.
-\newblock Dostupné~z: \url{http://www.uzis.cz/en/system/files/mkn_o_3_cv.pdf}.
+\bibitem[Malý(2011)]{Licence}
+Martin Malý.
+\newblock Softwarové licence: úvod pro obyčejné lidi[online], 2011.
+\newblock [cit. 2014-05-13]. Dostupné z:
+  \url{http://www.zdrojak.cz/clanky/softwarove-licence-uvod-pro-obycejne-lidi/}.
 
 \bibitem[Polák(2013)]{1LF_BBM}
 Tomáš Polák.
@@ -39,24 +83,6 @@ Tomáš Polák.
   fakulta univerzity karlovy [online], 2013.
 \newblock [cit. 2014-04-29]. Dostupné z:
   \url{http://siret.ms.mff.cuni.cz/MFiLF/files/cooperation/polak.pptx}.
-
-\bibitem[Sobin et~al.(2004)Sobin, Gospodarowicz, a Wittekind]{TNM}
-Leslie~H. Sobin, Mary~K. Gospodarowicz, Christian Wittekind, editoři.
-\newblock {\em T{N}{M} klasifikace zhoubných novotvarů}.
-\newblock Ústav zdravotnických informací a statistiky ČR, Praha, 7. vyd.
-  vyd., 2004.
-\newblock ISBN 978-809-0425-965.
-\newblock Dostupné~z: \url{http://www.uzis.cz/en/system/files/tnm-7.pdf}.
-
-\bibitem[Sobin et~al.(2008)Sobin, Gospodarowicz, a Wittekind]{MKN-10}
-Leslie~H. Sobin, Mary~K. Gospodarowicz, Christian Wittekind, editoři.
-\newblock {\em Mezinárodní statistická klasifikace nemocí a přidružených
-  zdravotních problémů : MKN-10 : desátá revize : aktualizovaná verze k
-  1. 1. 2009}.
-\newblock Bomton Agency, Praha, 2., aktualiz. vyd. vyd., 2008.
-\newblock ISBN 978-809-0425-903.
-\newblock Dostupné~z:
-  \url{http://www.uzis.cz/system/files/mkn-tabelarni-cast_1-4-2014.pdf}.
 
 \bibitem[s.r.o.(2008{\natexlab{a}})]{M355CE}
 LINEQ s.r.o.
@@ -71,5 +97,12 @@ STAPRO s.r.o.
   {M}{E}{D}{I}{C}{O}{N} a.s. [online], 2008{\natexlab{b}}.
 \newblock [cit. 2014-04-29]. Dostupné z:
   \url{http://www.stapro.cz/informace-o-spoluprci-stapro-sro-a-medicon-as.htm}.
+
+\bibitem[s.r.o.(2010)]{Medea}
+STAPRO s.r.o.
+\newblock Vedení zdravotnické dokumentace v elektronické podobě [online],
+  2010.
+\newblock [cit. 2014-04-29]. Dostupné z:
+  \url{http://www.stapro.cz/vedeni-zdravotnicke-dokumentace-v-elektronicke-podobe.htm}.
 
 \end{thebibliography}
