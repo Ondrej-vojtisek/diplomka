@@ -1,11 +1,12 @@
 
-\documentclass[11pt,draft,oneside]{fithesis2}
+\documentclass[11pt, draft, oneside]{fithesis2}
 
 %% Basic packages
 \usepackage[czech]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{cmap}
 \usepackage[T1]{fontenc}
+\usepackage{float}
 %\usepackage{lmodern}
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
@@ -79,10 +80,11 @@
 
 \lstset{
 	captionpos=b, % Caption je pod ukazkou kodu
-  basicstyle=\ttfamily,
+  basicstyle=\ttfamily\scriptsize,
   columns=fullflexible,
   showstringspaces=false,
-  commentstyle=\color{gray}\upshape
+  commentstyle=\color{gray}\upshape,
+	breaklines=true
 }
 
 \lstdefinelanguage{XML}
@@ -127,7 +129,7 @@
 %% itemized lists
 \renewcommand{\labelitemii}{$\star$}
 \renewcommand{\labelitemiii}{$\circ$}
-\newcommand{\ProjectName}{BBMRI\_CZ\xspace}
+\newcommand{\ProjectName}{\mbox{BBMRI\_CZ}\xspace}
 
 %% Title page information
 \thesistitle{Návrh a~implementace centrálního indexu \ProjectName}
@@ -146,8 +148,8 @@
 
 
 %% Nastavení zalamování slov
-\hyphenation{in-fra-struk-tu-ra in-fra-struk-tu-ry míst-ní we-bo-vé-ho iden-ti-fi-ká-toru mož-né  žá-dan-ky
-me-ta-s-tá-zy}
+\hyphenation{in-fra-struk-tu-ra in-fra-struk-tu-ry we-bo-vé-ho iden-ti-fi-ká-toru žá-dan-ky
+me-ta-s-tá-zy ali-kvo-tu}
 
 %% Front page with a logo and basic thesis information
 \FrontMatter
@@ -161,7 +163,7 @@ me-ta-s-tá-zy}
 
 %% Thanks
 \begin{ThesisThanks}
-Na tomto místě bych rád poděkoval vedoucímu mé práce RNDr. Petru Holubovi, PhD., za vedení a~množství rad jak odborných, tak i~zcela neinformatických. Vážím si toho, že mi bylo umožněno pracovat na reálném a~smysluplném projektu, přestože jsem do něho vstupoval do jisté míry jako \textit{tabula rasa}.
+Na tomto místě bych rád poděkoval vedoucímu mé práce RNDr. Petru Holubovi, PhD., za vedení a~množství rad jak odborných, tak i~zcela neinformatických. Vážím si toho, že mi bylo umožněno pracovat na reálném a~smysluplném projektu, přestože jsem do něho vstupoval takřka jako \textit{tabula rasa}.
 
 Mé poděkování též patří Mgr. Janu Sochorovi za velkou pomoc s~pronikáním do tajů webového vývoje. 
 V~neposlední řadě bych rád poděkoval kolegům a~partnerům zapojeným do projektu za jejich trpělivost a~ochotu pomoci. Z~mnoha osob bych zde rád jmenoval alespoň Ing. Danu Knoflíčkovou z~Masarykova onkologického ústavu. 
@@ -175,7 +177,7 @@ V~neposlední řadě bych rád poděkoval kolegům a~partnerům zapojeným do pr
 %% Shrnutí
 % ------------------------------------------------------------------------   
 \chapter*{Shrnutí}
-Diplomová práce se zaměřuje na analýzu, návrh a~implementaci informatické infrastruktury pro projekt \ProjectName. Projekt se zabývá podporou výzkumu nádorových onemocnění v~České republice. Informatická infrastr\-uktura, má figurovat jako nástroj usnadňující používat pro výzkum biologický materiál jiných institucí. Práce obsahuje charakteristiku systémů, se kterými bude aplikace spolupracovat, a představuje řešení splňující požadavky projektu.
+Diplomová práce se zaměřuje na analýzu, návrh a~implementaci informatické infrastruktury pro projekt \ProjectName. Projekt se zabývá podporou výzkumu nádorových onemocnění v~České republice. Informatická infrastr\-uktura, má figurovat jako nástroj usnadňující používat pro výzkum biologický materiál jiných institucí. Práce obsahuje charakteristiku systémů, se kterými bude aplikace spolupracovat, a~představuje řešení splňující požadavky projektu.
 
 \vspace{4em} 
 \noindent {\Large\textbf{Klíčová slova}} \\ \\ 
@@ -196,17 +198,17 @@ Diplomová práce se zaměřuje na analýzu, návrh a~implementaci informatické
 \chapter{Úvod}
 Schopnost státu poskytovat zdravotní péči občanům vyplývá z~možností, jaké poskytuje vybudovaná infrastruktura zdravotnických zařízení. Pro pacienta je klíčové jakou vzdálenost musí urazit, aby se mu dostalo potřebné léčby v~požadované kvalitě. Aby byla síť zdravotnických zařízení dostatečně hustá a~pacient to měl blízko ke specialistovi s~potřebnou znalostí a~vybavením, je definován požadavek na dojezdovou dobu vyjadřující lokální dostupnost hrazených služeb\footnote{Nařízení vlády č. 307/2012 Sb., o~místní a~časové dostupnosti zdravotních služeb.}. V~zájmu státu je tedy vybudovat, informatickým slovníkem řečeno, distribuovanou infrastrukturu, která zajistí požadovanou dostupnost služeb pro co nejvíce obyvatel. 
 
-Popsaná struktura ale není příliš vhodná pro výzkum v oblasti medicíny. Diagnózy stejných nemocí jsou rozesety napříč nemocnicemi v~celé republice tak, že mnohdy není v rámci pracoviště dostatek potřebných dat pro stanovení relevantních závěrů.
+Popsaná struktura ale není příliš vhodná pro výzkum v~oblasti medicíny. Diagnózy stejných nemocí jsou rozesety napříč nemocnicemi v~celé republice tak, že mnohdy není v~rámci pracoviště dostatek potřebných dat pro stanovení relevantních závěrů.
 
-Část dat je sice dostupná v~rámci ÚZISu (Ústav zdravotnických informací a~statistiky) ČR, NZISu (Národní zdravotnický informační systém), ve specializovaných registrech zřizovaných v rámci NZISu (v kontextu práce je zajímavý především NOR - Národní onkologický registr) nebo formou záznamů zdravotnických pojišťoven, ale ani to neřeší všechno. Pro výzkum může být nezbytné mít data v jiném formátu, s jinou granularitou apod., než jaké jsou zpravidla k dispozici v uvedených institucích.  
+Část dat je sice dostupná v~rámci ÚZISu (Ústav zdravotnických informací a~statistiky) ČR, NZISu (Národní zdravotnický informační systém), ve specializovaných registrech zřizovaných v~rámci NZISu (v~kontextu práce je zajímavý především NOR - Národní onkologický registr) nebo formou záznamů zdravotnických pojišťoven, ale ani to neřeší všechno. Pro výzkum může být nezbytné mít data v~jiném formátu, s~jinou granularitou apod., než jaké jsou zpravidla k~dispozici v~uvedených institucích.  
 
-Pro realizaci výzkumu je často jedinou cestou navázat přímou spolupráci mezi nemocnicemi (resp. především fakultními), jakožto primárními zdroji dat. Umožnění takové formy spolupráce ale není jednoduché díky množství formálních, legislativních i~čistě praktických překážek. Pacientská data jsou považována za citlivé osobní údaje\footnote{Zákon č.101/2000 Sb., § 4, písm. b }, takže jejich použití pro výzkum je možné jen za konkrétních podmínek stanovených zákonem. Základním požadavkem je mít souhlas pacienta, který opravňuje k~použití dat vzniklých při léčbě pacienta pro jiné než klinické účely. V~případě vzácnějších chorob je ale nutné získat data z~většího počtu zařízení. V~tomto kroku může nastat problém ve sběru dat. Nemocnice, i~přes relativní monopol SW firmy Stapro s.r.o., nepracují vždy se stejnou strukturou dat ve svých informačních systémech. Často jsou používány (především ve výzkumné experimentální oblasti) vlastní proprietární nástroje, číselníky unikátní jen pro dané pracoviště, a~množství informací je ukládáno v~nestrukturované podobě, kterou není možné automatizovaně zpracovávat nástroji, jaké poskytuje informatika nebo statistika. Dle vlastních zkušeností autora často chybí lidé s~medicínskými znalostmi a~zároveň s~abstraktním nadhledem, kteří by byli schopni popsat data a jejich vztahy. Pro čistokrevné informatiky tak není vůbec snadné do této oblasti proniknout a sestrojit datový model na základě komunikace s odborníky. Pokud už někdo z~doktorů-výzkumníků je schopen informace strukturovat, tak si nasbíraná data pečlivě střeží doslova jako \uv{rodinné stříbro} a~odborné veřejnosti je poskytne nejdříve v~podobě přílohy k~již publikovanému výzkumu. To jsou jen některé z~překážek, se kterými se výzkum v~oblasti medicíny potýká.
+Pro realizaci výzkumu je často jedinou cestou navázat přímou spolupráci mezi nemocnicemi (resp. především fakultními), jakožto primárními zdroji dat. Umožnění takové formy spolupráce ale není jednoduché díky množství formálních, legislativních i~čistě praktických překážek. Pacientská data jsou považována za citlivé osobní údaje\footnote{Zákon č.101/2000 Sb., § 4, písm. b }, takže jejich použití pro výzkum je možné jen za konkrétních podmínek stanovených zákonem. Základním požadavkem je mít souhlas pacienta, který opravňuje k~použití dat vzniklých při léčbě pacienta pro jiné než klinické účely. V~případě vzácnějších chorob je ale nutné získat data z~většího počtu zařízení. V~tomto kroku může nastat problém ve sběru dat. Nemocnice, i~přes relativní monopol SW firmy \textit{STAPRO s.r.o.}, nepracují vždy se stejnou strukturou dat ve svých informačních systémech. Často jsou používány (především ve výzkumné experimentální oblasti) vlastní proprietární nástroje, číselníky unikátní jen pro dané pracoviště, a~množství informací je ukládáno v~nestrukturované podobě, kterou není možné automatizovaně zpracovávat nástroji, jaké poskytuje informatika nebo statistika. Dle vlastních zkušeností autora často chybí lidé s~medicínskými znalostmi a~zároveň s~abstraktním nadhledem, kteří by byli schopni popsat data a~jejich vztahy. Pro čistokrevné informatiky tak není vůbec snadné do této oblasti proniknout a~sestrojit datový model na základě komunikace s~odborníky. Pokud už někdo z~doktorů-výzkumníků je schopen informace strukturovat, tak si nasbíraná data pečlivě střeží doslova jako \uv{rodinné stříbro} a~odborné veřejnosti je poskytne nejdříve v~podobě přílohy k~již publikovanému výzkumu. To jsou jen některé z~překážek, se kterými se výzkum v~oblasti medicíny potýká.
 
 Projekt, jehož součástí je aplikace popsaná touto prací si klade za cíl vybudování infrastruktury umožňující spolupráci napříč výzkumnými pracovišti zabývajícími se onkologií. 
 
-Jelikož se téma práce týká reálného projektu, kladl si autor práce při psaní za cíl sepsat dokument, který by uchoval co nejvíce informací a know-how pro případnou změnu vývojáře systému. Snahou bylo především popsat argumenty, které vedly ke stávajícímu použitému řešení. Z~hlediska implementace pak popsat a~vysvětlit části, které by nemusely být zcela intuitivní.
+Jelikož se téma práce týká reálného projektu, kladl si autor práce při psaní za cíl sepsat dokument, který by uchoval co nejvíce informací a~know-how pro případnou změnu vývojáře systému. Snahou bylo především popsat argumenty, které vedly ke stávajícímu použitému řešení. Z~hlediska implementace pak popsat a~vysvětlit části, které by nemusely být zcela intuitivní.
 
-Tato práce se nedrží úplně typické struktury diplomových prací v tom smyslu, že se v~ní nenachází pevná linie oddělující teoretickou a~praktickou část. Podobně zde neexistuje ani ostrá hranice mezi tím, co bylo prací autora a~co je pouze shrnutí existujících skutečností. V~kapitole~\ref{chapter:analysis} je popsán projekt a~jeho cíle. Dále jsou popsány požadavky na systém. Část těchto požadavků není dílem autora této práce a~je rešerší dokumentu z~roku 2011 viz~\cite{ARCH_2011_12_29}. Některé uvedené skutečnosti jsou naopak výsledkem jednání autora a~také výsledkem konzultací prototypu aplikace. Část těchto skutečností je uvedena již v~dokumentu~\cite{ARCH_2014_1_25}. Autor se chtěl záměrně vyhnout \uv{dramatizaci} procesu vývoje jednání a~tak jsou většinou popisována jen výsledná řešení. V~některých konkrétních případech nicméně autor považoval za přínosné, aby bylo popsáno nebo lehce nastíněno, co k~rozhodnutím vedlo a~jaké byly nezvolené alternativy.
+Tato práce se nedrží úplně typické struktury diplomových prací v~tom smyslu, že se v~ní nenachází pevná linie oddělující teoretickou a~praktickou část. Podobně zde neexistuje ani ostrá hranice mezi tím, co bylo prací autora a~co je pouze shrnutí existujících skutečností. V~kapitole~\ref{chapter:analysis} je popsán projekt a~jeho cíle. Dále jsou popsány požadavky na systém. Část těchto požadavků není dílem autora této práce a~je rešerší dokumentu z~roku 2011 viz~\cite{ARCH_2011_12_29}. Některé uvedené skutečnosti jsou naopak výsledkem jednání autora a~také výsledkem konzultací prototypu aplikace. Část těchto skutečností je uvedena již v~dokumentu~\cite{ARCH_2014_1_25}. Autor se chtěl záměrně vyhnout \uv{dramatizaci} procesu vývoje jednání a~tak jsou většinou popisována jen výsledná řešení. V~některých konkrétních případech nicméně autor považoval za přínosné, aby bylo popsáno nebo lehce nastíněno, co k~rozhodnutím vedlo a~jaké byly nezvolené alternativy.
 
 Kapitola~\ref{chapter:proposal} obsahuje popis toho, jakým způsobem byly požadavky na systém převedeny do řeči OOP (objektově orientované programování). Poslední \ref{chapter:implementation}.~kapitola obsahuje stručný popis použitých technologii a~popis, jakým způsobem byly některé vybrané části kódu implementovány. Pro implementaci byly použity standardní a~mezi programátory Java EE aplikací známé nástroje. Jejich popisu je tedy věnován pouze malý prostor.
 
@@ -231,19 +233,19 @@ BBMRI (Biobanking and Biomolecular Resources Research Infrastructure) je celoevr
 
 \ProjectName je česká odnož projektu BBMRI, jejímž cílem je vytvořit českou síť biobank přidružených k~lékařským fakultám, které budou dlouhodobě uchovávat biologický materiál pacientů nádorových onemocnění. Cílem projektu je, stejně jako v~případě celoevropského BBMRI, prostřednictvím výměny uchovávaných vzorků a~souvisejících informací mezi institucemi zlepšit prostředí pro výzkum nádorových onemocnění. V~dlouhodobém horizontu je cílem zapojit vznikající infrastrukturu \ProjectName do celoevropské infrastruktury BBMRI-ERIC. 
 
-Koordinátorem projektu je Masarykův onkologický ústav (dále MOÚ). Technologickým partnerem na projektu je centrum CERIT-SC. To má na starosti vybudování a~správu informatické infrastruktury – tzv. indexu \ProjectName a monitorovací služby. Návrhu a implementaci indexu a monitorovací služby se věnuje tato práce.
+Koordinátorem projektu je Masarykův onkologický ústav (dále MOÚ). Technologickým partnerem na projektu je centrum CERIT-SC. To má na starosti vybudování a~správu informatické infrastruktury – indexu a~monitorovací služby \ProjectName. Návrhu a~implementaci těchto služeb se věnuje tato práce.
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Indexová služba}\label{chapter:analysis:section:index}
-Pacientská data jsou uložena v~nemocničním informačním systému (dále jen NIS). Pacientská data zahrnují veškeré záznamy o~průběhu léčby pacienta a~o~souvisejících vyšetřeních, tj. operace, laboratorní analýzy, kontroly a~další záznamy. Indexová služba \ProjectName představuje centrální bod infrastruktury projektu, do kterého je nahrána část pacientských dat ze všech zapojených institucí, dostačující pro specifikování vzorků potřebných pro určitý výzkumný záměr. Index je pouze informatickým prvkem a~nejedná se o~faktické úložiště vzorků.
+Pacientská data jsou uložena v~nemocničním informačním systému (dále jen NIS) a~obsahují veškeré záznamy o~průběhu léčby pacienta a~o~souvisejících vyšetřeních, tj. operace, laboratorní analýzy, kontroly a~další záznamy. Indexová služba \ProjectName představuje centrální bod infrastruktury projektu, do kterého jsou ze všech NISů nahrány data popisující uložený biologický materiál konkrétního pacienta. Index je pouze databází a~nejedná se o~faktické úložiště vzorků.
 
-Biobanka se z~hlediska indexu člení na část pro dlouhodobé uložení vzorků (dále LTS z~anglického Long Term Storage) a~část pro krátkodobé uložení vzorků (dále STS z~anglického Short Term Storage). 
+Biobanka se organizačně dělí na modul pro dlouhodobé uložení vzorků (dále LTS z~anglického Long Term Storage) a~modul pro krátkodobé uložení vzorků (dále STS z~anglického Short Term Storage). 
 
-Vzorky v~STS si lze představit jako pravidelně odebíraný materiál při každé kontrole pacienta (např. krev, moč), na kterém se nechá pozorovat určitý vývoj choroby nebo léčby. Jelikož se jedná o~velké množství vzorků (pro každého pacienta řádově desítky, celkově pak desítky tisíc), jsou tyto vzorky z~ekonomických důvodů často uchovávány jen po omezenou dobu. Praxe na MOÚ je uchovávat vzorky v~STS po dobu jednoho roku.
+Vzorky v~STS si lze představit jako pravidelně odebíraný materiál při každé kontrole pacienta (např. krev, moč), na kterém lze pozorovat určitý vývoj choroby nebo léčby. Jelikož se jedná o~velké množství vzorků (pro každého pacienta řádově desítky, celkově pak desítky tisíc vzorků), jsou tyto vzorky z~ekonomických důvodů uchovávány jen po omezenou dobu. Praxe na MOÚ je uchovávat vzorky v~STS po dobu jednoho roku.
 
 Vzorky v~LTS si lze představit jako jednorázově pořízený materiál, získaný např. při operaci pacienta (např. uchovávaná tkáň). 
-Těchto vzorků je řádově menší množství a mohou být v biobance uloženy tak dlouho jak je to potřeba.
+Těchto vzorků je řádově menší množství a~mohou být v~biobance uloženy tak dlouho jak je to potřeba.
 
 \begin{figure}[htp]
 \begin{center}
@@ -300,19 +302,18 @@ lecba/.style = {text width=30mm,text badly centered},
 \section{Monitorovací služba}\label{chapter:analysis:section:monitoring}
 Vzorky jsou v~biobance uloženy dlouhodobě, aby bylo možné je laboratorně analyzovat i~delší dobu po jejich odebrání. Pro zachování konzistence výstupů laboratorních testů je vysoce žádoucí, aby byly zajištěny konstantní podmínky skladování a~aby bylo případně zjistitelné porušení standardních podmínek. K~tomu slouží monitorovací služba \ProjectName.
 
-Vzorky v~biobankách jsou uchovávány v~mrazu. Pro posouzení řádného skladování je klíčové sledovat teplotu vzduchu uvnitř úložiště a především teplotní extrémy. Mechanismus uložení bude ilustrován na situaci v brněnské onkologii. Na MOÚ používají pro uložení materiálu tři kategorie zařízení. První, seřadíme-li zařízení dle dosažitelné minimální teploty, jsou lednice podobné běžným lednicím z kuchyňského prostředí. Jejich provozní teplota se pohybuje okolo $-40^{\circ}C$ až $-20^{\circ}C$. Druhou kategorií jsou hluboko mrazící \uv{lednice}, které jsou schopné uchovávat materiál při teplotách okolo $-90^{\circ}C$ až $-50^{\circ}C$. Hluboko mrazící lednice jsou používány jako rezervní úložiště a nebudou využity pro \ProjectName. Třetí kategorií jsou tzv. dewarovy nádoby\footnote{Dewarova nádoba~\cite{dewar} je zařízení konstrukčně podobné termosce (tj. vakuem izolovaná nádoba), jen s~tím rozdílem, že nemá pevně uzavřené víko (resp. má záměrně netěsnící víko). Dovnitř se nalije zkapalněný plyn (např. dusík), který se postupně vypařuje. Nad hladinou tekutiny, v~parách, je uskladněn chlazený materiál. Víko není utěsněno, aby nádoba nebyla roztržena přetlakem.}, které slouží pro uchování materiálu při nejnižších teplotách. V~těch je možné regulací hladiny tekutého dusíku udržovat konstantní prostředí v~teplotách o~řád nižších než je tomu v~mrazácích určených pro STS. Pro regulaci procesu uskladnění je nutné sledovat aktuální teplotu a~výšku hladiny kapalného dusíku. Při poklesu hladiny pod určitou mez (vlivem vypaření) je nutno kapalný dusík doplnit. 
+Vzorky v~biobankách jsou uchovávány v~mrazu. Pro posouzení řádného skladování je klíčové sledovat teplotu vzduchu uvnitř úložiště a~především teplotní extrémy. Infrastruktura uložení (pro \ProjectName) bude ilustrována na situaci v~brněnské onkologii. Na MOÚ používají pro uložení materiálu při vyšších teplotách lednice podobné běžným lednicím z~kuchyňského prostředí. Jejich provozní teplota se pohybuje okolo $-40^{\circ}C$ až $-20^{\circ}C$. Pro uložení při nižších teplotách jsou použity tzv. dewarovy nádoby\footnote{Dewarova nádoba~\cite{dewar} je zařízení konstrukčně podobné termosce (tj. vakuem izolovaná nádoba), jen s~tím rozdílem, že nemá pevně uzavřené víko (resp. má záměrně netěsnící víko). Dovnitř se nalije zkapalněný plyn (např. dusík), který se postupně vypařuje. Nad hladinou tekutiny, v~parách, je uskladněn chlazený materiál. Víko není utěsněno, aby nádoba nebyla roztržena přetlakem.}. Pro zajištění optimálních podmínek skladování (tj. požadované teploty) je nutné sledovat teplotu vzduchu a~výšku hladiny kapalného dusíku. Při poklesu hladiny pod určitou mez (vlivem vypaření) je nutno kapalný dusík doplnit. 
 
-Projekt \ProjectName klade na zapojené instituce požadavek na zajištění kvality uskladněného materiálu. Z toho je vyplývá požadavek, aby součástí IS byl monitoring teploty ve skladovací infrastruktuře.
+Projekt \ProjectName klade na zapojené instituce požadavek na zajištění kvality uskladněného materiálu. Z~toho vyplývá požadavek, aby do ISu projektu byly exportovány i~hodnoty naměřené teploty ve skladovací infrastruktuře.
 
-V~situaci, kdy monitoring teploty indikuje nevhodné podmínky uložení, je nutné v~systému rozpoznat, které vzorky byly touto událostí ovlivněny. Z~toho důvodu je nutné do systému importovat i~informace o~tom, kde přesně byl vzorek uskladněn. Obsažení informace o umístění současně umožňuje vystavit pro žádanou sadu vzorků i~informaci o~tom, kde je má laborant nalézt, a~odpadá tím nutnost vzorky ještě dohledávat v~lokálním NISu.
-
+V~situaci, kdy monitoring teploty indikoval nevhodné podmínky uložení, je nutné v~systému rozpoznat, které vzorky byly touto událostí ovlivněny. Z~toho důvodu je nutné do systému importovat i~informace o~tom, kde přesně byl vzorek uskladněn.
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Příklady užití systému a~popis souvisejícího workflow}
-Primární použití systému spočívá v~tom, že výzkumný pracovník (dále označován jako uživatel) pracující na projektu v~oblasti výzkumu nádorových onemocnění potřebuje udělat laboratorní testy na relevantním počtu biologických vzorků určitých parametrů. Domovská instituce nemá vzorků dostatek a~uživatel pro realizaci výzkumného záměru potřebuje materiál i~z~jiné instituce. Důvody nedostatku vzorků mohou být různé. Vzácnější forma nádorového onemocnění, menší úložná kapacita či zcela chybějící úložiště vozků na instituci nebo menší počet pacientů léčených v~nemocnici uživatele. Jednotlivým částem tohoto scénáře se věnují následující části této kapitoly.
+Primární použití systému spočívá v~tom, že výzkumný pracovník (dále označován jako uživatel) pracující na projektu v~oblasti výzkumu nádorových onemocnění potřebuje udělat laboratorní testy na relevantním počtu biologických vzorků určitých parametrů. Domovská instituce nemá vzorků dostatek a~uživatel pro realizaci výzkumného záměru potřebuje materiál i~z~jiné instituce. Jednotlivým částem tohoto scénáře se věnují následující kapitoly.
 
-\begin{figure}[htp]
+\begin{figure}[htbp]
 \begin{center}
 \begin{tikzpicture}[
 node distance = 15mm,
@@ -322,40 +323,43 @@ kontejner/.style = {draw, densely dashed, anchor = north east, inner sep = 3mm},
 popiskontejneru/.style = {anchor = west, font = \em, text badly ragged},
 ]
 \draw node[faze] (NIS) {NIS (+ další zdroje)};
-\draw node[faze, below of = NIS] (anon) {Anonymizace dat};
 \draw node[popiskontejneru, above = 3mm of NIS.north west, xshift = 8mm] (kMajitel) {Nemocnice};
-\draw node[kontejner, fit = (NIS) (anon) (kMajitel)] {};
+\draw node[kontejner, fit = (NIS) (kMajitel)] {};
 
-\draw node[faze, below = 30.5mm of anon, text width = 8cm, text badly centered] (storage) {Navázání informací o~vzorku na uložení v~kontejneru (není-li součástí NIS)};
+\draw node[faze, below = 30.5mm of NIS, text width = 8cm, text badly centered] (storage) {Navázání informací o~vzorku na uložení v~kontejneru (není-li součástí NIS)};
 \draw node[faze, below of = storage] (export) {Převod dat do exportního formátu};
 \draw node[popiskontejneru, above = 3mm of storage.north west, xshift = 20mm, text width = 4cm] (kExporter) {Nemocnice nebo partnerská biobanka hostující vzorky};
-\draw node[kontejner, fit = (storage) (export) (kExporter)] {};
+\draw node[kontejner, fit = (storage) (export) (kExporter)](kBiobank) {};
 
+\draw node[faze, left = 15mm of kBiobank.west, rotate=90, xshift = 22mm](samples){Seznam žádaných vzorků};
 
 \draw node[faze, below = 25mm of export] (bbidx) {Uložení dat v~indexu \ProjectName};
 \draw node[popiskontejneru, above = 3mm of bbidx.north west, xshift = 20mm, text width = 4cm] (kCentral) {Centrální infrastruktura \ProjectName};
 \draw node[kontejner, fit = (bbidx) (kCentral)] {};
 
-
-\draw[sipka] (NIS) -- (anon);
-\draw[sipka] (anon) -- (storage);
+\draw[sipka] (NIS) -- (storage);
 \draw[sipka] (storage) -- (export);
 \draw[sipka] (export) -- (bbidx);
-\draw[sipka,dotted] (bbidx.west) .. controls +(left:4cm) and +(left:4cm)  .. node[faze,rotate=90] {Seznam žádaných vzorků} (NIS.west);
+\draw[sipka,dotted] (bbidx.west) .. controls +(left:3cm) and +(left:0cm)  .. (samples.west);
+\draw[sipka,dotted] (samples.east) .. controls +(up:1cm) and +(left:3cm)  .. (NIS.west);
+
+
 \end{tikzpicture}
 \end{center}
-\caption{Schéma předávání dat o~vzorcích do indexové služby \ProjectName.~\cite{ARCH_2014_1_25}}
+\caption{Schéma předávání dat o~vzorcích do indexové služby \ProjectName~\cite{ARCH_2014_1_25}.}
 \label{fig:bbidx:data-acquisition}
 \end{figure}
 
 
 % ------------------------------------------------------------------------     
 \subsection{Založení projektu}
-Uživatelé jsou autorizováni pro přístup k datům (resp. k~operacím umožňující žádat o biologický materiál) pouze pokud mají existující a schválený projekt. Index slouží pouze jako evidence projektů, aby bylo jasné, s~jakým mandátem uživatel o~vzorky žádá. Index tedy nesupluje grantové nadace ani jiné role v~řetězci života projektu. Od projektu je očekáváno, že má vyřešené financování, je zastřešen nějakou institucí a~byl schválen etickou komisí\footnote{Komise posuzující etické hledisko projektů biomedicínského výzkumu, zřízená v rámci instituce, kde byl projekt vypsán.}. Jediný dokument, který je po uživateli explicitně žádán navíc, je tzv. Material Transfer Agreement (dále jen MTA), podrobněji popsaný v~kapitole~\ref{chapter:analysis:section:legal}. Uživatel nahraje tato data do systému, kde je formálně zkontroluje správce systému. Pokud jsou všechny formální náležitosti splněny, je projekt schválen a~může být v~rámci jeho realizace žádáno o~vzorky.
+Uživatelé jsou autorizováni žádat o~biologický materiál pouze pokud mají existující a~v~systému schválený projekt. Index slouží pouze jako evidence projektů, aby bylo jasné, s~jakým mandátem uživatel o~vzorky žádá. Index tedy nesupluje grantové nadace ani jiné role v~řetězci života projektu. 
+
+Od projektu je očekáváno, že má vyřešené financování, je zastřešen nějakou institucí a~byl schválen etickou komisí\footnote{Komise posuzující etické hledisko projektů biomedicínského výzkumu, zřízená v~rámci instituce, kde je projekt realizován.}. Jediný dokument, který je po uživateli explicitně žádán navíc, je tzv. Material Transfer Agreement (dále jen MTA), podrobněji popsaný v~kapitole~\ref{chapter:analysis:section:legal}. Uživatel nahraje tato data do systému, kde je formálně zkontroluje správce systému. Pokud jsou všechny formální náležitosti splněny, je projekt schválen a~může být v~rámci jeho realizace žádáno o~vzorky.
 
 % ------------------------------------------------------------------------     
 \subsection{Žádost o~vzorky}
-Uživatel formou nestrukturovaného textu formuluje, o~jaké vzorky má zájem, a~tuto žádost přiřadí ke konkrétní biobance. Správce této biobanky (odborník - patolog) na základě slovního popisu vybere příslušnou sadu vzorků. Seznam žádaných vzorků (včetně jejich počtu a~místa, kde se nachází) se vygeneruje laboratorním pracovníkům, kteří připraví sadu fyzických vzorků k~předání. V~NISu nemocnice, vydávající vzorky, budou následně upraveny počty vzorků a~tato upravená data budou nahrána do centrálního indexu při následujícím importu (viz. obr.~\ref{fig:bbidx:data-acquisition}). Vydány mohou být pouze alikvoty\footnote{Alikvotem je v~kontextu práce myšlen díl odebraného biologického materiálu. Např. tenký \uv{plátek} vyoperovaného nádoru.} označené jako vydatelné. Pouze takové alikvoty jsou k~dispozici pro výzkumné účely.
+Žádat o~vzorky je možné jen v~kontextu konkrétního schváleného projektu. Žadatel formou nestrukturovaného textu formuluje, o~jaké vzorky má zájem, a~tuto žádost odešle konkrétní biobance. Správce této biobanky (patolog) na základě slovního popisu vybere příslušnou sadu vzorků. Seznam žádaných vzorků (včetně jejich počtu a~místa, kde se nachází) se vygeneruje laboratorním pracovníkům, kteří připraví sadu fyzických vzorků k~předání. V~NISu nemocnice, vydávající vzorky, budou následně upraveny počty vzorků a~tato upravená data budou nahrána do centrálního indexu při následujícím importu (viz. obr.~\ref{fig:bbidx:data-acquisition}). Vydány mohou být pouze alikvoty\footnote{Alikvotem je v~kontextu práce myšlen díl odebraného biologického materiálu. Např. tenký \uv{plátek} vyoperovaného nádoru.} označené jako vydatelné. Pouze takové alikvoty jsou k~dispozici pro výzkumné účely.
 
 Žádost o~vzorky není nárokovatelná a~to ani v~situaci, kdy projekt splnil veškeré náležitosti a~žádá o~vzorky biobanku, která žádanými vzorky disponuje.
 
@@ -367,7 +371,7 @@ Druhý scénář výběru vzorků se týká tzv. \textit{samožádanek}. Jedná 
 
 Výdej takového typu se týká pouze vzorků uložených ve \uv{vlastní biobance} a~nevyžaduje schválení. V~případě samožádanky je možné žádat i~o~tzv. nevydatelné vzorky. Pro takový typ žádanky není třeba zakládat žádný projekt.
 
-\begin{figure}[hbtp]
+\begin{figure}[htbp]
 \begin{center}
 \begin{tikzpicture}[
 node distance = 10mm,
@@ -424,30 +428,30 @@ faze/.style = {draw,fill=black!10,semithick},
 
 % ------------------------------------------------------------------------      
 \subsection{Rezervace}
-Možnost rezervace reflektuje situaci, kdy žadatel má vymyšlený projektový záměr, ale projekt zatím ještě neprošel všemi formálními kroky. Uživateli je dovoleno si zamluvit určité vzorky pro svůj budoucí projekt, aby si zajistil, že následný výzkum bude realizovatelný. Výběr vzorků probíhá formou nestrukturovaného textu stejně jako u~žádosti o~vzorky. Jediným rozdílem je, že rezervace není vázána na projekt a~má omezenou platnost. Bez existujícího a~schváleného projektu uživateli žádné vzorky poskytnuty nebudou a~po expiraci žádosti budou alokované vzorky opět uvolněny.
+Možnost rezervace reflektuje situaci, kdy žadatel má vymyšlený projektový záměr, ale projekt zatím ještě neprošel všemi formálními kroky. Pro tuto situaci je definována možnost rezervace, prostřednictvím které je uživateli dovoleno formulovat své požadavky na vzorky ještě před zadáním projektu do systému. Výběr vzorků probíhá formou nestrukturovaného textu stejně jako u~žádosti o~vzorky. Jediným rozdílem je, že rezervace není vázána na projekt a~má časově omezenou platnost. Bez existujícího a~schváleného projektu uživateli žádné vzorky poskytnuty nebudou a~po expiraci žádosti budou alokované vzorky opět uvolněny.
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Zabezpečení a~anonymita pacientů}
-Zásadní rozdíl mezi NISy a~systémy jako je např. index \ProjectName popisovaný touto prací z~hlediska anonymity je v~tom, že nemocniční systémy pracuji s~klinickými daty s~cílem léčit konkrétního pacienta\footnote{Oprávnění pro přístup ke zdravotnické dokumentaci pacienta stanuvuje Zákon č.260/2001 Sb., § 67b, ods. 10}, zatímco \ProjectName má čistě výzkumný cíl. Ke klinickým datům pacienta má přístup lékař (nebo skupina lékařů), vázaný povinností mlčenlivosti\footnote{Podle § 51 zákona č. 372/2011 Sb., o~zachování mlčenlivosti v~souvislosti se zdravotními službami}, a~NIS mu (nebo jim) poskytuje veškeré dostupné informace pro co nejsprávnější rozhodnutí o~dalším postupu léčby. Naproti tomu výzkumná data neslouží pro léčbu konkrétního pacienta, neplatí pro ně povinnost mlčenlivosti, a~nakládání s~mimi je podmíněno informovaným souhlasem pacienta. Souhlas definuje, k~čemu budou data použita a~jak s~nimi bude naloženo. Z~pohledu anonymity pak v~množině takových dat nesmí být umožněna jednoznačná identifikace pacienta.
+Zásadní rozdíl mezi NISy a~systémy jako je např. index \ProjectName popisovaný touto prací z~hlediska anonymity je v~tom, že nemocniční systémy pracuji s~klinickými daty s~cílem léčit konkrétního pacienta\footnote{Oprávnění pro přístup ke zdravotnické dokumentaci pacienta stanuvuje Zákon č. 260/2001 Sb., § 67b, ods. 10}, zatímco \ProjectName má čistě výzkumný cíl. Ke klinickým datům pacienta má přístup lékař (nebo skupina lékařů), vázaný povinností mlčenlivosti\footnote{Podle § 51 zákona č. 372/2011 Sb., o~zachování mlčenlivosti v~souvislosti se zdravotními službami}, a~NIS mu (nebo jim) poskytuje veškeré dostupné informace pro co nejsprávnější rozhodnutí o~dalším postupu léčby. Naproti tomu výzkumná data neslouží pro léčbu konkrétního pacienta, neplatí pro ně povinnost mlčenlivosti, a~nakládání s~mimi je podmíněno souhlasem pacienta. Souhlas definuje, k~čemu budou data použita a~jak s~nimi bude naloženo. Z~pohledu anonymity pak v~množině takových dat nesmí být umožněna jednoznačná identifikace pacienta.
 
 % ------------------------------------------------------------------------   
 \subsection{Identifikace pacientů a~související komplikace}
-Základním požadavkem je jednoznačná identifikace pacienta, aby nemohlo dojít k~záměně záznamů (vzorků) od více různých pacientů. Současně ale není možné exportovat žádný identifikátor, na jehož kterého by byl pacient jednoznačně dohledatelný (RČ\footnote{Spíš pro zajímavost uvádím, že ani pro rodné číslo není v~prostředí České republiky zajištěna absolutní jednoznačnost viz~\cite{RodnaCisla}. Existují kolize a~je nutné řešit, jak nakládat s~duplicitami.}, různé kombinace osobních údajů)
+Základním požadavkem je jednoznačná identifikace pacienta, aby nemohlo dojít k~záměně záznamů (vzorků) od více různých pacientů. Současně ale není možné exportovat žádný identifikátor, na základě kterého by byl pacient jednoznačně dohledatelný (RČ, různé kombinace osobních údajů)
 
-Za dobu realizace projektu bylo diskutováno několik řešení~\cite{ARCH_2014_1_25} jako např. využití externích anonymizačních služeb (drahé) nebo použití jednosměrné hashovací funkce na kombinaci rodného čísla, jména, příjmení a~soli\footnote{Pokud má útočník k dispozici databázi obsahující jména, příjmení a RČ, je útok \uv{hrubou silou} na sebelepší hashovací funkci otázkou minut. Hash by bylo nutné posílit technikou tzv. \textit{solení}.} (nedostačující pro Úřad pro ochranu osobních údajů a~s~dalšími riziky). 
+Za dobu realizace projektu bylo diskutováno několik způsobů řešení~\cite{ARCH_2014_1_25} jako např. využití externí anonymizační služby (drahé) nebo použití jednosměrné hashovací funkce na kombinaci rodného čísla, jména, příjmení a~soli\footnote{Pokud má útočník k~dispozici databázi obsahující jména, příjmení a~RČ, je útok \uv{hrubou silou} na sebelepší hashovací funkci otázkou minut. Hash by bylo nutné posílit technikou tzv. \textit{solení}.} (nedostačující pro Úřad pro ochranu osobních údajů a~s~dalšími riziky). 
 Výsledkem je kompromis, kdy je pacient identifikován interním identifikátorem instituce, ve které byl léčen, doplněným o~unikátní prefix, tak aby se zamezilo duplicitám napříč institucemi.
 
-Ze zvoleného přístupu plyne hrozba, že identita pacienta může být snadno zjištěna libovolným zaměstnancem nemocnice, kde byl pacient léčen, vyhledáním pacienta v~lokální databázi NISu. Druhou negativní skutečností, kterou řešení není schopno pokrýt, je situace, kdy se pacient léčil postupně ve více různých nemocnicích. Systém v~takovém případě bude chápat tyto záznamy jako data dvou různých pacientů namísto toho, aby je správně spojil dohromady. Obě tyto negativa byly koordinátoru projektu vyhodnoceny jako akceptovatelné \uv{menší zlo}.
+Ze zvoleného přístupu plyne riziko, že identita pacienta bude prozrazena zaměstnancem nemocnice, kde byl pacient léčen. Druhou negativní skutečností, kterou řešení není schopno pokrýt, je situace, kdy se pacient léčil postupně ve více různých nemocnicích. Systém v~takovém případě bude chápat tyto záznamy jako data dvou různých pacientů namísto toho, aby je správně spojil dohromady. Obě tyto negativa byly koordinátoru projektu vyhodnoceny jako akceptovatelné \uv{menší zlo}.
 
 % ------------------------------------------------------------------------   
 \subsection{Autentizace a~autorizace}
-Autentizace uživatelů bude implementována pomocí federalizované autentizační infrastruktury eduId\footnote{\url{http://www.eduid.cz} - Česká akademická federace indentit, kterou spravuje sdružení CESNET.} Pro uživatele, kteří nespadají pod žádného poskytovatele identit (IdP - Identity Provider), je zde možnost využít tzv. Hostel\footnote{\url{http://www.hostel.eduid.cz} - Služba poskytovaná sdružením CESNET v~rámci eduID, pro uživatele institucí, nezapojených do federace}. 
+Autentizace uživatelů bude implementována pomocí federalizované autentizační infrastruktury eduId\footnote{\url{http://www.eduid.cz} - Česká akademická federace indentit, kterou spravuje sdružení CESNET.} Pro uživatele, kteří nespadají pod žádného poskytovatele identit (IdP - Identity Provider), je zde možnost využít tzv. Hostel\footnote{\url{http://www.hostel.eduid.cz} - Služba poskytovaná sdružením CESNET v~rámci eduID, pro uživatele institucí, nezapojených do federace.}. 
 
-\paragraph*{Autorizace pro přístup do systému}
+\paragraphNewLine{Autorizace pro přístup do systému}
 Autorizováni k~přístupu do systému jsou osoby, které mají zaměstnanecký poměr\footnote{Formu pracovně-studijního vztahu uživatele k~instituci popisuje atribut \textit{affiliation} a~konkrétně hodnota \textit{@employee} definuje, že uživatel je zaměstnancem.} v~instituci, s~jejímž loginem se autentizují vůči službě.
 
-\paragraph*{Požadavky na autorizaci operací}
+\paragraphNewLine{Požadavky na autorizaci operací}
 Přistupovat k~monitoringu biobank je oprávněn uživatel, který se podílí minimálně na jednom projektu evidovaném a~schváleném v~indexu.
 Vydávat vzorky (tj. připravovat sady vzorků pro vydání) může pouze zodpovědná osoba z~příslušné biobanky, kde je vzorek uchováván.
 
@@ -459,7 +463,7 @@ Souhlas pacienta (nebo také informovaný souhlas - \textit{informed consent}) j
 Druhým klíčovým dokumentem pro work-flow je souhlas s~uchováním a~použitím nevyužitých zbytků ze vzorků získaných z~těla pacienta\footnote{Podle § 81 zákona č. 372/2011 Sb., o~zdravotních službách a~podmínkách jejich poskytování}, který stanovuje, že část těla odebranou pacientovi při poskytování zdravotní péče lze uchovat a~použít pro potřeby vědy. 
 
 Index \ProjectName z~povahy vědeckého účelu může zpracovávat pouze a~jedině data pacientů s~informovaným souhlasem a~s~podepsaným dokumentem o~možnosti nakládat se zbytky materiálu. Rozhodnutí je ponecháno na straně nemocnic a~v~indexu se předpokládá, že pro každého pacienta existují příslušné podepsané dokumenty v~nemocničním archivu.
-Při exportu pacientských dat je nutné explicitně uvézt, že pacient souhlasil. Od toho se implicitně očekává, že souhlas je uložen v~instituci, odkud pochází pacientská data.
+Při exportu pacientských dat je nutné explicitně uvézt, že pacient souhlasil. Implicitně se očekává, že souhlas je uložen v~instituci, odkud pochází pacientská data.
 
 Nutný dokument pro zadání projektu do systému je MTA. Definuje, jakým způsobem je dovoleno s~materiálem pracovat, na co je možné materiál použít, co s~ním dělat po naplnění projektového záměru a~jak v~případných výstupech projektu informovat o~původu dat. Kromě dalších bodů je také stanoven zákaz poskytnout získaný materiál jakékoli třetí straně.
 
@@ -467,27 +471,19 @@ Nutný dokument pro zadání projektu do systému je MTA. Definuje, jakým způs
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Zapojené instituce a~jejich specifika}\label{sec:instituce}
-Pro navržení centrálního indexu bylo v první řadě nutné zjistit, jak vypadají ISy partnerů zapojených v~projektu, s~jakými daty pracují, jaké používají číselníky a~jak je možné se k~nim připojit. Tomu se věnují následující odstavce.
-
-\paragraph*{Monitoring teploty}
-Navzdory prvotním návrhům exportů~\cite{ARCH_2011_12_29} bylo podrobnější analýzou zjištěno, že služba sledování teploty v~infrastruktuře bývá často (případ Brna a~Olomouce) delegována na soukromou firmu a~naměřené údaje nejsou součástí NISu. V~případě konkrétně zmíněných pracovišť je tato služba zajištěna monitorovacím systémem \textit{FALCON}\footnote{Provozuje společnost \textit{KESA s.r.o.} - \url{www.kesa.cz}}.
-
-V~Hradci Králové používají zařízení přístroj \textit{M355} a~SW \textit{CryoWatch}. Program umožňuje jednorázový export dat do tabulky formálu \textit{.xls} nebo do textového souboru~\cite{M355CE}.
-Počítač je k~měřícímu přístroji připojen sériovým portem.
-
-Na 1.~LF v~Praze využívají pro monitorování teploty v~dewarových nádobách stejný systém jako je použit v~HK. Teplota v~mrazácích je monitorována formou denních zápisů.
+Pro navržení centrálního indexu bylo v~první řadě nutné zjistit, jak vypadají ISy partnerů zapojených v~projektu, s~jakými daty pracují, jaké používají číselníky a~jak je možné se k~nim připojit. Tomu se věnují následující odstavce.
 
 % ------------------------------------------------------------------------    
 \subsection{Masarykův onkologický ústav}
 Na MOÚ využívají vlastní NIS \textit{GreyFox}\footnote{NIS \textit{GreyFox} vytvořil RNDr. Alexandr Fuchs. Od roku 2008 je systém provozovaný společností \textit{STAPRO s.r.o.}~\cite{GreyFox}}. Systém je strukturován do následujících modulů: tkáňový, sérový, genomový, bioptický\footnote{Bioptický modul popisuje odběr materiálu - tj. informaci o~operaci, datu operace, operatérovi, který výkon provedl atd. Bioptický modul je definován tzv. bioptickou žádankou.} a~laboratorní. V~biobance je uloženo řádově desetitisíce vzorku.
 
-MOÚ figuruje v~projektu jako koordinátor, proto byla velká část datového modelu převzata ze systému používaného na brněnské onkologii. Interní číselník používaný pro klasifikaci materiálu je součástí přílohy~\ref{tab:ciselnik-mat-muni}.
+MOÚ figuruje v~projektu jako koordinátor, proto byla velká část datového modelu převzata ze systému používaného na brněnské onkologii. Interní číselník používaný na MOÚ pro klasifikaci materiálu je součástí přílohy~\ref{tab:ciselnik-mat-muni}.
 
 % ------------------------------------------------------------------------   
 \subsection{1. Lékařská fakulta Univerzity Karlovy v~Praze}
 
-Na 1.~Lékařské fakultě Univerzity Karlovy v Praze (dále 1.~LF) je pro centrální správu biologického materiálu používána aplikace \textit{BBM}~\cite{1LF_BBM}. Systém definuje odběr tří typů vzorků: krev (plná krev, DNA, plasma), tkáň (tkáň, tkáň v~RNA lateru) a~moč. Aplikace využívá MSSQL databázi. Umožňuje přidávat vzorky z~jednotlivých klinik pomocí formuláře. Data jsou přístupná přes webovou aplikaci.
-Systém je napojen na NIS \textit{Medea}\footnote{Dodavatelem je firma Stapro s.r.o~\cite{Medea}.} využívaný na 1.~LF. 
+Na 1.~Lékařské fakultě Univerzity Karlovy v~Praze (dále 1.~LF) je pro centrální správu biologického materiálu používána aplikace \textit{BBM}~\cite{1LF_BBM}. Systém definuje odběr tří typů vzorků: krev (plná krev, DNA, plasma), tkáň (tkáň, tkáň v~RNA lateru\footnote{Ukládanou látkou je RNA vyizolované z~plné krve. Aby skladováním nedošlo k~degradaci materiálu, je potřeba použít stabilizátor. Tím je RNA later (někdy se používá i~samotné označení later).}) a~moč. Aplikace umožňuje přidávat vzorky z~jednotlivých klinik pomocí formuláře. Data jsou přístupná přes webovou aplikaci.
+Systém je napojen na NIS \textit{Medea}\footnote{Dodavatelem je firma \textit{STAPRO s.r.o.}~\cite{Medea}.} využívaný na 1.~LF. 
 Aplikace obsahuje následující moduly:  bioptický, tkáňový, sérový, plasmový, DNA, modul plné krve a~modul moči.
 Typ materiálu je definován pomocí čtyř znaků (2 znaky typ + případně 2 znaková přípona \textit{-L} pro materiál uložený v~lateru). Počet vzorků uskladněných v~biobance se pohybuje v~řádu tisíců.
 
@@ -495,7 +491,7 @@ Interní číselník biologického materiálu používaný na 1.~LF je součást
 
 % ------------------------------------------------------------------------   
 \subsection{FN Hradec Králové}
-Ve Fakultní nemocnici v Hradci Králové (dále FN HK) je používán starší NIS, neumožňující export požadovaných dat. Do budoucna se počítá s~tím, že při definování požadavků na nový systém budou zahrnuty i~požadavky na datový model plynoucí z~\ProjectName. Metadata o~vzorcích uložených v~hradecké biobance budou zatím zadávána manuálně prostřednictvím webového formuláře.
+Ve Fakultní nemocnici v~Hradci Králové (dále FN HK) je používán starší NIS, neumožňující export požadovaných dat. Do budoucna se počítá s~tím, že při definování požadavků na nový systém budou zahrnuty i~požadavky na datový model plynoucí z~\ProjectName. Metadata o~vzorcích uložených v~hradecké biobance budou zatím zadávána manuálně prostřednictvím webového formuláře.
 
 % ------------------------------------------------------------------------   
 \subsection{FN Olomouc}
@@ -508,86 +504,68 @@ Interní číselník biologického materiálu používaný v~Olomouci je součá
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Popis exportu pacientských dat}
-Struktura exportů pacientských dat představuje minimální množinu dat, která má dle patologů, podílejících se na projektu, význam pro výzkum. Všeobecnou snahou bylo udělat exportní model defenzivní s~možností volby u~některých atributů z~důvodu neexistence jednotného datového modelu v~NISech partnerů projektu. Dá se očekávat, že model se bude i~do budoucna vyvíjet a~až při praktické práci s~indexem se zjistí, jak by předávaná data mohla být ještě rozšířena. 
-Do budoucna se počítá s~větší mírou automatizace exportů v~jednotlivých institucích.
-Z~praktického pohledu je vysoce žádané, aby byly změny dávkové s~ohledem na rozpočet institucí (a~odměnu za práci programátorů).
+Struktura exportů pacientských dat představuje minimální množinu dat, která má dle patologů, podílejících se na projektu, význam pro výzkum. Všeobecnou snahou bylo udělat exportní model částečně defenzivní s~možností volby u~některých atributů z~důvodu neexistence jednotného datového modelu v~NISech zapojených institucí.
 
-Data budou předávána ve formátu XML, exportní modely jsou ve formátu RelaxNG Compact.
+Jak je vidět v~kapitole~\ref{sec:instituce}, každá z~partnerských biobank ukládá trochu jinou množinu druhů biologického materiálu. Z~laboratorního hlediska je mezi nimi veliký rozdíl, ale z~informatického hlediska byly pro potřeby exportů kategorie zobecněny na: tkáň, genom, sérum a~materiál se stanovenou diagnózou. Atributy, které se opakují, jsou popsány jen u~prvního typu, ve kterém jsou obsaženy.
+
+Podstata této práce tkví v~informatické části projektu, takže popisu biologických detailů je věnován jen minimální prostor, pouze s~cílem, aby si čtenář bez biologických znalostí udělal základní představu dostačující pro pochopení datových modelů.
+Data budou předávána ve formátu XML. Popisovaná schémata jsou součástí příloh (ve formátu RelaxNG Compact).
 
 % ------------------------------------------------------------------------   
 \subsection{Pacient}
-Kořenovým elementem exportů k~pacientským datům je pacient. Každý exportní soubor odpovídá veškerým datům souvisejícím s~jedinou léčenou osobou. O pacientovi jsou exportována tato data: 
+Kořenovým elementem exportů k~pacientským datům je pacient. Každý exportní soubor odpovídá veškerým datům souvisejícím s~jedinou léčenou osobou. Definice elementu \textit{Patient} je popsána ve schématu~\ref{fig:export:data:patient}.
 
 \begin{itemize}
 		\polozka{Identifikátor biobanky} -- deklarující z~jaké instituce byl export vygenerován
 
-		\polozka{Identifikátor} -- pacient je identifikován lokálním identifikátorem ze své domovské instituce. Pro zaměstnance této nemocnice je tedy možné si tohoto pacienta zpětně dohledat ve svém nemocničním informačním systému (NIS), zatímco pro všechny ostatní je jeho identita neznámá. Lokální identifikátor nesmí být přímým ani nepřímým nositelem žádného údaje pacienta, pomocí něhož by mohl být pacient identifikován z~vnějšku domovské instituce. Optimální je využití např. pořadových čísel z~NIS domovské instituce, jsou-li taková k~dispozici. Aby se zamezilo duplicitám mezi biobankami, bude identifikátoru přidán prefix identifikátoru biobanky.
+		\polozka{Identifikátor} -- identifikátor pacienta z~nemocnice, kde se léčil. Pro zaměstnance této nemocnice je tedy možné si tohoto pacienta zpětně dohledat ve svém NISu. Lokální identifikátor nesmí být přímým ani nepřímým nositelem žádného údaje pacienta, pomocí něhož by pacient mohl být identifikován z~vnějšku domovské instituce. Optimální je využití např. pořadových čísel z~NISu domovské instituce, jsou-li taková k~dispozici. Aby se zamezilo duplicitám mezi biobankami, je identifikátoru přidán prefix identifikátoru biobanky.
 		
-		\polozka{Informace o~narození} -- součástí exportu je pouze rok a~měsíc narození pro zajištění přibližné informace o~věku pacienta. Den narození (ani rodné číslo) předáváno není z~důvodu zachování anonymity.
+		\polozka{Informace o~narození} -- součástí exportu je rok a~měsíc narození pro stanovení přibližné informace o~věku pacienta. Den narození (ani rodné číslo) předáváno není z~důvodu zachování anonymity pacienta.
 		
-		\polozka{Informovaný souhlas} -- do systému mohou být nahrány pouze záznamy, ke kterým existuje platný informovaný souhlas pacienta (výzkumné účely). Souhlas by mohl být považován za implicitní v tom smyslu, že zajištění souhlasu řeší instituce a~do indexu posílá pouze data, u~kterých souhlas má. Důvodem pro existenci atributu je explicitní vyjádření, že instituce souhlas má. Pro existujícího pacienta může být negativní souhlas použit jako nástroj zneplatnění dosavadních vzorků pacienta. Nový pacient s~negativním souhlasem není při importu uložen do databáze. 
+		\polozka{Informovaný souhlas} -- explicitní souhlas pacienta s~účastí na výzkumu. Zajištění a~evidenci souhlasů řeší nemocnice. Import nového pacienta s~negativním souhlasem není vůbec zpracováván.
 			
 		\polozka{Pohlaví pacienta}
 		
 	\end{itemize}
-Definice elementu \textit{Patient} je popsána ve schématu~\ref{fig:export:data:patient}.
 
-\begin{figure}[h!]
-\begin{center}
-\begin{lstlisting}[language=XML, caption={Element popisující pacienta v~exportním schématu.}, label={fig:export:data:patient}]
-element patient {		
-	attribute id { xsd:string { maxLength = "10" } },		
-	attribute consent { xsd:boolean },   
-	attribute year { xsd:gYear },	  
-	attribute month { xsd:gMonth },   
-	attribute sex { "male" | "female" },	  
-	biobankId,		
-	element LTS {
-		( tissue | serum | genome | diagnosisMaterial )*
-	},		
-	element STS {
-		( diagnosisMaterial )*
-	}
-}
-
-\end{lstlisting}
-\end{center}
-\end{figure}
 
 % ------------------------------------------------------------------------   
-\subsection{Klasifikace biologického materiálu}\label{chapter:analysis:subsection:index}
-Jak je vidět v~kapitole~\ref{sec:instituce}, každá z partnerských biobank ukládá trochu jinou množinu druhů biologického materiálu. Z~laboratorního hlediska je mezi nimi veliký rozdíl, ale z~informatického hlediska byly pro potřeby exportů kategorie zobecněny na: tkáň, genom, sérum a~materiál se stanovenou diagnózou. Atributy, které se opakují, jsou popsány jen u~prvního typu, ve kterém jsou obsaženy.
 
-Podstata této práce tkví v~informatické části projektu, takže popisu biologických detailů je věnován jen minimální prostor, pouze s~cílem, aby si čtenář bez biologických znalostí udělal základní představu dostačující pro pochopení datových modelů.
-
-\paragraphNewLine{Tkáň}
-Tkáň~\cite{anatomie} je základní stavební prvek živočišného těla, kterou biologie dělí na svalovou, nervovou, pojivovou, atd\ldots . V~rámci zkoumání nádorových onemocnění je důležitější spíš kategorizace onkologická popsaná níže v~rámci vysvětlení jednotlivých elementů exportu.
+\subsection{Tkáň}
+Tkáň~\cite{anatomie} je základní stavební prvek živočišného těla, kterou biologie dělí na svalovou, nervovou, pojivovou, atd. V~rámci zkoumání nádorových onemocnění je důležitější spíš kategorizace onkologická popsaná níže v~rámci vysvětlení jednotlivých elementů exportu.
 Definice elementu \textit{Tissue} je popsaná ve schématu~\ref{fig:export:data:tissue}.
 
-\paragraph*{Identifikace vzorku}
-			\begin{itemize}
-				\polozka{Id vzorku} -- V~každém NISu je identifikace vzorků řešena mírně odlišným způsobem: např. na MOÚ se jedná o~kombinaci:
-				\begin{verbatim}rok + číslo odběru v rámci roku + typ vzorku 
-				+ označení alikvoty,\end{verbatim}zatímco na 1.~LF se jedná o~kombinaci:
-				\begin{verbatim}číslo pacienta + číslo odběru + typ vzorku 
-				+ označení alikvoty.\end{verbatim}Je vidět, že identifikátor není pouhý řetězec náhodných znaků, ale je složen z~jasně sémanticky (i~syntakticky) definovaných částí. Pole identifikátoru jako typ materiálu nebo identifikátor bioptické žádanky lze z~exportu získat rozložením identifikátoru. Implementace by ale byla závislá na původu dat (pro každou biobanku vlastní parser identifikátoru) a~lepším kompromisem je tedy ponechání těchto polí v~samostatném elementu nebo atributu pro snížení složitosti implementace.
-				Zatímco v~modelu NISů co vzorek to jedna alikvota, tak v~indexu náleží všechny alikvoty vzorku k~jednomu záznamu. To je pro účel systému vhodnější - jsou očekávány požadavky na vzorky specifikující minimální počet stejných vzorků určitých parametrů apod.
-				ID vzorku slouží pro následné dohledání vzorku v~NISu, ze kterého data pocházejí.
-				\polozka{Bioptická žádanka} -- kombinace roku a~pořadí v~rámci roku umožňující snadnější dohledání vazby na odběr v~domovské instituci (např. pro dohledání operace, operatéra, \dots).
-			\end{itemize}			
- \paragraph*{Způsob odběru dat} --						
-	Popis, zda byl biologický materiál odebrán před operací, při operaci nebo po operaci. Zde je ponechána možnost zadat \textit{unknown} pokud tato informace není v~NISu ukládána ve strukturované podobě.
+
+\paragraphNewLine{Identifikace vzorku}
+Vzorek je v~analyzovaných NISech identifikován složeným identifikátorem z~různých složek. 
+Např. na MOÚ (první příklad) a~na 1.~LF (druhý příklad) jsou identifikátory definovány následovně. 
+\begin{figure}[h!]
+\centering
+\begin{BVerbatim}
+MOÚ: rok + číslo odběru v~rámci roku + typ vzorku 
++ označení alikvoty
+1.LF: číslo pacienta + číslo odběru + typ vzorku 
++ označení alikvoty
+\end{BVerbatim}
+\end{figure}
+
+Je vidět, že identifikátor není pouhý řetězec náhodných znaků, ale je složen z~jasně sémanticky definovaných částí. Jednotlivá pole identifikátoru lze z~exportu získat rozložením identifikátoru. Implementace by ale byla závislá na původu dat a~pro každou biobanku by musel existovat vlastní parser. Lepším kompromisem je tedy ponechání těchto polí v~samostatném atributu pro snížení složitosti implementace. V~exportním modelu je definován atribut \textit{sampleId}, který slouží pro následné dohledání vzorku v~NISu. Kvůli rozdílné struktuře identifikátorů je atribut ponechán jako libovolný řetězec. Kromě id je možné definovat navíc ještě bioptickou žádanku - tj. kombinaci roku a~pořadí odběru v~rámci roku.
+
+Rozdíl mezi modelem NISů a~indexu \ProjectName je v~tom, že v~NISech je každý alikvot jedinečně identifikován, zatímco v~indexu jsou alikvoty považovány za vzájemně nerozlišitelné části vzorku. Část identifikátoru označující alikvotu není do systému importována.	
+					
+ \paragraphNewLine{Způsob odběru dat}					
+	Položka způsob odběru dat popisuje , zda byl biologický materiál odebrán před operací, při operaci nebo po operaci. Zde je ponechána možnost zadat \textit{unknown} pokud tato informace není v~NISu ukládána ve strukturované podobě.
 		
-\paragraph*{Typ materiálu}	--
-Jemnější členění, o~jaký materiál se přesně jedná -- např. rozlišení, zda je tkáň nádor, metastáze, \dots . Hodnoty jsou předávány dle interního číselníku každé instituce, ty jsou v~indexu převáděny na společný vnitřní číselník. Nad záznamy tak bude možné vyhledávat podle kompletního číselníku a~nebude třeba měnit číselníky v~nemocnicích. 
-\ovnote{Zde hodit tabulku interního číselníku}
+\paragraphNewLine{Typ materiálu}
+Typ materiálu představuje jemnější členění, o~jaký materiál se jedná, než definice elementu. Typ materiálu nabývá hodnot z~proprietárních číselníků jednotlivých institucí. Hodnoty jsou v~indexu převáděny na interní číselník. Nad záznamy tak bude možné vyhledávat podle kompletního číselníku a~nebude třeba měnit číselníky v~nemocnicích. 
 		
-\paragraph*{Datum odběru} --
+\paragraphNewLine{Datum odběru}
 Datum a~čas, kdy došlo k~odběru materiálu. Pro odběr tkáně by bylo vhodnější použít termínu \textit{datum a~čas přerušení krevního zásobení}, ale pro jednoduchost je dál používán termín \textit{datum odběru} všude v~kontextu libovolného odběru biologického materiálu pacienta.
 U~tkáně je navíc definováno pole \textit{Datum a~čas zamražení}. To odpovídá době, kdy byly všechny alikvoty vzorku umístěny v~repozitáři biobanky.
 
-\paragraph*{Počet vzorků} -- Při odběru je odebraný biologický materiál pacienta rozdělen na díly odpovídající kapacitě zkumavek nebo praktickým požadavkům (minimální velikost smysluplná pro laboratorní operace). Těmto \uv{dílům} se říká alikvoty. Pro potřeby datového modelování jsou všechny alikvoty vzorku považovány za identické a~vzájemně nerozlišitelné. 
-Datový model obsahuje položku \textit{celkový počet vzorků}, která popisuje, kolik alikvot daného vzorku je v~repozitáři biobanky uloženo. Související položkou je pak \textit{počet vydatelných vzorků}, který definuje, kolik z~celkového počtu vzorků je možno nabídnout na výzkumné účely.
+\paragraphNewLine{Počet vzorků}
+Při odběru je odebraný biologický materiál pacienta rozdělen na díly odpovídající kapacitě zkumavek nebo praktickým požadavkům (minimální velikost smysluplná pro laboratorní operace, objem odebraného materiálu). Těmto \uv{dílům} se říká alikvoty. Pro potřeby datového modelování jsou všechny alikvoty vzorku považovány za identické a~vzájemně nerozlišitelné. 
+Datový model obsahuje položku \textit{celkový počet vzorků}, která popisuje, kolik alikvotů daného vzorku je v~repozitáři biobanky uloženo. Související položkou je pak \textit{počet vydatelných vzorků}, který definuje, kolik z~celkového počtu vzorků je možno nabídnout na výzkumné účely.
 \begin{figure}[h!] % Not floating 
 \centering
 \begin{BVerbatim}
@@ -597,28 +575,31 @@ Poč. nevydatelných = Celk. poč. - Poč. vydatelných
 Dvě pole namísto jednoho jsou definována pro možnost rezervovat si vzorky pro interní potřeby instituce. Např. servisní odběry popsané u~\uv{samožádanek}.
 Situaci, kdy pracovníci biobank budou označovat všechny vzorky jako nevydatelné, aby si šetřili vlastní biologický materiál, musí předejít dohled koordinátora projektu. 
 
-\paragraph*{TNM a~pTNM} -- TNM~\cite{TNM} je v~onkologii používaný systém klasifikace, popisující anatomický rozsah zhoubných nádoru. Skládá se ze tří složek:
+\paragraphNewLine{TNM a~pTNM}
+TNM~\cite{TNM} je v~onkologii používaný systém klasifikace, popisující anatomický rozsah zhoubných nádoru a~vychází z~vyšetření provedených před léčbou. 
+Skládá se ze tří složek:
 \begin{itemize}
 	\item T (Tumor) -- rozsah primárního nádoru. Popis může být rozšířen o~třetí znak upřesňující zařazení do podskupiny (např. $T1a$).
 	\begin{compactitem}
 		\item $TX$ -- nelze hodnotit
 		\item $Tis$ -- karcinom in situ\footnote{Laicky popsatelný jako neinvazivní nádor (nešíří se - nevytváří metastáze).}
 		\item $T0$ -- bez známek primárního nádoru
-		\item $T1-\ldots$ --zvětšující se velikost primárního nádoru
+		\item $T1-n$ --zvětšující se velikost primárního nádoru
 	\end{compactitem}
 	
 	\item N (Nodus) -- přítomnost/nepřítomnost a~případný rozsah metastázy\footnote{Metastáza je druhotné ložisko nádorových buněk, vzniklé odtržením z~primárního nádoru~\cite{metastaza}.} v~regionálních lymfatických uzlinách.
 	\begin{compactitem}
 		\item $NX$ -- nelze hodnotit
-		\item $N0-\ldots$ -- rozsah
+		\item $N0-n$ -- rozsah
 	\end{compactitem}
 	\item M (Metastáza) -- přítomnost/nepřítomnost vzdálených metastáz
 \end{itemize}
 
-TNM je klasifikace vycházející z~klinického vyšetření před léčbou. Podobnou klasifikací je pTNM (patologická klasifikace). Jedná se o pooperační klasifikaci, která vychází ze znalostí stavu před léčbou doplněných o~nálezy získané při chirurgickém výkonu a~o~patologické vyšetření. Tato klasifikace slouží k~odhadu dalšího vývoje a~konečných výsledků léčby. Formát zápisu je obdobný.
+Podobnou klasifikací je pTNM (patologická klasifikace). Jedná se o~pooperační klasifikaci, která vychází ze znalostí stavu před léčbou doplněných o~nálezy získané při chirurgickém výkonu a~o~patologické vyšetření. Tato klasifikace slouží k~odhadu dalšího vývoje a~konečných výsledků léčby. Formát zápisu je obdobný.
 
-\paragraph*{Morfologie a~grading} --
-Patologická morfologie používá klasifikaci MKN-O\footnote{Mezinárodní klasifikace nemocí pro onkologii. Vychází z~anglického ICD-O (International Classification of Disseases for Oncology). Aktuálně se používá třetí verze klasifikace.}~\cite{MKN-O}. Klasifikace je definovaná šesti číslicemi, popisujícími topografii a morfologii. První čtyři číslice vyjadřují mikroskopickou charakteristiku nádoru. Pátá, oddělena lomítkem, popisuje biologické chování nádoru v~těle (maligní\footnote{Maligní znamená \uv{škodlivý} a~v~češtině se používá ekvivalent zhoubný}, benigní\footnote{Benigní znamená \uv{neškodný} a~v~češtině se používá ekvivalent nezhoubný}, in situ, nejisté). Šestá číslice popisuje tzv. \textit{grading}, vyjadřující jak moc se nádor podobá tkáni, ze které vznikl (grading se uvádí pouze u~maligních nádorů).  Příklad morfologické klasifikace podle~\cite{MKN-O}:
+\paragraphNewLine{Morfologie a~grading}
+Patologickou morfologii lze velice lajcky popsat jako charakteristiku nádoru a~jeho chování. Pro zápis se používá klasifikace MKN-O\footnote{Mezinárodní klasifikace nemocí pro onkologii. Vychází z~anglického ICD-O (International Classification of Disseases for Oncology). Aktuálně se používá třetí verze klasifikace.}~\cite{MKN-O}. Klasifikace je definovaná šesti číslicemi. První čtyři číslice vyjadřují mikroskopickou charakteristiku nádoru. Pátá, oddělena lomítkem, popisuje biologické chování nádoru v~těle (maligní\footnote{Maligní znamená \uv{škodlivý} a~v~češtině se používá ekvivalent zhoubný}, benigní\footnote{Benigní znamená \uv{neškodný} a~v~češtině se používá ekvivalent nezhoubný}, in situ, nejisté). Šestá číslice popisuje tzv. \textit{grading}, vyjadřující jak moc se nádor podobá tkáni, ze které vznikl (grading se uvádí pouze u~maligních nádorů). Pro případ, že v~některém NISu není morfologie evidována, je možné zadat pouze \textit{grading}.
+Příklad morfologické klasifikace podle~\cite{MKN-O}:
 
 \begin{figure}[h!] % Not floating 
 \centering
@@ -626,91 +607,22 @@ Patologická morfologie používá klasifikaci MKN-O\footnote{Mezinárodní klas
 M - 8140/3 1
 \end{BVerbatim}
 \end{figure}
-\noindent{Pro případ, že v~některém NISu není morfologie evidována, je možné zadat pouze \textit{grading}.}
 
-\begin{figure}[h!]
-\begin{center}
-\begin{lstlisting}[language=XML, caption={Element popisující tkáň v~exportním schématu.},
-label={fig:export:data:tissue}]
-element tissue {
-	attribute year { xsd:gYear },
-	attribute number { xsd:string { maxLength = "6" } },
-	attribute sampleId { xsd:string { maxLength = "32" } },
-	element samplesNo { xsd:int },
-	element availableSamplesNo { xsd:int },
-	element materialType { xsd:string { maxLength = "4" } },
-	element TNM { xsd:string { maxLength = "7" 
-			pattern = "[a-zA-Z0-9]+" } },
-	element pTNM { xsd:string { maxLength = "7" 
-			pattern = "[a-zA-Z0-9]+" } },
-	( element morphology 
-		{ xsd:string { length = "7" pattern = "[0-9]{4}/[0-9]{2}"} } 
-	| element grading 
-		{ xsd:int { minInclusive = "1" maxInclusive = "9" } } 
-	),
-	element cutTime { xsd:dateTime },
-	element freezeTime { xsd:dateTime },
-	element retrieved { "preoperational" | "operational" | "post" | 
-			"unknown" }
-}
-\end{lstlisting}
-\end{center}
-\end{figure}
-
-\paragraphNewLine{Sérum}
+\subsection{Sérum}
 Sérum je složka krve, kterou získáme odstředěním vysrážené plné krve. Popis elementu \textit{serum} je ve schématu~\ref{fig:export:data:serum}.
-\begin{figure}[hbtp]
-\begin{center}
-\begin{lstlisting}[language=XML, caption={Element popisující sérum v~exportním schématu.},
-label={fig:export:data:serum}]
-element serum {
-	attribute year { xsd:gYear },
-	attribute number { xsd:string { maxLength = "6" } },
-	attribute sampleId { xsd:string { maxLength = "32" } },
-	element samplesNo { xsd:int },
-	element availableSamplesNo { xsd:int },
-	element materialType { xsd:string { maxLength = "4" } }
-	element takingDate { xsd:dateTime },
-	element retrieved { "preoperational" | "operational" | "post" 
-			| "unknown" }
-}
-\end{lstlisting}
-\end{center}
-\end{figure}
 
-
-\paragraphNewLine{Genomová krev}
+\subsection{Genomová krev}
 Element \textit{genome} je pojmenován podle genomové krve - tj. DNA vyizolované z~odebrané krve. Při uložení genomové krve, např. dle praxe na MOÚ, je do biobanky ukládána současně plná krev a~genomová DNA, obojí po jednom alikvotu.
 Pro zmenšení složitosti exportních schémat je tento element použit k~popisu RNA, plné krve a~tkáně v~lateru.
-Z~informatického pohledu by mohl být element \textit{genome} spojen s~elementem \textit{serum}. Důvodem pro vznik těchto podobných elementů bylo postupné zobecňování kategorií biologického materiálu na základě požadavků zapojených institucí. Rozhodnutí pro ponechání stávajícího rozdělení bylo spíš pragmatické, aby nebyla zdržována probíhající implementace exportů. 
+Z~informatického pohledu by mohl být element \textit{genome} spojen s~elementem \textit{serum}. Důvodem pro vznik těchto podobných elementů bylo postupné zobecňování kategorií biologického materiálu na základě požadavků zapojených institucí. Rozhodnutí pro ponechání stávajícího rozdělení bylo spíš pragmatické, neboť se do budoucna nechá očekávat spíš nárůst atributů a~specializace elementů. 
 
-\begin{figure}[h!]
-\begin{center}
-\begin{lstlisting}[language=XML, caption={Element popisující genomovou krev v~exportním schématu.},
-label={fig:export:data:genome}]
-element genome {
-	attribute year { xsd:gYear },
-	attribute number { xsd:string { maxLength = "6" } },
-	attribute sampleId { xsd:string { maxLength = "32" } },
-	element samplesNo { xsd:int },
-	element availableSamplesNo { xsd:int },
-	element materialType { xsd:string { maxLength = "4" } }
-	element takingDate { xsd:dateTime },
-	element retrieved { "preoperational" | "operational" | "post" 
-			| "unknown" }
-}
-\end{lstlisting}
-\end{center}
-\end{figure}
+\subsection{Materiál se stanovenou diagnózou}
+Obecná kategorie slučující typy materiálu, jejiž společnou charakteristikou je stanovená diagnóza. Do tohoto obecného typu spadá krev, moč a~jednotlivé extrahované složky krve.
 
-
-\paragraphNewLine{Materiál se stanovenou diagnózou}
-V~původním návrhu~\cite{ARCH_2011_12_29} byl místo nynějšího elementu v~exportu zastoupen element tzv. krevní rezerva, jak je na MOÚ označena krev uložená v~STS. Na základě diskuze zde došlo k~rozšíření typů biologického materiálu, se kterým model počítá. Z~toho důvodu byl přidán element \textit{materialType}, aby mezi nimi bylo možné rozlišit. 
-Jelikož se jedná o~poměrně různorodé typy (krev, moč, jednotlivé extrahované složky krve), tak byl název elementu zvolen podle hlavního společného parametru, kterým je stanovená diagnóza.
-
-\paragraph*{Diagnóza} -- Pro popis diagnózy se používá MKN-10\footnote{Mezinárodní klasifikace nemocí ve verzi 10. Vychází z~originálu ICD-10 (International Classification of Disseases)}~\cite{MKN-10}. Touto klasifikací, lze popsat libovolnou známou chorobu.
-Choroby jsou definované pomocí kódů o~délce tři až šest znaků. Páté a~šesté místo není pro index relevantní, neboť se týká specifikace pro index nezajímavých onemocnění a~úrazů. Součástí exportu není tečka. 
-Příklad diagnózy a~odpovídajícího zápisu MKN-10 klasifikace:
+\paragraphNewLine{Diagnóza}
+Pro popis diagnózy se používá klasifikace MKN-10\footnote{Mezinárodní klasifikace nemocí ve verzi 10. Vychází z~originálu ICD-10 (International Classification of Disseases)}~\cite{MKN-10}, kterou lze popsat libovolnou známou chorobu.
+Choroby jsou definované pomocí kódů o~délce tři až šest znaků. Páté a~šesté místo není pro index relevantní, neboť se týká specifikace pro index nezajímavých onemocnění a~úrazů. 
+Příklad diagnózy a~odpovídajícího zápisu MKN-10 klasifikace (součástí exportu není tečka):
 
 \begin{figure}[h!]
 \centering
@@ -719,42 +631,37 @@ J02.0 - Streptokoková angína
 \end{BVerbatim}
 \end{figure}
 
-\begin{figure}[h!]
-\begin{center}
-\begin{lstlisting}[language=XML, caption={Element popisující materiál se stanovenou diagnózou v~exportním schématu.}, label={fig:export:data:diagnosisMaterial}]
-element diagnosisMaterial {
-	attribute year { xsd:gYear },
-	attribute number { xsd:string { maxLength = "6" } },
-	attribute sampleId { xsd:string { maxLength = "32" } },
-	element materialType { xsd:string { maxLength = "4" } }
-	element diagnosis { xsd:string { pattern = "[a-zA-Z0-9]+" 
-			minLength = "3" 
-			maxLength = "5" } },
-	element takingDate { xsd:dateTime },
-	element retrieved { "preoperational" | "operational" | "post" 
-			| "unknown" }
-}
-\end{lstlisting}
-\end{center}
-\end{figure}
+% ------------------------------------------------------------------------   
+\section{Popis exportu monitoringu biobank}
 
 % ------------------------------------------------------------------------   
 \subsection{Monitoring zaplnění biobank}\label{chapter:analysis:subsection:monitoring}
-Pro sledování zaplnění je třeba vytvořit mechanismus, jak jednoznačně adresovat každou úložnou pozici uvnitř repozitáře biobanky. 
 Základním prvkem LTS je dewarova nádoba (v~modelu označena jako \textit{container}). Tu si lze představit jako válec s~kruhovým víkem uvnitř něhož je několik sloupcových stojanů. Stojan (\textit{rack}) je konstrukce nesoucí ve sloupci několik krabiček (\textit{box}) se vzorky. Pro přístup k~jednomu vzorku je tedy potřeba otevřít dewarovu nádobu, vytáhnout příslušný stojan, z~něho vybrat správnou krabici a~v~té najít hledanou zkumavku (\textit{position}). Každý zmíněný prvek má své označení, takže spojením všech identifikátorů získáme jednoznačnou adresu vzorku.
 
 Vzorky uložené v~STS jsou na MOÚ uloženy v~mrazácích. Adresace je řešena na základě identifikace boxu bez dalšího hierarchického členění úložného prostoru.
 
 Element \textit{biobank} obsahuje elementy odpovídající dewarovým nádobám \textit{container} nebo elementy \uv{samostatných} krabic odpovídajících primárně těm uloženým v~STS a~nebo sekundárně těm, které jsou adresované způsobem nekompatibilním s~modelem popisujícím hierarchii kontejnerů. Popis jednotlivých elementů a~atributů:
-\paragraph*{Identifikátor} -- pojmenování elementu. Id je použito pro adresaci, takže musí být unikátní v~kontextu nadřazeného elementu.
-\paragraph*{Umístění} -- volitelný popis, kde se element nachází.
-\paragraph*{Kapacita} -- maximální počet elementů, které se mohou uvnitř nacházet - např. kolik stojanů pojme dewarova nádoba.
-\paragraph*{Minimální teplota} -- volitelný požadavek na mezní minimální teplotu pro daný prvek infrastruktury.
-\paragraph*{Maximální teplota} -- volitelný požadavek na mezní maximální teplotu pro daný prvek infrastruktury.
+
+\begin{itemize}
+
+\polozka{{Identifikátor}} -- pojmenování elementu. Id je použito pro adresaci, takže musí být unikátní v~kontextu nadřazeného elementu.
+
+\polozka{{Umístění}} -- volitelný popis, kde se element nachází.
+
+\polozka{{Kapacita}} -- maximální počet elementů, které se mohou uvnitř nacházet - např. kolik stojanů pojme dewarova nádoba.
+
+\polozka{{Minimální teplota}} -- volitelný požadavek na mezní minimální teplotu pro daný prvek infrastruktury.
+
+\polozka{{Maximální teplota}} -- volitelný požadavek na mezní maximální teplotu pro daný prvek infrastruktury.
+
+\end{itemize}
 
 % ------------------------------------------------------------------------   
 \subsection{Monitoring teploty}
-Jak již bylo uvedeno ve specifikách o~partnerech, data z~měření teploty nejsou běžně součástí NISů a~tudíž budou do indexu importována jinou cestou, než jak bylo původně~\cite{ARCH_2011_12_29} navrhováno. Díky rozdílné povaze monitorovacích systémů a~poskytovaným službám bylo rozhodnuto, že bude jako první implementována metoda získávající měřené údaje z~MS FALCON, aby bylo možné prezentovat funkci systému v~plném rozsahu alespoň pro část biobank.
+Sledování teploty v~úložné infrastruktuře bývá dle zjištěných skutečností delegováno na samostatný systém a~naměřené hodnoty nejsou běžně součástí NISů. 
+V~případě MOÚ a~UPOLu je tato služba zajištěna monitorovacím systémem \textit{FALCON}\footnote{Provozuje společnost \textit{KESA s.r.o.} - \url{www.kesa.cz}}. Ve FN HK a~na 1.~LF používají zařízení \textit{M355} a~SW \textit{CryoWatch} dodávané k~zařízení od výrobce \textit{Taylor-Wharton}. 
+
+Díky rozdílné povaze monitorovacích systémů a~poskytovaným službám bylo rozhodnuto, že bude jako první implementována metoda získávající měřené údaje z~MS FALCON, aby bylo možné prezentovat funkci systému v~plném rozsahu alespoň pro část biobank.
 
 \paragraphNewLine{Integrace s~monitorovacím systémem FALCON}
 Monitorovací systém FALCON umožňuje export dat do textového souboru o~následující struktuře.
@@ -781,40 +688,17 @@ stav 0,hodnota 1,stav 1,hodnota 2,stav 2
 \end{BVerbatim}
 \end{figure}
 
-Společnost interně eviduje mapování zákazníků na zákaznická čísla a~mapování sledovaných objektů. 
-Time\_id je interní sekvence reprezentující čas, kterou bude nutné transformovat na klasickou reprezentaci času (java.util.Date), založenou na milisekundách, používanou v~Javě. Sémantika dat a~tedy i~způsob jejich transformace zatím nebyly poskytnuty.
-\textit{Objectstate} reprezentuje stav celého objektu souhrnně za všechny čidla objektu. Význam hodnot odpovídá krizovým stavům alarm/havárie. Číselník pro převod kódů na logické stavy objektu nebyl poskytnut. Pokud je jedno z~$n$ čidel ve stavu \textit{alarm}, tak je celý objekt ve stavu \textit{alarm}. Obdobně pokud je jediné čidlo ve stavu \textit{havárie}, pak je stav celého objektu \textit{havárie}, bez ohledu na čidla ve stavu \textit{alarm}.
-Parametr \textit{savereason} popisuje, jaká událost způsobila uložení hodnoty. Událostmi je čas, alarm (souvisí s~překročením povolené teploty), havárie nebo fyzický přístup do dewarovy nádoby (otevření víka je monitorováno). Číselník pro překlad kódů nebyl poskytnut. Parametr \textit{hodnota} a \textit{stav} reprezentuje výstup z konkrétního čidla měřeného objektu. Význam dat závisí na typu čidla a definovaném číselníku. Pro tento konkrétní příklad se jedná o~dva teploměry a~čidlo sledující otevření/zavření víka.
-Za referenční pro doložení kvality uložení se považuje výše položené čidlo, tj. to umístěné v~teplejším vzduchu dále od dusíkových par. 
+Společnost interně eviduje mapování zákazníků a~sledovaných objektů. 
+\textit{Time\_id} je interní sekvence reprezentující čas, kterou bude nutné při importu transformovat na klasickou reprezentaci času, používanou v~Javě, založenou na $ms$. \textit{Objectstate} reprezentuje stav celého objektu souhrnně za všechny čidla objektu. Pokud je jedno z~$n$ čidel ve stavu \textit{alarm}, tak je celý objekt ve stavu \textit{alarm}. Obdobně pokud je jediné čidlo ve stavu \textit{havárie}, pak je stav celého objektu \textit{havárie}, bez ohledu na čidla ve stavu \textit{alarm}. Parametr \textit{savereason} popisuje, jaká událost způsobila uložení hodnoty. Událostmi může být čas, alarm (souvisí s~překročením povolené teploty), havárie nebo fyzický přístup do dewarovy nádoby (otevření víka je monitorováno). Parametr \textit{hodnota} a~\textit{stav} reprezentuje výstup z~konkrétního čidla měřeného objektu. Význam dat závisí na typu čidla a~definovaném číselníku. Číselníky umožňující další práci s~daty nebyly poskytnuty.
 
-\paragraphNewLine{Integrace s~ostatními biobankami}\mbox{}\\
-SW \textit{CryoWatch} umožňuje pouze manuální formu exportu měřených údajů. Z~toho důvodů není zatím integrace tohoto systému uvažována. 
+Uvedený příklad popisuje dva teploměry a~čidlo sledující otevření/zavření víka. Za referenční pro doložení kvality uložení se považuje výše položené čidlo, tj. to umístěné v~teplejším vzduchu dále od dusíkových par. 
+
+\paragraphNewLine{Integrace s~ostatními biobankami}
+SW \textit{CryoWatch} umožňuje pouze manuální jednorázovou formu exportu dat do tabulky formálu \textit{.xls} nebo do textového souboru~\cite{M355CE}. Počítač je k~měřícímu přístroji připojen sériovým portem. Integrace tohoto systému není v~této fázi projektu uvažována. 
 
 % ------------------------------------------------------------------------   
 \subsection{Předávání kalibračních protokolů}
 Součástí požadavků na kvalitní uložení vzorků je také doložení, že teploměry jsou řádně zkalibrovány. Kalibrace se u~teploměrů vyžaduje minimálně jednou za dva roky. Díky nízké frekvenci je dostačujícím mechanismem manuální nahrání protokolu o~kalibraci do systému tak, aby byly k~dispozici koordinátorům projektu a~žadatelům o~vzorky.
-
-
-% ------------------------------------------------------------------------   
-% ------------------------------------------------------------------------   
-\section{Požadavky na IT infrastrukturu}
-Požadavky kladené na implementaci indexu spočívaly v~nutnosti použít technologie běžně používané na ÚVT MUNI tak, aby nebyl problém se zajištěním kontinuity vývoje a podpory v případě změny vývojáře. Zadání diplomové práce vyžadovalo použít Javu EE v~kombinaci s~frameworky Stripes a~Hibernate. Doporučené bylo použít databázi PostgreSQL.
-
-% ------------------------------------------------------------------------   
-\subsection{Zabezpečení}
-Přestože systém pracuje pouze s~anonymizovanými daty (pacient je skryt za pseudonymem), jedná se stále o~citlivá data a~je nezbytné připojení k~indexu zabezpečit šifrováním pomocí SSL/TLS.
-Zabezpečení je požadováno i pro přenos dat mezi institucemi a indexem.	
-
-% ------------------------------------------------------------------------   
-\subsection{Požadavky na rozhraní}
-Webové rozhraní musí umožňovat snadné přeložení do cizích jazyků. V~základní verzi musí být podporována čeština a~angličtina. 
-Veškeré události v~systému musí být archivovány, aby byly zpětně dohledatelné.
-
-
-
-
-
-
 
 
 
@@ -824,36 +708,36 @@ Veškeré události v~systému musí být archivovány, aby byly zpětně dohled
 % Návrh
 % ------------------------------------------------------------------------   
 \chapter{Návrh}\label{chapter:proposal}
-Tato kapitola popisuje, jakým způsobem byly požadavky na systém převedeny do podoby objektů objektově orientovaného jazyku Java. Větší pozornost je věnována popisu entit, kde bylo nutné více rozšířit požadavky na systém zmíněné v kapitole \ref{chapter:analysis}.
+Tato kapitola popisuje, jakým způsobem byly požadavky na systém převedeny do podoby objektů objektově orientovaného jazyku Java. Větší pozornost je věnována popisu entit, kde bylo nutné více rozšířit požadavky na systém zmíněné v~kapitole \ref{chapter:analysis}.
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Architektura systému}
-Základ architektury systému byl do jisté míry předepsán požadavkem na použití technologií Hibernate a~Stripes. Standardní pro takové aplikace je doplnit technologie ještě o~framework Spring nebo EJB a~použít tzv. třívrstvou architekturu, skládající se z~perzistenční, aplikační a~prezentační vrstvy. Smyslem takového rozdělení je především, jak název jednotlivých vrstev napovídá, oddělit zobrazení dat od vnitřní logiky a od způsobu uložení dat. Třídy využívají jen služeb poskytovaných nižší vrstvou a neexistuje závislost mezi třídami stejné vrstvy. To zvyšuje přehlednost kódu, usnadňuje to orientaci, psaní testů a je tím zmenšeno množství závislostí. Závislost je definovaná vůči rozhraní. O přiřazení konkrétní implementace k rozhraní se stará rámec aplikační vrstvy (konkrétně framework Spring).  
+Základ architektury systému byl do jisté míry předepsán požadavkem na použití technologií Hibernate a~Stripes. Standardní pro takové aplikace je doplnit technologie ještě o~framework Spring nebo EJB a~použít tzv. třívrstvou architekturu, skládající se z~perzistenční, aplikační a~prezentační vrstvy. Smyslem takového rozdělení je především, jak název jednotlivých vrstev napovídá, oddělit zobrazení dat od vnitřní logiky a~od způsobu uložení dat. Třídy využívají jen služeb poskytovaných nižší vrstvou a~neexistuje závislost mezi třídami stejné vrstvy. To zvyšuje přehlednost kódu, usnadňuje to orientaci, psaní testů a~je tím zmenšeno množství závislostí. Závislost je definovaná vůči rozhraní. O~přiřazení konkrétní implementace k~rozhraní se stará rámec aplikační vrstvy (konkrétně framework Spring).  
 
 \paragraphNewLine{Perzistenční vrstva}
 Má na starost správu dat, jejich uložení, získání i~mazání (tzv. CRUD). Rozhraní perzistenční vrstvy má v~obecném pojetí odstínit aplikační logiku od implementačních detailů uložení dat. Ostatní vrstvy by měly být nezávislé na tom, jakou implementaci databáze využívá nebo kde se data nachází (databáze, WSDL, SOAP,\ldots). V~případě \ProjectName byla použita ORM technologie Hibernate v~kombinaci s~databází PostgreSQL. 
 Perzistenční vrstva se skládá z~tzv. DAO objektů, vycházejících z~návrhového vzoru Data Access Object pro Javu EE. DAO objekt, je typicky bezstavový, takže může být realizován jako \textit{singleton} a~obsahuje veškerou logiku pro získání určitého typu dat (vázáno na konkrétní entitu systému).
 
 \paragraphNewLine{Aplikační vrstva} 
-Na aplikační vrstvě je vykonávána veškerá logika aplikace, tedy naplnění požadavků uživatele plynoucí ze scénářů použití systému. Vrstva přebírá požadavky z~aplikační vrstvy a zajišťuje vykonání příslušných požadavků na straně serveru. 
+Na aplikační vrstvě je vykonávána veškerá logika aplikace, tedy naplnění požadavků uživatele plynoucí ze scénářů použití systému. Vrstva přebírá požadavky z~aplikační vrstvy a~zajišťuje vykonání příslušných požadavků na straně serveru. 
 
 \paragraphNewLine{Prezentační vrstva} 
 Slouží ke zpracování požadavků klientů a~ke generování odpovědi, která se následně zobrazí v~prohlížeči klienta. Prezentační vrstva má na starost validaci zadávaných dat a~komunikaci s~uživatelem prostřednictvím chybových či potvrzujících hlášek o~výsledku operací vykonaných aplikační vrstvou. 
 
 Architektura byla navržena se snahou maximalizovat znovupoužitelnost kódu a~naopak co nejvíce omezit duplicity kódu. Z~toho důvodu je na mnoha místech ve zdrojovém kódu použito generických typů, abstraktních tříd nebo dědičnosti.
 
-\ovnote{Příklad struktury DAO - Service - Action Bean; rozhraní, implementace a dědičnosti tříd}
+\ovnote{Příklad struktury DAO - Service - Action Bean; rozhraní, implementace a~dědičnosti tříd}
 
-Následující kapitoly popisují entity objektového modelu ukládané do databáze. Všechny entity, v nichž nutné nebo vhodné mít identifikátor, jsou identifikované pomocí celého čísla generovaného databází. V~některých situacích by bylo možné se tomu vyhnout (biobanka, pacient, \ldots), ale použití stejného typu identifikátoru v~celé aplikaci zjednodušuje rozhraní umožněním generických typů. Druhým argumentem pro celočíselný identifikátor je snazší manipulace na prezentační vrstvě. Identifikátor je na mnoha místech parametrem URL. Pro případ identifikátoru tvořeného řetězcem znaků by vznikalo \uv{nepěkné} URL a~mohlo by docházet k~problémům způsobených tím, že v~URL jsou dovolené pouze ASCII znaky.
+Následující kapitoly popisují entity objektového modelu ukládané do databáze. Všechny entity, v~nichž nutné nebo vhodné mít identifikátor, jsou identifikované pomocí celého čísla generovaného databází. V~některých situacích by bylo možné se tomu vyhnout (biobanka, pacient, \ldots), ale použití stejného typu identifikátoru v~celé aplikaci zjednodušuje rozhraní umožněním generických typů. Druhým argumentem pro celočíselný identifikátor je snazší manipulace na prezentační vrstvě. Identifikátor je na mnoha místech parametrem URL. Pro případ identifikátoru tvořeného řetězcem znaků by vznikalo \uv{nepěkné} URL a~mohlo by docházet k~problémům způsobených tím, že v~URL jsou dovolené pouze ASCII znaky.
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Uživatel}
-Diagram~\ref{fig:index:uml:class:user} popisuje entitu \textit{User}, tj. uživatele systému, a~bezprostřední vazby s~ní související. Většina hodnot atributů objektu je získána při prvním přihlášení uživatele z~atributů hlavičky HTTP requestu autentizační služby Shibboleth. Při přístupu k~produkčnímu serveru proběhně autentizace vůči \uv{domovské} instituci uživatele aniž by aplikace manipulovala s heslem uživatele. Nicméně atribut heslo je zde, ponechán pro snazší vývoj a~testování.
+Diagram~\ref{fig:index:uml:class:user} popisuje entitu \textit{User}, tj. uživatele systému, a~bezprostřední vazby s~ní související. Většina hodnot atributů objektu je získána při prvním přihlášení uživatele z~atributů hlavičky HTTP requestu autentizační služby Shibboleth. Při přístupu k~produkčnímu serveru proběhně autentizace vůči \uv{domovské} instituci uživatele aniž by aplikace manipulovala s~heslem uživatele. Nicméně atribut heslo je zde, ponechán pro snazší vývoj a~testování.
 Při každém dalším přihlášení jsou údaje z~Shibbolethu porovnávány s~těmi v~databázi a~pokud došlo ke změně, jsou ty v~databázi přepsány novými. Jediným uživatelsky změnitelným údajem je e-mail, aby si mohl uživatel sám zvolit, jakou kontaktní e-mailovou adresu preferuje.
 
-Pro každého uživatele je ukládáno jeho osobní nastavení. Toto nastavení umožňuje ve stávající verzi nastavit lokalizaci aplikace, tj. osobní jazykovou preferenci. Pro změny chování celé aplikace je možné definovat nové instance třídy \textit{GlobalSetting}. Nastavení není vyžadováno v~požadavcích na systém a~mohlo by se do jisté míry řešit použitím konstanty v~implementaci. Do budoucna lze očekávat rozšíření uživatelsky nebo systémové nastavitelných atributů a je vhodné, aby s tím dopředu počítat.
+Pro každého uživatele je ukládáno jeho osobní nastavení. Toto nastavení umožňuje ve stávající verzi nastavit lokalizaci aplikace, tj. osobní jazykovou preferenci. Pro změny chování celé aplikace je možné definovat nové instance třídy \textit{GlobalSetting}. Nastavení není vyžadováno v~požadavcích na systém a~mohlo by se do jisté míry řešit použitím konstanty v~implementaci. Do budoucna lze očekávat rozšíření uživatelsky nebo systémové nastavitelných atributů a~je vhodné, aby s~tím dopředu počítat.
 
 \begin{figure}[h!]
 \begin{center}
@@ -894,7 +778,7 @@ Při nahrání projektu je nutné nahrát podepsaný formulář MTA. Model aplik
 % ------------------------------------------------------------------------   
 \subsection{Životní cyklus projektu}
 Po založení je projekt označen jako \textit{nový}. Po kontrole formálních náležitostí administrátorem může být \textit{schválen} nebo \textit{zamítnut}. V~kontextu schváleného projektu je již možné žádat o~vzorky. Projekt s~alespoň jednou žádostí je považován za \textit{zahájený}. Na konci realizace lze označit projekt za \textit{dokončený}. \textit{Dokončený} projekt v~systému i~nadále zůstává pro archivaci, ale je již pouze pro čtení a~nelze v~jeho kontextu žádat o~vzorky. 
-V~aplikaci je definována i~možnost zrušit schválený projekt (v diagramu značeno přerušovanou čarou). Tato funkce ale není ve stávající verzi zpřístupněna na uživatelském webovém rozhraní. Životní cyklus projektu je znázorněn na diagramu~\ref{fig:implementace:projekt:cyklus}. Barevně jsou znázorněny události iniciované {\color{palatinatepurple}administrátory} a~{\color{cyan}členem projektového týmu}. 
+V~aplikaci je definována i~možnost zrušit schválený projekt (v~diagramu značeno přerušovanou čarou). Tato funkce ale není ve stávající verzi zpřístupněna na uživatelském webovém rozhraní. Životní cyklus projektu je znázorněn na diagramu~\ref{fig:implementace:projekt:cyklus}. Barevně jsou znázorněny události iniciované {\color{palatinatepurple}administrátory} a~{\color{cyan}členem projektového týmu}. 
 
 \begin{figure}[hbtp]
 \begin{center}
@@ -931,7 +815,7 @@ V~aplikaci je definována i~možnost zrušit schválený projekt (v diagramu zna
 
 % ------------------------------------------------------------------------   
 \subsection{Životní cyklus žádosti a~rezervace vzorků}
-Uživatel s~projektovým záměrem, ale bez splněných formálních náležitostí, může podat žádost o~rezervaci vzorků. Ta je \textit{schválena} v~situaci, kdy banka má kapacitu na to, aby žádosti vyhověla (tj. mají dostatek vzorků). V opačném případě je rezervace \textit{zamítnuta}. Ke schválené rezervaci je možné přiřadit konkrétní počty alikvoty vzorků. Když je seznam vzorků kompletní, je žádost \textit{uzavřena}. Od chvíle uzavření běží lhůta platnosti rezervace. Když tato lhůta vyprší, je žádost označena jako \textit{expirovaná} a~alokované vzorky jsou uvolněny.
+Uživatel s~projektovým záměrem, ale bez splněných formálních náležitostí, může podat žádost o~rezervaci vzorků. Ta je \textit{schválena} v~situaci, kdy banka má kapacitu na to, aby žádosti vyhověla (tj. mají dostatek vzorků). V~opačném případě je rezervace \textit{zamítnuta}. Ke schválené rezervaci je možné přiřadit konkrétní počty alikvoty vzorků. Když je seznam vzorků kompletní, je žádost \textit{uzavřena}. Od chvíle uzavření běží lhůta platnosti rezervace. Když tato lhůta vyprší, je žádost označena jako \textit{expirovaná} a~alokované vzorky jsou uvolněny.
 Žádost lze přiřadit k~vybranému, schválenému projektu, ke kterému má uživatel oprávnění spravovat žádosti i~vzorky. Tím je možné se vyhnout propadnutí rezervace. 
 Na základě pouhé rezervace není možné fyzické vzorky získat. Životní cyklus rezervace je znázorněn v~diagramu~\ref{fig:implementace:rezervace:cyklus}, zatímco cyklus žádosti je v~diagramu~\ref{fig:implementace:zadost:cyklus}. Pro oba diagramy platí barevné odlišení iniciátorů znázorněných událostí: {\color{palatinatepurple}administrátor biobanky}, {\color{cyan}uživatel}/{\color{cyan}člen projektového týmu}. 
 
@@ -963,7 +847,7 @@ Na základě pouhé rezervace není možné fyzické vzorky získat. Životní c
 \end{center}
 \end{figure}
 
-Počátek životního cyklu žádosti o~vzorky je totožný s~rezervací. V~situaci, kdy je žádost uzavřena pracovníkem biobanky, je umožněno aby žadatel sadu potvrdil nebo ji vrátil zpět k doplnění. Tato volba se uplatní v situaci, kdy vzorky nesplňují kladené požadavky. Žádost se tím vrátí do stavu \textit{schválena}, aby bylo opět možné editovat sadu vzorků.
+Počátek životního cyklu žádosti o~vzorky je totožný s~rezervací. V~situaci, kdy je žádost uzavřena pracovníkem biobanky, je umožněno aby žadatel sadu potvrdil nebo ji vrátil zpět k~doplnění. Tato volba se uplatní v~situaci, kdy vzorky nesplňují kladené požadavky. Žádost se tím vrátí do stavu \textit{schválena}, aby bylo opět možné editovat sadu vzorků.
 Může také nastat situace, že o~stejné vzorky bylo požádáno ve více biobankách a~více žádostí bylo vyřízeno kladně, takže je pro projekt alokováno více zdrojů, než je nutné. V~této situaci může správce projektu žádost smazat a~tím alokované vzorky uvolnit.
 Po schválení vybrané sady žadateli jsou tyto vzorky fyzicky připraveny k~odebrání. Žádost s~fyzicky předanými vzorky je označena jako \textit{doručena}.
 
@@ -1003,7 +887,7 @@ Po schválení vybrané sady žadateli jsou tyto vzorky fyzicky připraveny k~od
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Biobanka}
-Entita reprezentující instituci, zapojenou do projektu \ProjectName, která poskytuje biologický materiál ostatním. Atribut \textit{abbreviation} slouží pro kontrolu při parsování importů, že zpracovávaný XML soubor skutečně patří ke správné biobance a nedošlo k chybě při kopírování (např. spletení cílové cesty).
+Entita reprezentující instituci, zapojenou do projektu \ProjectName, která poskytuje biologický materiál ostatním. Atribut \textit{abbreviation} slouží pro kontrolu při parsování importů, že zpracovávaný XML soubor skutečně patří ke správné biobance a~nedošlo k~chybě při kopírování (např. spletení cílové cesty).
 
 \begin{figure}[h!]
 \begin{center}
@@ -1027,7 +911,7 @@ Diagram~\ref{fig:index:uml:class:infrastructure} popisuje, jakým způsobem je v
 
 % ------------------------------------------------------------------------   
 \subsection{Monitoring biobanky}
-Kontejner může mít přiřazeno $0-n$ měření. Každé měření definuje pomocí enumeračního typu konkrétní měřenou fyzikální veličinu a použité jednotky. Touto strukturou lze tedy modelovat různé počty teplotních i jiných čidel, přiřazených ke kontejneru. 
+Kontejner může mít přiřazeno $0-n$ měření. Každé měření definuje pomocí enumeračního typu konkrétní měřenou fyzikální veličinu a~použité jednotky. Touto strukturou lze tedy modelovat různé počty teplotních i~jiných čidel, přiřazených ke kontejneru. 
 Doba ponechání změřených dat v~databázi bude stanovena až na základě praktických zkušeností s~využíváním systému (faktické množství generovaných dat proti požadavkům na zpětné doložení nakládání s~daty).
 
 \begin{figure}[h!]
@@ -1047,7 +931,7 @@ Pro ověření, že data z~monitoringu biobanky jsou relevantní k~posouzení kv
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
 \section{Popis uložených vzorků}
-Objektový návrh~\ref{fig:index:uml:class:sample} vychází ze struktury exportů popsaných v předchozí kapitole.
+Objektový návrh~\ref{fig:index:uml:class:sample} vychází ze struktury exportů popsaných v~předchozí kapitole.
 
 \begin{figure}[h!]
 \begin{center}
@@ -1065,10 +949,10 @@ Pro stanovení, které zdroje systému může uživatel používat byly stanoven
 
 % ------------------------------------------------------------------------   
 \subsection{Systémové role}
-Systémové role jsou definovány enumerační třídou \textit{SystemRole} z package \textit{cz.bbmri.entities.enumeration}. 
+Systémové role jsou definovány enumerační třídou \textit{SystemRole} z~package \textit{cz.bbmri.entities.enumeration}. 
 
 \paragraphNewLine{Uživatel}
-Uživatel je implicitní role každého uživatele oprávněného přistupovat k~indexu. Při autentizaci uživatele je na základě parametrů předávaných z~eduId stanoveno, zda může být dotyčnému uživateli umožněno vstoupit do systému - každý kdo je vpuštěn má roli \textit{uživatel}. Pohyb uživatele bez role \textit{uživatel} je považován za chybu.
+Uživatel je implicitní role každého uživatele oprávněného přistupovat k~indexu. Při autentizaci uživatele je na základě parametrů získaných z~eduId stanoveno, zda může být dotyčnému uživateli umožněno vstoupit do systému - každý kdo je vpuštěn má roli \textit{uživatel}. Pohyb uživatele bez role \textit{uživatel} je považován za chybu.
 Uživateli s~touto rolí je dovoleno:
 \begin{compactitem}
 	\item přistupovat ke svým vlastním údajům a~k~osobnímu nastavení
@@ -1079,13 +963,13 @@ Uživateli s~touto rolí je dovoleno:
 \end{compactitem}
 
 \paragraphNewLine{Správce biobanky}
-Uživatel s~oprávněním alespoň k~jedné biobance má systémovou roli \textit{správce biobanky}. Samotná systémová role upravuje pouze položky v~menu. Autorizace pro provádění konkrétních operací je stanovena na základě oprávnění ke konkrétní instanci biobanky. 
+Uživateli s~oprávněním alespoň k~jedné biobance je přidělena systémová role \textit{správce biobanky}. Role samotná upravuje pouze položky v~menu. Autorizace pro provádění konkrétních operací je stanovena na základě oprávnění ke konkrétní instanci biobanky. 
 
 \paragraphNewLine{Člen projektového týmu} 
 Každý uživatel s~oprávněním alespoň k~jednomu projektu má systémovou roli \textit{člen projektového týmu}. Autorizace pro provádění konkrétních operací je stanovena na základě oprávnění ke konkrétní instanci projektu. 
 
 \paragraphNewLine{Člen projektového týmu se schváleným projektem}
-Systémovou roli \textit{člena projektového týmu se schváleným projektem} má každý uživatel s~oprávněním alespoň k~jednomu schválenému projektu. Při schválení některého z projektů uživatele je role \textit{člen projektového týmu} nahrazena za \textit{člen projektového týmu se schváleným projektem}. Naopak je role odebrána při smazání nebo dokončení schváleného projektu.
+Systémovou roli \textit{člena projektového týmu se schváleným projektem} má každý uživatel s~oprávněním alespoň k~jednomu schválenému projektu. Při schválení některého z~projektů uživatele je role \textit{člen projektového týmu} nahrazena za \textit{člen projektového týmu se schváleným projektem}. Naopak je role odebrána při smazání nebo dokončení schváleného projektu.
 Uživateli s~touto rolí je dovoleno:
 \begin{compactitem}
 	\item zobrazit monitoring teploty ve všech biobankách.
@@ -1112,11 +996,11 @@ Uživateli s~touto rolí je dovoleno:
 
 % ------------------------------------------------------------------------   
 \subsection{Oprávnění k~projektu}
-V~průběhu realizace se ukázalo, že je žádoucí, aby kardinalita mezi projektem a~uživatelem nebyla n:1, ale n:m. Oprávnění k~úpravě projektu ale nemůže být vázané na systémovou roli, protože pak by při špatném rozvržení .jsp stránek hrozilo, že bude umožněna manipulace s~cizím projektem. Z~hlediska spolupráce více lidí na projektu je také vhodné umožnit delegování odpovědnosti. Tyto jmenované argumenty vedly k~potřebě rozlišovat úroveň oprávnění přístupu zvlášť ke každému projektu.
+V~průběhu realizace se ukázalo, že je žádoucí, aby kardinalita mezi projektem a~uživatelem nebyla $n:1$, ale $n:m$. Oprávnění k~úpravě projektu ale nemůže být vázané na systémovou roli, protože pak by při špatném rozvržení .jsp stránek hrozilo, že bude umožněna manipulace s~cizím projektem. Z~hlediska spolupráce více lidí na projektu je také vhodné umožnit delegování odpovědnosti. Tyto jmenované argumenty vedly k~potřebě rozlišovat úroveň oprávnění přístupu zvlášť ke každému projektu.
 Mezi jednotlivými oprávněními je vztah inkluze, tj. vyšší zahrnuje vše z~nižšího. Oprávnění jsou definována v~třídě cz.bbmri.entities.enumeration.Permission.
 
 \paragraphNewLine{Návštěvník (Visitor)} 
-Uživateli s oprávněním \textit{návštěvník} je umožněno zobrazit všechny stránky související s~projektem, ke kterému se oprávnění pojí - tj. detail projektu, projektový tým, přílohy a~další. Není mu ale umožněno data jakkoli měnit. Uživatel nenese žádnou odpovědnost za aktivitu v~systému.
+Uživateli s~oprávněním \textit{návštěvník} je umožněno zobrazit všechny stránky související s~projektem, ke kterému se oprávnění pojí - tj. detail projektu, projektový tým, přílohy a~další. Není mu ale umožněno data jakkoli měnit. Uživatel nenese žádnou odpovědnost za aktivitu v~systému.
 
 \paragraphNewLine{Výkonný pracovník (Executor)} 
 Oprávnění \textit{executor} umožňuje uživateli vykonávat následující operace:
@@ -1137,10 +1021,10 @@ Nejvyšší oprávnění umožňující manipulovat se složením týmu a~s~opr�
 Stejná motivace jako u~projektu vedla k~zavedení úrovní oprávnění i~pro biobanky. Oprávnění jsou definována následovně. 
 
 \paragraphNewLine{Návštěvník (Visitor)} 
-Obdobně jako u projektu, je i u biobanky oprávnění visitor omezeno výhradně na zobrazení dat bez možnosti jejich úpravy. 
+Obdobně jako u~projektu, je i~u~biobanky oprávnění visitor omezeno výhradně na zobrazení dat bez možnosti jejich úpravy. 
 
 \paragraphNewLine{Výkonný pracovník (Executor)}
-Uživatel s~oprávněním \textit{executor} může v kontextu biobanky vykovánavat následující operace:
+Uživatel s~oprávněním \textit{executor} může v~kontextu biobanky vykovánavat následující operace:
 \begin{compactitem}
 	\item schvalovat projekty
 	\item manipulace s~žádostmi o~vzorky
@@ -1172,10 +1056,10 @@ Nejvyšší oprávnění umožňující manipulovat se složením týmu a~s~opr�
 % Implementace
 % ------------------------------------------------------------------------   
 \chapter{Implementace}\label{chapter:implementation}
-Aplikace je provozována na serveru Metacentra\footnote{\url{http://www.metacentrum.cz/}}, na adrese \textit{cloud19.cerit-sc.cz}. Druhý alokovaný server je přístupný na adrese\textit{cloud20.cerit-sc.cz} a slouží pro testovací účely. V~obou případech se jedná o~linuxové stroje s~operačním systémem \textit{Debian Squeeze} verze 6.0. Stroje jsou vybaveny procesory Intel Xeon E312xx Sandy Bridge a~disponují 6GB operační paměti.
+Aplikace je provozována na serveru Metacentra\footnote{\url{http://www.metacentrum.cz/}}, na adrese \textit{cloud19.cerit-sc.cz}. Druhý alokovaný server, přístupný na adrese \textit{cloud20.cerit-sc.cz}, slouží pro testovací účely. V~obou případech se jedná o~linuxové stroje s~operačním systémem \textit{Debian Squeeze} verze $6.0$. Stroje jsou vybaveny procesory Intel Xeon E312xx Sandy Bridge a~disponují 6GB operační paměti.
 Pro nasazení aplikace byly zaregistrovány domény \url{www.bbmri.cz} a~\url{index.bbmri.cz}, které odkazují na produkční server \url{cloud19.cerit-sc.cz}. Domény jsou ve správě informatického oddělení MOÚ.
 Dle požadavků bylo nutné zajistit šifrování komunikace se serverem. Proto byl pro uvedené domény vystaven certifikát, používaný pro HTTPS. 
-Doména \url{www.bbmri.cz} má čistě informační charakter, zatímco doména \url{https://index.bbmri.cz} vede do vlastní aplikace.
+Doména \url{www.bbmri.cz} má čistě informativní charakter, zatímco doména \url{https://index.bbmri.cz} vede do vlastní aplikace.
 Pro vývoj aplikace byl používán repozitář github\footnote{Adresa repozitáře: \url{https://github.com/Ondrej-vojtisek/bbmri}}. 
 Cílem následující kapitoly je vysvělit argumenty pro volbu použitých technologií a~vysvětlit některé nestandardní implementační detaily.
 
@@ -1183,7 +1067,7 @@ Cílem následující kapitoly je vysvělit argumenty pro volbu použitých tech
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------    
 \section{Použité technologie}
-Aplikace je implementována v~Javě verze 7, nicméně nevyužívá žádných syntaktických \uv{novinek} Javy 7 a~kód je bez úprav kompilovatelný a spustitelný i v Javě verze 6. 
+Aplikace je implementována v~Javě verze 7, nicméně nevyužívá žádných syntaktických \uv{novinek} Javy 7 a~kód je bez úprav kompilovatelný a~spustitelný i~v~Javě verze 6. 
 
 % ------------------------------------------------------------------------   
 \subsection{Maven}
@@ -1193,18 +1077,18 @@ Pro sestavení aplikace byl používán nástroj Maven\footnote{\url{http://mave
 \subsection{Hibernate}
 Pro ukládání dat a~pro přístup k~nim byl použit ORM (Object-Relational Mapping\footnote{Způsob konverze dat mezi relační databází a~objektem objektově orientovaného jazyka.}) JPA (Java Persistence API). JPA je rozhraní (API), které definuje, jakým způsobem jsou objekty mapovány na tabulky relační databáze. Vazby mezi entitami aplikace jsou definovány pomocí anotací ve zdrojovém kódu. Parametry připojení k~databázi jsou JPA poskytnuty konfiguračními soubory viz~\ref{chapter:implementation:section:konfiguration}. JPA není závislé na konkrétní implementaci databáze.
 Hibernate je implementace JPA, která byla v~aplikaci použita. Konkrétně byla použita verze 3.6.10. Alternativou k~Hibernate je např. OpenJPA\footnote{\url{https://openjpa.apache.org/}}. Argumentem pro volbu Hibernate byl explicitní požadavek v~zadání práce, stanovený s~cílem sjednotit používané technologie v~projektech realizovaných na ÚVT MUNI (resp. v~centru CERIT-SC). 
-Hibernate za vývojáře zajišťuje vytvoření databáze podle datového modelu (popsaného anotacemi entit aplikace). Databáze je vytvářena automaticky. Hibernate zvládne i průběžně měnit strukturu databáze podle aktuálních změn anotací. Vývojář musí mít pouze na paměti, že po úpravách mohou v databázi zůstat nekonzistentní objekty.
+Hibernate za vývojáře zajišťuje vytvoření databáze podle datového modelu (popsaného anotacemi entit aplikace). Databáze je vytvářena automaticky. Hibernate zvládne i~průběžně měnit strukturu databáze podle aktuálních změn anotací. Vývojář musí mít pouze na paměti, že po úpravách mohou v~databázi zůstat nekonzistentní objekty.
 Pro dotazování nad databází se používá JPQL (Java Persistence Query Language) namísto běžného SQL používaného v~relačních databázích. JPQL umožňuje pokládat dotazy na základě znalosti entit a~do bez znalosti jejich skutečného uložení v~databázi (např. kladení dotazů bez znalosti pojmenování tabulek).
 
 % ------------------------------------------------------------------------   
 \subsection{Spring}
-Jako základ pro implementaci aplikační vrstvy aplikace byl použit aplikační rámec Spring\footnote{\url{http://spring.io/}}, který umožňuje automatické dynamické vytváření potřebných objektů za běhu aplikace. Tento mechanismus se nazývá \textit{dependency injection} a~pro programátora představuje usnadnění, neboť programátor nemusí dohlížet na incializaci kontrolovaných objektů. Objekty, jejichž závislost má spravovat Spring, jsou v~kódu označeny anotací \textit{@Autowired}. Jedná se o všechny třídy implementující rozhraní DAO a Servisní (resp. aplikační) vrstvy.
+Jako základ pro implementaci aplikační vrstvy aplikace byl použit aplikační rámec Spring\footnote{\url{http://spring.io/}}, který umožňuje automatické dynamické vytváření potřebných objektů za běhu aplikace. Tento mechanismus se nazývá \textit{dependency injection} a~pro programátora představuje usnadnění, neboť programátor nemusí dohlížet na incializaci kontrolovaných objektů. Objekty, jejichž závislost má spravovat Spring, jsou v~kódu označeny anotací \textit{@Autowired}. Jedná se o~všechny třídy implementující rozhraní DAO a~Servisní (resp. aplikační) vrstvy.
 Alternativou pro Spring je aplikační rámec EJB (Enterprise Java Beans).
 
 % ------------------------------------------------------------------------   
 \subsection{Stripes}
-Stripes je MVC (Model-View-Controller) aplikační rámec pro prezentační vrstvu Java EE aplikací. Hlavní myšlenkou autorů frameworku byla snaha minimalizovat nutnou konfiguraci pomocí XML souborů a umožnit konfiguraci pomocí anotací zavedených v~Javě 5. Stripes řeší vše nutné pro webovou vrstvu aplikace, jako validaci vstupů, lokalizaci obsahu, mechanismus informování uživatele zprávami, atd. Stripes mimo jiné obsahuje nástroje pro tvorbu šablon JSP stránek, které výrazně napomáhají snížit duplicitu kódu.
-Využití frameworku bylo doporučeno na základě zvyklostí s vývojem Java aplikací na ÚVT.
+Stripes je MVC (Model-View-Controller) aplikační rámec pro prezentační vrstvu Java EE aplikací. Hlavní myšlenkou autorů frameworku byla snaha minimalizovat nutnou konfiguraci pomocí XML souborů a~umožnit konfiguraci pomocí anotací zavedených v~Javě 5. Stripes řeší vše nutné pro webovou vrstvu aplikace, jako validaci vstupů, lokalizaci obsahu, mechanismus informování uživatele zprávami, atd. Stripes mimo jiné obsahuje nástroje pro tvorbu šablon JSP stránek, které výrazně napomáhají snížit duplicitu kódu.
+Využití frameworku bylo doporučeno na základě zvyklostí s~vývojem Java aplikací na ÚVT.
 
 \paragraph*{Stripesstuff} -- Použitá sada rozšíření k~webovému rámci Stripes, usnadňující mimo jiné implementaci zabezpečení a~lokalizace webové aplikace. 
 
@@ -1268,7 +1152,7 @@ Ve třídě \textit{MonitoringDataParser} je v~metodě \textit{getBoxPositions} 
 
 % ------------------------------------------------------------------------   
 \subsection{Čištění a~kontrola dat}
-Stejný mechanismus jako u~zpracování importů popsaný v~\ref{chapter:implementation:subsection:import} je použit i~pro \uv{čistění} a~kontrolu dat. Ve stávající verzi aplikace je naplánovanou událostí řešena kontrola platnosti rezervací vzorků viz~\ref{fig:implementace:rezervace:cyklus}. 
+Stejný mechanismus jako u~zpracování importů popsaný v~kapitole~\ref{chapter:implementation:subsection:import} je použit i~pro \uv{čistění} a~kontrolu dat. Ve stávající verzi aplikace je naplánovanou událostí řešena kontrola platnosti rezervací vzorků viz~kapitola~\ref{fig:implementace:rezervace:cyklus}. 
 Další vývoj počítá, že bude tímto mechanismem řešeno i~mazání instancí dalších objektů, které již nejsou v~databázi potřebné. To ale bude záležet na požadavcích na délku archivace záznamů v~systému.
 
 % ------------------------------------------------------------------------   
@@ -1333,7 +1217,7 @@ Chování aplikace je možné ovlivňovat na několika úrovních. Jak bylo pops
 Další úroveň nastavení je definována pro každého samostatného uživatele. V~současné implementaci je touto cestou řešeno jen jazykové nastavení, ale do budoucna lze tímto způsobem ukládat preference uživatele týkající se chování nebo vzhledu aplikace (design, počet zobrazených položek na straně, automatické odhlášení, zasílání upomínek na mail,\ldots).
 Obě tyto formy nastavení jsou díky vazbě na databázi použitelné pro změnu chování aplikace za chodu. 
 
-Nastavení aplikace z~pozice vývojáře naopak již součástí grafického rozhraní aplikace není a~to jak z~praktických důvodů, tak mnohdy i~z~důvodů principiálních. Běžnou konvencí pro aplikace Javy EE a~související aplikační rámce je nastavovat chování aplikace pomocí XML souborů. V~\ProjectName jsou použity následující konfigurační soubory:
+Nastavení aplikace z~pozice vývojáře naopak již součástí grafického rozhraní aplikace není a~to jak z~praktických důvodů, tak mnohdy i~z~důvodů principiálních. Běžnou konvencí pro aplikace Javy EE a~související frameworky je nastavovat chování aplikace konfiguračními XML soubory. Pro konfiguraci aplikace jsou použity následující soubory:
 
 \paragraph*{my.properties} -- konfigurační soubor výhradně pro chování samotné aplikace. Součástí souboru je nastavení \textit{StoragePath}, určující cestu pro uložení všech souborů popsaných v~\ref{chapter:implementation:subsection:organizationOfDataStorage}. Zde je třeba obzvlášť dát pozor při kopírování konfiguračního souboru mezi rozdílnými platformami. 
 Dále soubor specifikuje nutné údaje pro přístup k~databázi (jméno, heslo, název databáze).
@@ -1348,7 +1232,7 @@ Konkrétně byla použita implementace HSQLDB\footnote{\url{http://hsqldb.org/}}
 
 \paragraph*{spring-context.xml} -- aplikační kontext pro rámec Spring. Mimo jiné zajišťuje, že nastavení z~konfiguračního souboru \textit{my.properties} jsou zohledněna.
 
-\paragraph*{pom.xml} -- konfigurační soubor pro nástroj Maven, popisující jaké programové nástroje (knihovny, frameworky) jsou aplikací využívány. Některé knihovny nejsou součástí Mavenu a musely být staženy manuálně (např. Stripes). JavaScriptové knihovny nejsou součástí Mavenu.
+\paragraph*{pom.xml} -- konfigurační soubor pro nástroj Maven, popisující jaké programové nástroje (knihovny, frameworky) jsou aplikací využívány. Některé knihovny nejsou součástí Mavenu a~musely být staženy manuálně (např. Stripes). JavaScriptové knihovny nejsou součástí Mavenu.
 
 \paragraph*{web.xml} -- konfigurační soubor webových aplikací Javy EE. Definuje napojení aplikace na rámec Stripes, kódování aplikace, jaké jazyky jsou podporovány v~překladech, kde jsou překlady uloženy a~další nastavení ovlivňující prezentační vrstvu.
 
@@ -1431,16 +1315,16 @@ Aplikaci čeká v~budoucnu ještě mnoho proměn. Dá se očekávat, že při pr
 % Závěr
 % ------------------------------------------------------------------------   
 \chapter{Závěr}
-Diplomová práce se zaměřuje na realizaci informatické části projektu \ProjectName. Moje role v projektu spočívala v převzetí vstupní analýzy z roku 2011~\cite{ARCH_2011_12_29}. Na základě té jsem vytvořil prototyp aplikace, který byl konzultován s doktory i informatiky z několika zapojených institucí. Průběžným výstupem z jednání a prezentací byly požadavky, co je třeba upravit a změnit, jak po stránce work-flow aplikace, tak i v datovém modelu. Mou prací bylo na základě těchto požadavků aktualizovat exportní schémata a nové skutečnosti doplňovat do původního dokumentu. Ve spolupráci s RNDr. Petrem Holubem, Ph.D. vznikla aktualizovaná verze dokumentu~\cite{ARCH_2014_1_25}, která popisuje aktualizované požadavky pro tuto práci. Můj vklad do projektu tedy spočíval především ve vývoji popsané aplikace, ale podílel jsem se i na podobě vstupní analýzy. Část požadavků vzešla na základě mých jednání a mé oponentury původního návrhu infrastruktury.
+Diplomová práce popisuje realizaci informatické části projektu \ProjectName. Moje role v~projektu spočívala v~převzetí vstupní analýzy z~roku 2011~\cite{ARCH_2011_12_29}. Na základě té jsem vytvořil prototyp aplikace, který byl konzultován s~doktory i~informatiky z~několika zapojených institucí. Průběžným výstupem z~jednání a~prezentací byly požadavky, co je třeba upravit a~změnit, jak po stránce work-flow aplikace, tak i~v~datovém modelu. Mou prací bylo na základě těchto požadavků aktualizovat exportní schémata a~nové skutečnosti doplňovat do původního dokumentu. Ve spolupráci s~RNDr. Petrem Holubem, Ph.D. vznikla aktualizovaná verze dokumentu~\cite{ARCH_2014_1_25}, která popisuje aktualizované požadavky pro tuto práci. Můj vklad do projektu tedy spočíval především ve vývoji popsané aplikace, ale podílel jsem se i~na podobě vstupní analýzy. Část požadavků vzešla na základě mých jednání a~mé oponentury původního návrhu infrastruktury.
 
-Průběh vývoje by se v teminologii SW vývoje nechal nejlépe popsat jako iterativní. Důvodem pro \uv{iterace} byly autorovy postupně rostoucí zkušenosti s~vývojem Java EE aplikace a~s~vývojem webu obecně. V~procesu tak došlo několikrát k~výraznému refaktoringu, jak je vidět třeba ze statistik repozitáře\footnote{\url{https://github.com/Ondrej-vojtisek/bbmri/graphs/contributors}}. Vynaložený čas v~součtu tedy několikrát převyšoval reálné časové náklady potřebné pro implementaci, pokud by byl možný vývoj tzv. \textit{vodopádem}. Z~hlediska profesního růstu autora to ale přineslo své ovoce, neboť si v~několika případech reálně ověřil, jaké usnadnění přinášejí frameworky. Druhým důvodem iterací byly, v předchozím odstavci zmíněné, změny požadavků zadavatelů projektu při konfrontaci s~prototypy. I~tyto změny si vynutily rozsáhlé úpravy objektového modelu aplikace. 
+Průběh vývoje by se v~teminologii SW vývoje nechal nejlépe popsat jako iterativní. Důvodem pro \uv{iterace} byly autorovy postupně rostoucí zkušenosti s~vývojem Java EE aplikace a~s~vývojem webu obecně. V~procesu tak došlo několikrát k~výraznému refaktoringu, jak je vidět třeba ze statistik repozitáře\footnote{\url{https://github.com/Ondrej-vojtisek/bbmri/graphs/contributors}}. Vynaložený čas v~součtu tedy několikrát převyšoval reálné časové náklady potřebné pro implementaci, pokud by byl možný vývoj tzv. \textit{vodopádem}. Z~hlediska profesního růstu autora to ale přineslo své ovoce, neboť si v~několika případech reálně ověřil, jaké usnadnění přinášejí frameworky. Druhým důvodem iterací byly, v~předchozím odstavci zmíněné, změny požadavků zadavatelů projektu při konfrontaci s~prototypy. I~tyto změny si vynutily rozsáhlé úpravy objektového modelu aplikace. 
 
 Jedná se o~práci implementačního typu, takže hlavní těžiště práce spočívá především ve zdrojovém kódu napsané aplikace. V~úvodní části práce jsou shrnuty výstupy z~analýzy systému. Zmíněny jsou požadavky na funkcionalitu systému i~zjištěné skutečnosti o~partnerech projektu. Cílem průzkumu bylo zjistit, jak náročné bude importovat data do centrálního indexu. 
 Práce se neobešla bez mnoha návštěv na brněnské onkologii. Ukázalo se, že množství požadavků je problematické e-mailovou komunikací domluvit a~často se nelze obejít bez osobní komunikace nebo živé ukázky. Záměrně jsem se v~práci snažil popsat např. specifika uložení infrastruktury, aby bylo možno si lépe představit, jak popisované objekty skutečně fungují a~jakou mají strukturu. 
 
-V~další části je podle analýzy navržena architektura systému a~jsou zde představeny základní entity systému. Analýza je zde doplněna o~místa, která nebyla součástí vstupních požadavků, ale je vhodné je ošetřit. Jedná se často o technické detaily, jejichž konzultaci s doktory bych považoval za plýtvání jejich časem. Příkladem může být doplnění životního cyklu projektu o stav \textit{dokončený}. Nechá se očekávat, že uživateli nemá být umožněno žádat o vzorky v kontextu jednoho projektu po libovolnou dobu.
+V~další části je podle analýzy navržena architektura systému a~jsou zde představeny základní entity systému. Analýza je zde doplněna o~místa, která nebyla součástí vstupních požadavků, ale je vhodné je ošetřit. Jedná se často o~technické detaily, jejichž konzultaci s~doktory bych považoval za plýtvání jejich časem. Příkladem může být doplnění životního cyklu projektu o~stav \textit{dokončený}. Nechá se očekávat, že uživateli nemá být umožněno žádat o~vzorky v~kontextu jednoho projektu po libovolnou dobu.
 
-Aplikace byla implementována v~rozsahu, jaký popisuje ~\ref{chapter:implementation}. kapitola a~je dostupná na uvedené URL. Stávající stav (ke konci května 2014) je, že aplikace zatím teprve čeká na své \uv{ostré} použití. Je spouštěna a~dostupná, ale zatím k aplikaci nebyly připojeny exportní moduly, ze spolupracujících institucí. Dle posledních informací je exportní modul na MOÚ a~na 1.~LF ve fázi \uv{finálních úprav}. V~podobném stavu je fáze spolupráce se společností KESA. Je známo jak data předávat, je více méně jasný formát dat, ale chybí finální orchestrace. 
+Aplikace byla implementována v~rozsahu, jaký popisuje ~\ref{chapter:implementation}. kapitola a~je dostupná na uvedené URL. Stávající stav (ke konci května 2014) je, že aplikace zatím teprve čeká na své \uv{ostré} použití. Je spouštěna a~dostupná, ale zatím k~aplikaci nebyly připojeny exportní moduly, ze spolupracujících institucí. Dle posledních informací je exportní modul na MOÚ a~na 1.~LF ve fázi \uv{finálních úprav}. V~podobném stavu je fáze spolupráce se společností KESA. Je známo jak data předávat, je více méně jasný formát dat, ale chybí finální orchestrace. 
 
 %% Lists of tables and figures, glossary, etc.
 %\printindex
@@ -1473,7 +1357,102 @@ Aplikace byla implementována v~rozsahu, jaký popisuje ~\ref{chapter:implementa
 % Prostředí pro přílohy
 \begin{appendix}
 
+% ------------------------------------------------------------------------   
+% ------------------------------------------------------------------------  
+\chapter{Exportní schémata}
+% ------------------------------------------------------------------------  
 
+\begin{figure}[ht!]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující pacienta v~exportním schématu.}, label={fig:export:data:patient}]
+element patient {		
+	attribute id { xsd:string { maxLength = "10" } },		
+	attribute consent { xsd:boolean },   
+	attribute year { xsd:gYear },	  
+	attribute month { xsd:gMonth },   
+	attribute sex { "male" | "female" },	  
+	biobankId,		
+	element LTS { ( tissue | serum | genome | diagnosisMaterial )* },		
+	element STS { ( diagnosisMaterial )* }
+}
+
+\end{lstlisting}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující tkáň v~exportním schématu.},
+label={fig:export:data:tissue}]
+element tissue {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } },
+	element TNM { xsd:string { maxLength = "7" pattern = "[a-zA-Z0-9]+" } },
+	element pTNM { xsd:string { maxLength = "7" pattern = "[a-zA-Z0-9]+" } },
+	( element morphology { xsd:string { length = "7" pattern = "[0-9]{4}/[0-9]{2}"} } | element grading { xsd:int { minInclusive = "1" maxInclusive = "9" } } ),
+	element cutTime { xsd:dateTime },
+	element freezeTime { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující sérum v~exportním schématu.},
+label={fig:export:data:serum}]
+element serum {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } }
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\end{figure} 
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující genomovou krev v~exportním schématu.},
+label={fig:export:data:genome}]
+element genome {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element samplesNo { xsd:int },
+	element availableSamplesNo { xsd:int },
+	element materialType { xsd:string { maxLength = "4" } }
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\end{figure}
+
+\begin{figure}[ht!]
+\begin{center}
+\begin{lstlisting}[language=XML, caption={Element popisující materiál se stanovenou diagnózou v~exportním schématu.}, label={fig:export:data:diagnosisMaterial}]
+element diagnosisMaterial {
+	attribute year { xsd:gYear },
+	attribute number { xsd:string { maxLength = "6" } },
+	attribute sampleId { xsd:string { maxLength = "32" } },
+	element materialType { xsd:string { maxLength = "4" } }
+	element diagnosis { xsd:string { pattern = "[a-zA-Z0-9]+" minLength = "3" maxLength = "5" } },
+	element takingDate { xsd:dateTime },
+	element retrieved { "preoperational" | "operational" | "post" | "unknown" }
+}
+\end{lstlisting}
+\end{center}
+\end{figure}
 
 % ------------------------------------------------------------------------   
 % ------------------------------------------------------------------------   
@@ -1511,7 +1490,7 @@ Pro korektní běh shibbolethu je nutná časová synchronizace mezi serverem a~
 
 \section{MOÚ}
 
-\begin{table}[ht] 
+\begin{table}[ht!] 
 \centering
 \begin{tabular}{l l l l l l}
 \hline 
@@ -1604,7 +1583,7 @@ Biobanka UPOL používá interně strukturování do archivačních řad v~násl
 		\end{compactitem}
 	\end{compactitem}
 
-\begin{table}[ht] 
+\begin{table}[ht!] 
 \centering
 \begin{tabular}{l l}
 \hline 
@@ -1642,7 +1621,7 @@ výpotek 													& VY \\
 
 \section{1.~LF}
 
-\begin{table}[ht] 
+\begin{table}[ht!] 
 \centering
 \begin{tabular}{l l}
 \hline 
