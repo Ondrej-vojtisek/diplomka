@@ -12,13 +12,13 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1276
-NormalPos.bottom=859
+NormalPos.bottom=267
 Class=LaTeXView
 Document=dprace.tex
 
 [Frame0_View0,0]
-TopLine=1693
-Cursor=107956
+TopLine=223
+Cursor=6143
 
 [Frame1]
 Flags=0
@@ -30,12 +30,12 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1276
-NormalPos.bottom=859
+NormalPos.bottom=267
 Class=BibTeXView
 Document=references.bib
 
 [Frame1_View0,0]
-TopLine=204
+TopLine=203
 Cursor=8885
 
 [Frame2]
@@ -48,7 +48,7 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1276
-NormalPos.bottom=859
+NormalPos.bottom=267
 Class=LaTeXView
 Document=plainnat.bst
 
@@ -66,12 +66,12 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=26
 NormalPos.right=1276
-NormalPos.bottom=859
+NormalPos.bottom=267
 Class=LaTeXView
 Document=..\DP_Milan_Cermak\dp_Milan_Cermak.tex
 
 [Frame3_View0,0]
-TopLine=2801
+TopLine=2813
 Cursor=186629
 
 [SessionInfo]

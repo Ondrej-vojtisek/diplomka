@@ -30,45 +30,45 @@ Warning--to sort, need author, editor, or key in MKN-10
 Warning--empty author and editor in MKN-O
 Warning--empty author and editor in TNM
 Warning--empty author and editor in MKN-10
-You've used 14 entries,
+You've used 13 entries,
             2629 wiz_defined-function locations,
-            662 strings with 7453 characters,
-and the built_in function-call counts, 4904 in all, are:
-= -- 452
-> -- 186
-< -- 7
-+ -- 75
-- -- 60
-* -- 318
-:= -- 751
-add.period$ -- 43
-call.type$ -- 14
-change.case$ -- 76
-chr.to.int$ -- 13
-cite$ -- 27
-duplicate$ -- 250
-empty$ -- 483
-format.name$ -- 73
-if$ -- 1057
+            654 strings with 7348 characters,
+and the built_in function-call counts, 4506 in all, are:
+= -- 414
+> -- 166
+< -- 6
++ -- 68
+- -- 54
+* -- 290
+:= -- 682
+add.period$ -- 39
+call.type$ -- 13
+change.case$ -- 70
+chr.to.int$ -- 12
+cite$ -- 26
+duplicate$ -- 230
+empty$ -- 452
+format.name$ -- 64
+if$ -- 974
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 7
-newline$ -- 78
-num.names$ -- 36
-pop$ -- 177
+missing$ -- 5
+newline$ -- 72
+num.names$ -- 32
+pop$ -- 168
 preamble$ -- 2
-purify$ -- 62
+purify$ -- 57
 quote$ -- 0
-skip$ -- 199
+skip$ -- 184
 stack$ -- 0
-substring$ -- 89
-swap$ -- 16
+substring$ -- 83
+swap$ -- 15
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 129
+type$ -- 123
 warning$ -- 8
-while$ -- 27
+while$ -- 24
 width$ -- 0
-write$ -- 186
+write$ -- 170
 (There was 1 error message)
