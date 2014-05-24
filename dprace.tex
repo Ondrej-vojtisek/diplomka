@@ -1,5 +1,5 @@
 
-\documentclass[11pt, draft, oneside]{fithesis2}
+\documentclass[11pt, final, oneside]{fithesis2}
 
 %% Basic packages
 \usepackage[czech]{babel}
@@ -315,7 +315,7 @@ V~situaci, kdy monitoring teploty indikuje nevhodné podmínky uložení, je nut
 \section{Příklady užití systému a~popis souvisejícího workflow}\label{chapter:analysis:section:workflow}
 Hlavním aktérem systému (dále též uživatel) je výzkumný pracovník pracující na projektu v~oblasti výzkumu nádorových onemocnění. Pro realizaci výzkumu potřebuje provést sadu laboratorních testů na relevantním počtu biologických vzorků určitých parametrů. Domovská instituce výzkumníka často nemá potřebné vzorky, a~nebo jich nemá dostatek a~výzkumník pro realizaci výzkumného záměru potřebuje materiál i~z~jiné instituce. Jednotlivým částem tohoto scénáře se věnují následující kapitoly.
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 \begin{center}
 \begin{tikzpicture}[
 node distance = 15mm,
@@ -377,7 +377,7 @@ Druhý scénář výběru vzorků se týká tzv. samožádanek. Jedná se o~situ
 
 Výdej takového typu se týká pouze vzorků uložených ve \uv{vlastní biobance} a~nevyžaduje schválení ani založení projektu. Samožádankou je možné žádat i~o~tzv. nevydatelné vzorky. 
 
-\begin{figure}[htbp]
+\begin{figure}[h!]
 \begin{center}
 \begin{tikzpicture}[
 node distance = 10mm,
@@ -854,7 +854,7 @@ Model aplikace nicméně umožňuje, aby bylo nahráno libovolné množství př
 Po založení je projekt označen jako \textit{nový}. Po kontrole formálních náležitostí administrátorem může být \textit{akceptován} nebo \textit{zamítnut}. V~kontextu schváleného projektu je již možné žádat o~vzorky. Projekt s~alespoň jednou žádostí je považován za \textit{zahájený}. Na konci realizace lze označit projekt za \textit{dokončený}. \textit{Dokončený} projekt v~systému i~nadále zůstává pro archivaci, ale je již pouze pro čtení a~nelze v~jeho kontextu žádat o~vzorky. 
 V~aplikaci je definována i~možnost zrušit schválený projekt (v~diagramu značeno přerušovanou čarou). Tato funkce není ve stávající verzi zpřístupněna na uživatelském webovém rozhraní. Životní cyklus projektu je znázorněn na diagramu~\ref{fig:implementace:projekt:cyklus}.
 
-\begin{figure}[hbtp]
+\begin{figure}[h!]
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=45mm,
   thick,main node/.style={ellipse,draw}]
@@ -918,7 +918,7 @@ Podle kapitoly~\ref{chapter:analysis:section:workflow} nemohou být uživateli v
 
 Životní cyklus rezervace je znázorněn v~diagramu~\ref{fig:implementace:rezervace:cyklus}, cyklus žádosti je v~diagramu~\ref{fig:implementace:zadost:cyklus}.
 
-\begin{figure}[hbtp]
+\begin{figure}[h!]
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=45mm,
   thick,main node/.style={ellipse,draw}]
@@ -950,7 +950,7 @@ Počátek životního cyklu žádosti o~vzorky je totožný s~počátkem životn
 Může také nastat situace, že o~stejné vzorky bylo požádáno ve více biobankách a~více žádostí bylo vyřízeno kladně, takže je pro projekt alokováno více zdrojů, než je nutné. V~této situaci může správce projektu žádost smazat a~tím alokované vzorky uvolnit.
 Po schválení vybrané sady žadateli jsou tyto vzorky fyzicky připraveny k~odebrání. Žádost s~fyzicky předanými vzorky je označena jako \textit{doručena}.
 
-\begin{figure}[hbtp]
+\begin{figure}[h!]
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=45mm,
   thick,main node/.style={ellipse,draw}]

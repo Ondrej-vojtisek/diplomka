@@ -3,25 +3,20 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: dprace.aux
 The style file: plainnat.bst
 Database file #1: references.bib
-You're missing a field name---line 102 of file references.bib
- : 
- : %  author = {Holeček, Tomáš},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Warning--entry type for "GreyFox" isn't style-file defined
---line 110 of file references.bib
+--line 101 of file references.bib
 Warning--entry type for "M355CE" isn't style-file defined
---line 118 of file references.bib
+--line 109 of file references.bib
 Warning--entry type for "1LF_BBM" isn't style-file defined
---line 126 of file references.bib
+--line 117 of file references.bib
 Warning--entry type for "Licence" isn't style-file defined
---line 134 of file references.bib
+--line 125 of file references.bib
 Warning--entry type for "metastaza" isn't style-file defined
---line 173 of file references.bib
+--line 164 of file references.bib
 Warning--entry type for "dewar" isn't style-file defined
---line 179 of file references.bib
+--line 170 of file references.bib
 Warning--entry type for "Medea" isn't style-file defined
---line 187 of file references.bib
+--line 178 of file references.bib
 Warning--to sort, need author or key in dewar
 Warning--to sort, need author, editor, or key in TNM
 Warning--to sort, need author or key in metastaza
@@ -32,7 +27,7 @@ Warning--empty author and editor in TNM
 Warning--empty author and editor in MKN-10
 You've used 13 entries,
             2629 wiz_defined-function locations,
-            654 strings with 7348 characters,
+            654 strings with 7350 characters,
 and the built_in function-call counts, 4506 in all, are:
 = -- 414
 > -- 166
@@ -71,4 +66,4 @@ warning$ -- 8
 while$ -- 24
 width$ -- 0
 write$ -- 170
-(There was 1 error message)
+(There were 15 warnings)
